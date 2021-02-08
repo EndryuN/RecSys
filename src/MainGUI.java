@@ -42,6 +42,7 @@ public class MainGUI extends JFrame {
 
     private void loadButtonPressed(){
         System.out.println("Load button pressed");
+        Main.datasetHandler.loadArtists();
 
     }
 

@@ -12,10 +12,10 @@ class ArtistHandler {
 
     fun createArtist(
         artistName: String,
-
-
     ){
         artists.add(Artist(artistName))
+        print(artistName)
     }
+
 
 }
