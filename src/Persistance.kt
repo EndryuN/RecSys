@@ -52,7 +52,7 @@ class Persistence {
             println("Artists Loaded into memory")
 
         }catch (ioe : IOException){
-            println("Error: Could not load from file:\n $artistsFile \n Possibly no projects")
+            println("Error: Could not load from file:\n $artistsFile \n Possibly no artists")
             return nullList
         }catch (c: ClassNotFoundException){
             println("Error: Class not found to cast")
@@ -73,7 +73,7 @@ class Persistence {
         try {
             //uses lambda to de-serialize the file into array of projects
             songList = ObjectInputStream(FileInputStream(songsFile)).use { it -> it.readObject() as ArrayList<Song>}
-            println("Projects Songs into memory")
+            println("Songs loaded into memory")
 
         }catch (ioe : IOException){
             println("Error: Could not load from file:\n $songsFile")

@@ -2,7 +2,7 @@ import javax.swing.table.DefaultTableModel
 import kotlin.collections.ArrayList
 
 class SongHandler {
-     var songs = ArrayList<Song>()
+    var songs = ArrayList<Song>()
     var p = Persistence()
 
     init{

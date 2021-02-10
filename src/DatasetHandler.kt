@@ -1,6 +1,7 @@
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
+import java.util.ArrayList
 
 private const val acousticness_IDX = 0
 private const val artistName_IDX = 1
@@ -25,13 +26,12 @@ private const val year_IDX = 18
 class DatasetHandler {
 
     val path = System.getProperty("user.dir")
-    val artistDataset = "$path/src/artistDataset.csv"
-    val songDataset = "$path/src/songDataset.csv"
+    val artistDataset = "$path/src/datasets/artistDataset.csv"
+    val songDataset = "$path/src/datasets/songDataset.csv"
     //val songDataset = "$path/src/test.csv"
 
     fun loadSongs() {
         var fileReader: BufferedReader? = null
-
         try {
             var line: String?
             fileReader = BufferedReader(FileReader(songDataset))
@@ -42,7 +42,6 @@ class DatasetHandler {
             // Read the file line by line starting from the second line
             line = fileReader.readLine()
 
-
             while (line != null) {
                 val tokens = line.split(",")
                 var stopFlag: Boolean = true
@@ -50,7 +49,6 @@ class DatasetHandler {
                 if (tokens.size>19) {
                     var customArtists: String = ""
                     var artistLength: Int = 0
-
                     var customTitle: String = ""
                     var titlePart: String = ""
                     var titleBase: String = ""
@@ -70,9 +68,7 @@ class DatasetHandler {
                             }
                         }
                     }
-
                     if(tokens.size-artistLength+1<19){
-
                     } else{
                         stopFlag=true
                         for(i in 6..tokens.size-1){
@@ -87,7 +83,6 @@ class DatasetHandler {
                                 }else{
                                     titlePart = tokens[tokens.size-i-1]
                                     titleBase = "$titleBase,$titlePart"
-
                                 }
                             }
                         }
@@ -112,7 +107,6 @@ class DatasetHandler {
                         tokens [tempo_IDX+artistLength+titleLength-2],
                         tokens [valence_IDX+artistLength+titleLength-2],
                         tokens [year_IDX+artistLength+titleLength-2])
-
                 } else if (tokens.size > 0) {
                     Main.songHandler.createSong(
                         tokens [acousticness_IDX],
@@ -137,7 +131,37 @@ class DatasetHandler {
                     )
                 }
                 line = fileReader.readLine()
+            }
+        } catch (e: Exception) {
+            println("Reading CSV Error!")
+            e.printStackTrace()
+        } finally {
+            try {
+                fileReader!!.close()
+            } catch (e: IOException) {
+                println("Closing fileReader Error!")
+                e.printStackTrace()
+            }
+        }
+    }
+    fun loadArtists() {
+        var fileReader: BufferedReader? = null
+        try {
+            val artists = ArrayList<Artist>()
+            var line: String?
+            fileReader = BufferedReader(FileReader(artistDataset))
 
+            // Read CSV header
+            fileReader.readLine()
+            // Read the file line by line starting from the second line
+            line = fileReader.readLine()
+            while (line != null) {
+                val tokens = line.split(",")
+                if (tokens.size > 0) {
+                    Main.artistHandler.createArtist(tokens[0])
+                }
+
+                line = fileReader.readLine()
             }
 
         } catch (e: Exception) {

@@ -2,20 +2,21 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class MainGUI extends JFrame {
     private JPanel mainPanel;
     private JPanel northPanel;
     private JPanel centerPanel;
-    private JButton searchBtn;
+    private JButton searchArtistBtn;
     private JTextField searchTxt;
     private JComboBox artistSelectCombo;
     private JComboBox songSelectCombo;
-    private JButton saveBtn;
+    private JButton loadArtistsBtn;
     private JTable songTbl;
     private JTable resultTbl;
-    private JButton getSongsButton;
+    private JButton getSongsBtn;
+    private JButton loadSongsBtn;
+    private JButton saveDataBtn;
     private String searchInput;
     private DefaultTableModel songModel;
 
@@ -34,45 +35,63 @@ public class MainGUI extends JFrame {
 
         //Loading dataset
 
-        searchBtn.addActionListener(new ActionListener() {
+        searchArtistBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { searchButtonPressed();
+            public void actionPerformed(ActionEvent e) { searchArtistButtonPressed();
 
             }
         });
-        saveBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { loadButtonPressed();
-
-            }
-        });
-        getSongsButton.addActionListener(new ActionListener() {
+        getSongsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { getSongsButtonPressed();
 
             }
         });
+        loadArtistsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { loadArtistsButtonPressed();
+
+            }
+        });
+        loadSongsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { loadSongsButtonPressed();
+
+            }
+        });
+        saveDataBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { saveDataButtonPressed();
+
+            }
+        });
     }
-    private void searchButtonPressed(){
+    //Button methods
+    private void searchArtistButtonPressed(){
         System.out.println("Search button pressed");
         artistSelectCombo.removeAllItems();
-        populateComboBox();
+        populateArtistsComboBox();
     }
     private void getSongsButtonPressed(){
-        Main.datasetHandler.loadSongs();
-        Main.songHandler.saveSongs();
-        Main.songHandler.loadSongs();
-    }
-
-    private void loadButtonPressed(){
         System.out.println("Load button pressed");
         songSelectCombo.removeAllItems();
-        populateComboBox2();
+        populateSongsComboBox();
 
+    }
+    private void loadArtistsButtonPressed(){
+        Main.datasetHandler.loadArtists();
+
+    }
+    private void loadSongsButtonPressed(){
+        Main.datasetHandler.loadSongs();
+    }
+    private void saveDataButtonPressed(){
+        Main.artistHandler.saveArtists();
+        Main.songHandler.saveSongs();
     }
 
 
-    private void populateComboBox() {
+    private void populateArtistsComboBox() {
         System.out.println("SearchArtist.populateComboBox");
         searchInput = searchTxt.getText();
         for(int i=0;i<Main.artistHandler.getArtists().size();i++) {
@@ -82,7 +101,7 @@ public class MainGUI extends JFrame {
         }
     }
 
-    private void populateComboBox2() {
+    private void populateSongsComboBox() {
         System.out.println("SearchSong.populateComboBox");
         String selectedArtist = artistSelectCombo.getSelectedItem().toString();
         for(int i=0;i<Main.songHandler.getSongs().size();i++) {
