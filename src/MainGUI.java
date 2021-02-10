@@ -17,6 +17,8 @@ public class MainGUI extends JFrame {
     private JButton getSongsBtn;
     private JButton loadSongsBtn;
     private JButton saveDataBtn;
+    private JButton getRecommendationButton;
+    private JButton loadPlaylistsButton;
     private String searchInput;
     private DefaultTableModel songModel;
 
@@ -65,6 +67,18 @@ public class MainGUI extends JFrame {
 
             }
         });
+        getRecommendationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        loadPlaylistsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
     //Button methods
     private void searchArtistButtonPressed(){
@@ -80,10 +94,11 @@ public class MainGUI extends JFrame {
     }
     private void loadArtistsButtonPressed(){
         Main.datasetHandler.loadArtists();
-
+        System.out.println("Artists Loaded");
     }
     private void loadSongsButtonPressed(){
         Main.datasetHandler.loadSongs();
+        System.out.println("Songs Loaded");
     }
     private void saveDataButtonPressed(){
         Main.artistHandler.saveArtists();
@@ -107,8 +122,6 @@ public class MainGUI extends JFrame {
         for(int i=0;i<Main.songHandler.getSongs().size();i++) {
             if (Main.songHandler.getSongs().get(i).getArtistName().toLowerCase().contains(selectedArtist.toLowerCase())) {
                 songSelectCombo.addItem(Main.songHandler.getSongs().get(i).getSongTitle());
-                System.out.println(Main.songHandler.getSongs().get(i).getSongTitle());
-                System.out.println(Main.songHandler.getSongs().get(i));
             }
         }
     }
