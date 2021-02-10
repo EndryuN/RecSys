@@ -16,7 +16,7 @@
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="North"/>
         <properties/>
-        <border type="none"/>
+        <border type="etched"/>
         <children>
           <component id="8a597" class="javax.swing.JTextField" binding="searchTxt">
             <constraints>
@@ -80,6 +80,14 @@
               <text value="Songs: "/>
             </properties>
           </component>
+          <component id="2faf9" class="javax.swing.JButton" binding="getRecommendationButton" default-binding="true">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Get Recommendation"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="f8455" binding="centerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -88,13 +96,13 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="be220" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="be220" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
-            <border type="none"/>
+            <border type="etched"/>
             <children>
               <component id="28175" class="javax.swing.JButton" binding="loadArtistsBtn">
                 <constraints>
@@ -106,7 +114,7 @@
               </component>
               <vspacer id="2ee06">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
               <component id="60474" class="javax.swing.JButton" binding="loadSongsBtn">
@@ -119,10 +127,18 @@
               </component>
               <component id="ffdcd" class="javax.swing.JButton" binding="saveDataBtn">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Save Data"/>
+                </properties>
+              </component>
+              <component id="6c7f9" class="javax.swing.JButton" binding="loadPlaylistsButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Load Playlists"/>
                 </properties>
               </component>
             </children>
