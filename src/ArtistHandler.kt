@@ -1,3 +1,5 @@
+import java.lang.IndexOutOfBoundsException
+
 class ArtistHandler {
 
     //Variables
@@ -9,13 +11,29 @@ class ArtistHandler {
         artistName = "artist name",
 
     )
+    init{
+        loadArtists()
+    }
 
     fun createArtist(
         artistName: String,
     ){
         artists.add(Artist(artistName))
-        print(artistName)
     }
+    fun loadArtists(){
+        try {
+            artists = p.loadFromFile()
+        }catch (iob : IndexOutOfBoundsException){
+            println("Projects file was empty on load")
+            println("-------------------------\n")
+        }
+    }
+
+    fun saveArtists(){
+        p.saveToFile(artists)
+        print("saved artists")
+    }
+
 
 
 }

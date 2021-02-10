@@ -3,7 +3,7 @@ import java.io.*
 class Persistence {
     val path = System.getProperty("user.dir")
     var artistsFile = "$path/Artists.txt"
-    //var teamsFile = "$path/Teams.txt"
+    var songsFile = "$path/Songs.txt"
 
     init {
         print(artistsFile)
@@ -20,23 +20,23 @@ class Persistence {
             println("Error: Unable to save - IO Exception")
         }
 
-        println("List of Projects Saved to file\n")
+        println("List of Artists Saved to file\n")
     }
-    /*
-    fun saveToFile(list : ArrayList<Team>, bool: Boolean) {
+
+    fun saveToFile(list : ArrayList<Song>, bool: Boolean) {
         println("-------------------------\n " +
-                "Save Started - File path: \n $teamsFile " +
+                "Save Started - File path: \n $songsFile " +
                 "\n-------------------------")
         try {
             //Lambda used to save to file
-            ObjectOutputStream(FileOutputStream(teamsFile)).use{ it -> it.writeObject(list)}
+            ObjectOutputStream(FileOutputStream(songsFile)).use{ it -> it.writeObject(list)}
         }catch (ioe:IOException){
             println("Error: Unable to save - IO Exception")
         }
 
-        println("List of Projects Saved to file\n")
+        println("List of Songs Saved to file\n")
     }
-    */
+
     fun loadFromFile(): ArrayList<Artist> {
 
         println("-------------------------\n " +
@@ -44,46 +44,46 @@ class Persistence {
                 "\n-------------------------")
 
         val nullList = ArrayList<Artist>()
-        var projectList : ArrayList<Artist>
+        var artistList : ArrayList<Artist>
 
         try {
             //uses lambda to de-serialize the file into array of projects
-            projectList = ObjectInputStream(FileInputStream(artistsFile)).use { it -> it.readObject() as ArrayList<Artist>}
-            println("Projects Loaded into memory")
+            artistList = ObjectInputStream(FileInputStream(artistsFile)).use { it -> it.readObject() as ArrayList<Artist>}
+            println("Artists Loaded into memory")
 
         }catch (ioe : IOException){
-            println("Error: Could not load from file:\n $artistsFile \n Possibly no projects")
+            println("Error: Could not load from file:\n $artistsFile \n Possibly no artists")
             return nullList
         }catch (c: ClassNotFoundException){
             println("Error: Class not found to cast")
             return nullList
         }
-        return projectList
+        return artistList
     }
-/*
-    fun loadFromFile(bool: Boolean): ArrayList<Team> {
+
+    fun loadFromFile(bool: Boolean): ArrayList<Song> {
 
         println("-------------------------\n " +
-                "Load Started - File path: \n $teamsFile " +
+                "Load Started - File path: \n $songsFile " +
                 "\n-------------------------")
 
-        val nullList = ArrayList<Team>()
-        var teamList : ArrayList<Team>
+        val nullList = ArrayList<Song>()
+        var songList : ArrayList<Song>
 
         try {
             //uses lambda to de-serialize the file into array of projects
-            teamList = ObjectInputStream(FileInputStream(teamsFile)).use { it -> it.readObject() as ArrayList<Team>}
-            println("Projects Loaded into memory")
+            songList = ObjectInputStream(FileInputStream(songsFile)).use { it -> it.readObject() as ArrayList<Song>}
+            println("Songs loaded into memory")
 
         }catch (ioe : IOException){
-            println("Error: Could not load from file:\n $teamsFile")
+            println("Error: Could not load from file:\n $songsFile")
             return nullList
         }catch (c: ClassNotFoundException){
             println("Error: Class not found to cast")
             return nullList
         }
-        return teamList
+        return songList
     }
 
- */
+
 }

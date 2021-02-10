@@ -1,1 +1,21 @@
-data class Song(var songTitle: String, var artistName: String)
+import java.io.Serializable
+
+data class Song(var acousticness: String,
+                var artistName: String,
+                var danceability: String,
+                var durationMS: String,
+                var energy: String,
+                var explicit: String,
+                var songID: String,
+                var instrumentalness: String,
+                var key: String,
+                var liveness: String,
+                var loudness: String,
+                var mode: String,
+                var songTitle: String,
+                var popularity: String,
+                var releaseDate: String,
+                var speechiness: String,
+                var tempo: String,
+                var valence: String,
+                var year: String) : Serializable
