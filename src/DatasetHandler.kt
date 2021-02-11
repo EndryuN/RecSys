@@ -177,6 +177,9 @@ class DatasetHandler {
     }
     fun loadPLaylists(){
         var fileReader: BufferedReader? = null
+        var playlistName: String
+        var collabrative: Boolean
+
         try {
             val playlists = ArrayList<Playlist>()
             var line: String?
@@ -195,14 +198,43 @@ class DatasetHandler {
 
             // Read the file line by line starting from the second line
             line = fileReader.readLine()
-            while (line != null) {
-                line.replace("\\s".toRegex(), "")
-                val tokens = line.split(":")
-                if(tokens[0]=="name"){
+            //line != null
+            while (i<600) {
+                var j = 0
+                if(line!=null) {
+                    i++
+                    j++
+                    if (line.trim().contains(":")){
+                        val tokens = line.trim().split(":".toRegex(), 2)
 
+                        while (j<6)
+                        {
+                            if (j==0){
+                                playlistName=tokens[1]
+                            }
+                            if (j==1){
+
+                            }
+                            if (j==2){
+
+                            }
+                            if (j==3){
+
+                            }
+                            if (j==4){
+
+                            }
+                            if (j==5){
+
+                            }
+                            if (j==6){
+
+                            }
+                        }
+
+                    }
+                    line = fileReader.readLine()
                 }
-
-                line = fileReader.readLine()
             }
 
 
@@ -218,4 +250,6 @@ class DatasetHandler {
             }
         }
     }
+
+
 }
