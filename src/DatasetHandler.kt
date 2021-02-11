@@ -28,7 +28,7 @@ class DatasetHandler {
     val path = System.getProperty("user.dir")
     val artistDataset = "$path/src/datasets/artistDataset.csv"
     val songDataset = "$path/src/datasets/songDataset.csv"
-    //val songDataset = "$path/src/test.csv"
+    val playlistDataset = "$path/src/datasets/playlistDataset.json"
 
     fun loadSongs() {
         var fileReader: BufferedReader? = null
@@ -147,7 +147,6 @@ class DatasetHandler {
     fun loadArtists() {
         var fileReader: BufferedReader? = null
         try {
-            val artists = ArrayList<Artist>()
             var line: String?
             fileReader = BufferedReader(FileReader(artistDataset))
 
@@ -177,6 +176,46 @@ class DatasetHandler {
         }
     }
     fun loadPLaylists(){
+        var fileReader: BufferedReader? = null
+        try {
+            val playlists = ArrayList<Playlist>()
+            var line: String?
+            var i: Int = 0
+            fileReader = BufferedReader(FileReader(playlistDataset))
 
+            // Read JSON header 8x
+            fileReader.readLine()
+            fileReader.readLine()
+            fileReader.readLine()
+            fileReader.readLine()
+            fileReader.readLine()
+            fileReader.readLine()
+            fileReader.readLine()
+            fileReader.readLine()
+
+            // Read the file line by line starting from the second line
+            line = fileReader.readLine()
+            while (line != null) {
+                line.replace("\\s".toRegex(), "")
+                val tokens = line.split(":")
+                if(tokens[0]=="name"){
+
+                }
+
+                line = fileReader.readLine()
+            }
+
+
+        } catch (e: Exception) {
+            println("Reading CSV Error!")
+            e.printStackTrace()
+        } finally {
+            try {
+                fileReader!!.close()
+            } catch (e: IOException) {
+                println("Closing fileReader Error!")
+                e.printStackTrace()
+            }
+        }
     }
 }
