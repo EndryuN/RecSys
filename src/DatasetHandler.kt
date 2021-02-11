@@ -178,12 +178,14 @@ class DatasetHandler {
     fun loadPLaylists(){
         var fileReader: BufferedReader? = null
         try {
-            val playlists = ArrayList<String>()
+            val playlists = ArrayList<Playlist>()
             var line: String?
             var i: Int = 0
             fileReader = BufferedReader(FileReader(playlistDataset))
 
-            // Read CSV header
+            // Read JSON header 8x
+            fileReader.readLine()
+            fileReader.readLine()
             fileReader.readLine()
             fileReader.readLine()
             fileReader.readLine()
@@ -194,10 +196,11 @@ class DatasetHandler {
             // Read the file line by line starting from the second line
             line = fileReader.readLine()
             while (line != null) {
+                line.replace("\\s".toRegex(), "")
+                val tokens = line.split(":")
+                if(tokens[0]=="name"){
 
-                val tokens = line.split(",")
-                    //print(line)
-                    //print(line.replace("\\s".toRegex(), ""))
+                }
 
                 line = fileReader.readLine()
             }
