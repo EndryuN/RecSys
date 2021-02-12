@@ -33,7 +33,4 @@ class ArtistHandler {
         p.saveToFile(artists)
         print("saved artists")
     }
-
-
-
 }

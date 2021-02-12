@@ -184,6 +184,8 @@ class DatasetHandler {
             val playlists = ArrayList<Playlist>()
             var line: String?
             var i: Int = 0
+            var j: Int = 0
+            var test: String
             fileReader = BufferedReader(FileReader(playlistDataset))
 
             // Read JSON header 8x
@@ -198,44 +200,28 @@ class DatasetHandler {
 
             // Read the file line by line starting from the second line
             line = fileReader.readLine()
-            //line != null
-            while (i<600) {
-                var j = 0
-                if(line!=null) {
-                    i++
-                    j++
+
+
+                while(line!=null) {
                     if (line.trim().contains(":")){
                         val tokens = line.trim().split(":".toRegex(), 2)
-
-                        while (j<6)
-                        {
-                            if (j==0){
-                                playlistName=tokens[1]
-                            }
-                            if (j==1){
-
-                            }
-                            if (j==2){
-
-                            }
-                            if (j==3){
-
-                            }
-                            if (j==4){
-
-                            }
-                            if (j==5){
-
-                            }
-                            if (j==6){
+                        //println(tokens)
+                        if(tokens[0].contains("num_tracks") || tokens[0].contains("artist_name") || tokens[0].contains("track_name") || tokens[0].contains("track_name")){
+                            //println(tokens)
+                            if(tokens[0].contains("num_tracks")){
+                                i++
+                                test = tokens[1]
+                                j = test.replace(",", "").trim().toInt()
+                                println("$i. $test")
+                                println(j)
+                                //Main.playlisthandler.createPlaylist(i, j)
 
                             }
                         }
-
                     }
                     line = fileReader.readLine()
                 }
-            }
+
 
 
         } catch (e: Exception) {

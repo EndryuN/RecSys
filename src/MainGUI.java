@@ -20,7 +20,6 @@ public class MainGUI extends JFrame {
     private JButton getRecommendationButton;
     private JButton loadPlaylistsButton;
     private JButton button1;
-    private JTextArea textArea1;
     private String searchInput;
     private DefaultTableModel songModel;
 
@@ -84,10 +83,15 @@ public class MainGUI extends JFrame {
     }
     //Button methods
     private void searchArtistButtonPressed(){
-        System.out.println("Search button pressed");
-        artistSelectCombo.removeAllItems();
-        songSelectCombo.removeAllItems();
-        populateArtistsComboBox();
+        if(searchTxt.getText()==""){
+            System.out.println("illegal term");
+        } else {
+            System.out.println("Search button pressed");
+            artistSelectCombo.removeAllItems();
+            songSelectCombo.removeAllItems();
+            populateArtistsComboBox();
+        }
+
     }
     //--GET SONGS
     private void getSongsButtonPressed(){
@@ -101,12 +105,12 @@ public class MainGUI extends JFrame {
         Main.datasetHandler.loadArtists();
         System.out.println("Artists Loaded");
     }
-    //
+    //--LOAD SONGS
     private void loadSongsButtonPressed(){
         Main.datasetHandler.loadSongs();
         System.out.println("Songs Loaded");
     }
-    //
+    //--SAVE DATA
     private void saveDataButtonPressed(){
         Main.artistHandler.saveArtists();
         Main.songHandler.saveSongs();
@@ -117,7 +121,9 @@ public class MainGUI extends JFrame {
     }
     //--LOAD PLAYLISTS
     private void loadPlaylistsButtonPressed(){
+        System.out.println("Load playlists pressed");
         Main.datasetHandler.loadPLaylists();
+        System.out.println("Playlists loaded");
     }
 
 
