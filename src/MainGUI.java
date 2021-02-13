@@ -22,7 +22,7 @@ public class MainGUI extends JFrame {
     private JButton loadPlaylistsButton;
     private JButton test;
     private JTable songTable;
-    private String searchInput;
+
     private DefaultTableModel songModel;
 
     public MainGUI() {
@@ -133,7 +133,8 @@ public class MainGUI extends JFrame {
 
     //--GET RECOMMENDATION
     private void getRecommendationButtonPressed(){
-
+        String selectedSong = songSelectCombo.getSelectedItem().toString();
+        Main.playlistHandler.getRecommendation(selectedSong);
     }
 
     //--LOAD PLAYLISTS
@@ -158,7 +159,7 @@ public class MainGUI extends JFrame {
 
     private void populateArtistsComboBox() {
         System.out.println("SearchArtist.populateComboBox");
-        searchInput = searchTxt.getText();
+        String searchInput = searchTxt.getText();
         for(int i=0;i<Main.artistHandler.getArtists().size();i++) {
             if (Main.artistHandler.getArtists().get(i).getArtistName().toLowerCase().contains(searchInput.toLowerCase())) {
                 artistSelectCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());

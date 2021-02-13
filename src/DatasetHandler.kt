@@ -28,7 +28,6 @@ class DatasetHandler {
     val path = System.getProperty("user.dir")
     val artistDataset = "$path/src/datasets/artistDataset.csv"
     val songDataset = "$path/src/datasets/songDataset.csv"
-    val playlistDataset = "$path/src/datasets/playlistDataset.json"
 
     fun loadSongs() {
         var fileReader: BufferedReader? = null
@@ -179,30 +178,32 @@ class DatasetHandler {
         var fileReader: BufferedReader? = null
         var playlistName: String
         var collabrative: Boolean
+        var counter: Int = 0
         //var tracks = ArrayList<Track>()
+        while(counter!=11){
+            counter++
+            try {
+                //val playlists = ArrayList<Playlist>()
+                var line: String?
+                var i: Int = 0
+                var j: Int = 0
+                var test: String
+                var artist: String = ""
+                var title: String = ""
+                fileReader = BufferedReader(FileReader("$path/src/datasets/sorted/artistDataset ($counter).json"))
 
-        try {
-            //val playlists = ArrayList<Playlist>()
-            var line: String?
-            var i: Int = 0
-            var j: Int = 0
-            var test: String
-            var artist: String = ""
-            var title: String = ""
-            fileReader = BufferedReader(FileReader(playlistDataset))
+                // Read JSON header 8x
+                fileReader.readLine()
+                fileReader.readLine()
+                fileReader.readLine()
+                fileReader.readLine()
+                fileReader.readLine()
+                fileReader.readLine()
+                fileReader.readLine()
+                fileReader.readLine()
 
-            // Read JSON header 8x
-            fileReader.readLine()
-            fileReader.readLine()
-            fileReader.readLine()
-            fileReader.readLine()
-            fileReader.readLine()
-            fileReader.readLine()
-            fileReader.readLine()
-            fileReader.readLine()
-
-            // Read the file line by line starting from the second line
-            line = fileReader.readLine()
+                // Read the file line by line starting from the second line
+                line = fileReader.readLine()
 
 
                 while(line!=null) {
@@ -235,18 +236,20 @@ class DatasetHandler {
 
 
 
-        } catch (e: Exception) {
-            println("Reading CSV Error!")
-            e.printStackTrace()
-        } finally {
-            try {
-                fileReader!!.close()
-            } catch (e: IOException) {
-                println("Closing fileReader Error!")
+            } catch (e: Exception) {
+                println("Reading CSV Error!")
                 e.printStackTrace()
+            } finally {
+                try {
+                    fileReader!!.close()
+                } catch (e: IOException) {
+                    println("Closing fileReader Error!")
+                    e.printStackTrace()
+                }
             }
         }
     }
+
 
 
 }

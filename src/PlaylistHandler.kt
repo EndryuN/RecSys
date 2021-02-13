@@ -41,4 +41,15 @@ class PlaylistHandler {
         print(playlists[selectedPlaylist].tracks)
     }
 
+    fun getRecommendation(songTitle: String){
+        for(i in playlists){
+            for(track in i.tracks){
+                if(track.trackName.contains(songTitle, ignoreCase = true)){
+                    print("ITS A MATCH")
+                }
+            }
+        }
+        print("recommendation finished")
+    }
+
 }
