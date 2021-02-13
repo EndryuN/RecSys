@@ -14,17 +14,19 @@ public class MainGUI extends JFrame {
     private JComboBox playlistCombo;
     private JButton loadArtistsBtn;
     private JTable songTbl;
-    private JTable resultTbl;
+    private JScrollPane songScrollPanel;
     private JButton getSongsBtn;
     private JButton loadSongsBtn;
     private JButton saveDataBtn;
     private JButton getRecommendationButton;
     private JButton loadPlaylistsButton;
     private JButton test;
+    private JTable songTable;
     private String searchInput;
     private DefaultTableModel songModel;
 
     public MainGUI() {
+
         System.out.println("--------------------------\nSetting up GUI:");
         setContentPane(mainPanel);
         pack();
@@ -35,7 +37,7 @@ public class MainGUI extends JFrame {
         setVisible(true);
 
         //Setting up tables
-        //createTable();
+        createTable("songs");
 
 
         searchArtistBtn.addActionListener(new ActionListener() {
@@ -99,12 +101,11 @@ public class MainGUI extends JFrame {
             songSelectCombo.removeAllItems();
             populateArtistsComboBox();
         }
-
     }
 
     //--GET SONGS
     private void getSongsButtonPressed(){
-        System.out.println("Load button pressed");
+        System.out.println("Get songs button pressed");
         songSelectCombo.removeAllItems();
         populateSongsComboBox();
 
@@ -112,12 +113,14 @@ public class MainGUI extends JFrame {
 
     //--LOAD ARTISTS
     private void loadArtistsButtonPressed(){
+        System.out.println("Load Artists button pressed");
         Main.datasetHandler.loadArtists();
         System.out.println("Artists Loaded");
     }
 
     //--LOAD SONGS
     private void loadSongsButtonPressed(){
+        System.out.println("Load Songs pressed");
         Main.datasetHandler.loadSongs();
         System.out.println("Songs Loaded");
     }
@@ -138,21 +141,20 @@ public class MainGUI extends JFrame {
         System.out.println("Load playlists pressed");
         Main.datasetHandler.loadPLaylists();
         System.out.println("Playlists loaded");
-        for(int i=0; i<Main.playlisthandler.getPlaylists().size(); i++){
-            playlistCombo.addItem(Main.playlisthandler.getPlaylists().get(i).getPlaylistID());
+        for(int i=0; i<Main.playlistHandler.getPlaylists().size(); i++){
+            playlistCombo.addItem(Main.playlistHandler.getPlaylists().get(i).getPlaylistID());
         }
     }
     //--TEST BUTTON
     private void testButtonPressed(){
-        Main.playlisthandler.updateTrackTables(songModel);
+        int selectedPLaylist = (int) playlistCombo.getSelectedItem();
+       //Main.playlistHandler.selectPlaylist(selectedPLaylist);
+        Main.playlistHandler.testFunction(selectedPLaylist);
+        System.out.println(selectedPLaylist);
 
+        //Main.trackHandler.updateTrackTables(songModel);
 
     }
-
-
-
-
-
 
     private void populateArtistsComboBox() {
         System.out.println("SearchArtist.populateComboBox");
@@ -174,13 +176,12 @@ public class MainGUI extends JFrame {
         }
     }
 
-    private void createTable() {
+    private void createTable(String type) {
         System.out.println("Creating Table");
-        String[] columnNames = {"Artist Name", "Title"};
-        songTbl.setModel(new DefaultTableModel(null, columnNames));
-        songModel = (DefaultTableModel) songTbl.getModel();
-
+        if(type == "songs") {
+            String[] columnNames = {"Artist Name", "Title"};
+            songTable.setModel(new DefaultTableModel(null, columnNames));
+            songModel = (DefaultTableModel) songTable.getModel();
+        }
     }
-
-
 }

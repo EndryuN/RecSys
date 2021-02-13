@@ -227,7 +227,7 @@ class DatasetHandler {
                                 j--
                                 tracks.add(Track(artist, title))
                                 if(j==0){
-                                    Main.playlisthandler.createPlaylist(i, tracks)
+                                    Main.playlistHandler.createPlaylist(i, tracks)
                                     tracks.clear()
                                 }
                             }

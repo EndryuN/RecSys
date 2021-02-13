@@ -2,11 +2,11 @@ import javax.swing.table.DefaultTableModel
 
 class PlaylistHandler {
     var playlists = ArrayList<Playlist>()
-    var tracks = ArrayList<Track>()
+    var tracks2 = ArrayList<Track>()
 
     var currentPlaylist = Playlist(
         playlistID = 0,
-        tracks
+        tracks2
     )
 
 
@@ -16,7 +16,8 @@ class PlaylistHandler {
         //num_artist: Int,
         tracks: ArrayList<Track>
     ){
-        playlists.add(Playlist(playlistID, tracks))
+        tracks2 = tracks
+        playlists.add(Playlist(playlistID, tracks2))
     }
 
     fun selectPlaylist(selectedPlaylist: Int){
@@ -25,7 +26,8 @@ class PlaylistHandler {
             if(i.playlistID == selectedPlaylist){
                 currentPlaylist = i
                 playlistFound = true
-                setPlaylistTracks()
+
+                break
             }
         }
         if (!playlistFound){
@@ -33,14 +35,8 @@ class PlaylistHandler {
         }
     }
 
-    fun setPlaylistTracks(){
-        Main.playlisthandler.tracks = currentPlaylist.tracks
-    }
-
-
-    fun updateTrackTables(songModel: DefaultTableModel){
-        songModel.setNumRows(0)
-
+    fun testFunction(selectedPlaylist: Int){
+        print(playlists[selectedPlaylist].tracks)
     }
 
 }
