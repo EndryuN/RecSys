@@ -11,6 +11,7 @@ public class MainGUI extends JFrame {
     private JTextField searchTxt;
     private JComboBox artistSelectCombo;
     private JComboBox songSelectCombo;
+    private JComboBox playlistCombo;
     private JButton loadArtistsBtn;
     private JTable songTbl;
     private JTable resultTbl;
@@ -19,7 +20,7 @@ public class MainGUI extends JFrame {
     private JButton saveDataBtn;
     private JButton getRecommendationButton;
     private JButton loadPlaylistsButton;
-    private JButton button1;
+    private JButton test;
     private String searchInput;
     private DefaultTableModel songModel;
 
@@ -36,7 +37,6 @@ public class MainGUI extends JFrame {
         //Setting up tables
         //createTable();
 
-        //Loading dataset
 
         searchArtistBtn.addActionListener(new ActionListener() {
             @Override
@@ -80,8 +80,16 @@ public class MainGUI extends JFrame {
 
             }
         });
+        test.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { testButtonPressed();
+
+            }
+        });
     }
-    //Button methods
+    //--------BUTTON METHODS-----------------------
+
+    //--SEARCH ARTISTS
     private void searchArtistButtonPressed(){
         if(searchTxt.getText()==""){
             System.out.println("illegal term");
@@ -93,6 +101,7 @@ public class MainGUI extends JFrame {
         }
 
     }
+
     //--GET SONGS
     private void getSongsButtonPressed(){
         System.out.println("Load button pressed");
@@ -100,32 +109,45 @@ public class MainGUI extends JFrame {
         populateSongsComboBox();
 
     }
+
     //--LOAD ARTISTS
     private void loadArtistsButtonPressed(){
         Main.datasetHandler.loadArtists();
         System.out.println("Artists Loaded");
     }
+
     //--LOAD SONGS
     private void loadSongsButtonPressed(){
         Main.datasetHandler.loadSongs();
         System.out.println("Songs Loaded");
     }
+
     //--SAVE DATA
     private void saveDataButtonPressed(){
         Main.artistHandler.saveArtists();
         Main.songHandler.saveSongs();
     }
+
     //--GET RECOMMENDATION
     private void getRecommendationButtonPressed(){
 
     }
+
     //--LOAD PLAYLISTS
     private void loadPlaylistsButtonPressed(){
         System.out.println("Load playlists pressed");
         Main.datasetHandler.loadPLaylists();
         System.out.println("Playlists loaded");
+        for(int i=0; i<Main.playlisthandler.getPlaylists().size(); i++){
+            playlistCombo.addItem(Main.playlisthandler.getPlaylists().get(i).getPlaylistID());
+        }
     }
+    //--TEST BUTTON
+    private void testButtonPressed(){
+        Main.playlisthandler.updateTrackTables(songModel);
 
+
+    }
 
 
 

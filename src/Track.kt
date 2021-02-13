@@ -1,4 +1,5 @@
-data class Track(var position: Int,
+data class Track(
+                 //var position: Int,
                  var artistName: String,
                  //var track_uri: String,
                  //var artist_uri: String,

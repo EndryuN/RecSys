@@ -179,6 +179,7 @@ class DatasetHandler {
         var fileReader: BufferedReader? = null
         var playlistName: String
         var collabrative: Boolean
+        var tracks = ArrayList<Track>()
 
         try {
             val playlists = ArrayList<Playlist>()
@@ -186,6 +187,8 @@ class DatasetHandler {
             var i: Int = 0
             var j: Int = 0
             var test: String
+            var artist: String = ""
+            var title: String = ""
             fileReader = BufferedReader(FileReader(playlistDataset))
 
             // Read JSON header 8x
@@ -204,7 +207,7 @@ class DatasetHandler {
 
                 while(line!=null) {
                     if (line.trim().contains(":")){
-                        val tokens = line.trim().split(":".toRegex(), 2)
+                        var tokens = line.trim().split(":".toRegex(), 2)
                         //println(tokens)
                         if(tokens[0].contains("num_tracks") || tokens[0].contains("artist_name") || tokens[0].contains("track_name") || tokens[0].contains("track_name")){
                             //println(tokens)
@@ -212,10 +215,21 @@ class DatasetHandler {
                                 i++
                                 test = tokens[1]
                                 j = test.replace(",", "").trim().toInt()
-                                println("$i. $test")
-                                println(j)
-                                //Main.playlisthandler.createPlaylist(i, j)
+                                //println("$i. $test")
+                                //println(j)
+                            }
 
+                            if(tokens[0].contains("artist_name")){
+                                artist = tokens[1].dropLast(1)
+                            }
+                            if(tokens[0].contains("track_name")){
+                                title = tokens[1].dropLast(1)
+                                j--
+                                tracks.add(Track(artist, title))
+                                if(j==0){
+                                    Main.playlisthandler.createPlaylist(i, tracks)
+                                    tracks.clear()
+                                }
                             }
                         }
                     }
