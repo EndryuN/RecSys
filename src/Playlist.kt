@@ -8,7 +8,7 @@ data class Playlist(
     //var num_artist: Int,
     //var tracks: ArrayList<Track>
 ): Serializable
-//{
-//    var tracks: ArrayList<Track>()
-//}
+{
+    var tracks = ArrayList<Track>()
+}
 

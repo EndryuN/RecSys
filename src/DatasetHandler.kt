@@ -179,10 +179,10 @@ class DatasetHandler {
         var fileReader: BufferedReader? = null
         var playlistName: String
         var collabrative: Boolean
-        var tracks = ArrayList<Track>()
+        //var tracks = ArrayList<Track>()
 
         try {
-            val playlists = ArrayList<Playlist>()
+            //val playlists = ArrayList<Playlist>()
             var line: String?
             var i: Int = 0
             var j: Int = 0
@@ -215,6 +215,7 @@ class DatasetHandler {
                                 i++
                                 test = tokens[1]
                                 j = test.replace(",", "").trim().toInt()
+                                Main.playlistHandler.createPlaylist(i)
                                 //println("$i. $test")
                                 //println(j)
                             }
@@ -225,11 +226,7 @@ class DatasetHandler {
                             if(tokens[0].contains("track_name")){
                                 title = tokens[1].dropLast(1)
                                 j--
-                                tracks.add(Track(artist, title))
-                                if(j==0){
-                                    Main.playlistHandler.createPlaylist(i, tracks)
-                                    tracks.clear()
-                                }
+                                Main.trackHandler.createTrack(artist, title)
                             }
                         }
                     }

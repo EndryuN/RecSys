@@ -148,11 +148,11 @@ public class MainGUI extends JFrame {
     //--TEST BUTTON
     private void testButtonPressed(){
         int selectedPLaylist = (int) playlistCombo.getSelectedItem();
-       //Main.playlistHandler.selectPlaylist(selectedPLaylist);
+        Main.playlistHandler.selectPlaylist(selectedPLaylist);
         Main.playlistHandler.testFunction(selectedPLaylist);
         System.out.println(selectedPLaylist);
 
-        //Main.trackHandler.updateTrackTables(songModel);
+        Main.trackHandler.updateTrackTables(songModel);
 
     }
 
