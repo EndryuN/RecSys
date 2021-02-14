@@ -7,6 +7,7 @@ class SongHandler {
 
     init{
         loadSongs()
+
     }
     fun createSong(
         acousticness: String,

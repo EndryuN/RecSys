@@ -29,6 +29,7 @@ class DatasetHandler {
     val artistDataset = "$path/src/datasets/artistDataset.csv"
     val songDataset = "$path/src/datasets/songDataset.csv"
 
+
     fun loadSongs() {
         var fileReader: BufferedReader? = null
         try {
@@ -180,7 +181,7 @@ class DatasetHandler {
         var collabrative: Boolean
         var counter: Int = 0
         //var tracks = ArrayList<Track>()
-        while(counter!=11){
+        while(counter!=1001){
             counter++
             try {
                 //val playlists = ArrayList<Playlist>()
@@ -217,8 +218,8 @@ class DatasetHandler {
                                 test = tokens[1]
                                 j = test.replace(",", "").trim().toInt()
                                 Main.playlistHandler.createPlaylist(i)
-                                //println("$i. $test")
-                                //println(j)
+                                println("#Creating playlist $counter.")
+
                             }
 
                             if(tokens[0].contains("artist_name")){

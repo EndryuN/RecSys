@@ -22,8 +22,14 @@ public class MainGUI extends JFrame {
     private JButton loadPlaylistsButton;
     private JButton test;
     private JTable songTable;
+    private JTable artistTable;
+    private JPanel eastPanel;
+    private JScrollPane artistScrollPane;
+    private JTable recommendationTable;
+    private JScrollPane recScrollPanel;
 
     private DefaultTableModel songModel;
+    private DefaultTableModel artistModel;
 
     public MainGUI() {
 
@@ -38,6 +44,7 @@ public class MainGUI extends JFrame {
 
         //Setting up tables
         createTable("songs");
+        createTable("artists");
 
 
         searchArtistBtn.addActionListener(new ActionListener() {
@@ -184,5 +191,11 @@ public class MainGUI extends JFrame {
             songTable.setModel(new DefaultTableModel(null, columnNames));
             songModel = (DefaultTableModel) songTable.getModel();
         }
+        if(type == "artists"){
+            String[] columnNames = {"Artist Name"};
+            artistTable.setModel(new DefaultTableModel(null, columnNames));
+            artistModel = (DefaultTableModel) artistTable.getModel();
+        }
+
     }
 }
