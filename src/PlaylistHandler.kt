@@ -1,55 +1,57 @@
+import java.lang.IndexOutOfBoundsException
 
 class PlaylistHandler {
+    val p = Persistence()
     var playlists = ArrayList<Playlist>()
 
     var currentPlaylist = Playlist(
         playlistID = 0,
+        //collaborative = true
     )
 
 
     fun createPlaylist(
         playlistID: Int,
-        //num_tracks: Int,
+        //collaborative: Boolean,
         //num_artist: Int,
         //tracks: ArrayList<Track>
     ){
         //tracks2 = tracks
         playlists.add(Playlist(playlistID))
-        selectPlaylist(playlists.last().playlistID)
-    }
-
-    fun selectPlaylist(selectedPlaylist: Int){
-        var playlistFound = false
-        for (i in playlists){
-            if(i.playlistID == selectedPlaylist){
-                currentPlaylist = i
-                playlistFound = true
-                setPlaylistSongs()
-                break
-            }
-        }
-        if (!playlistFound){
-            println("Playlist not found")
-        }
-    }
-    private fun setPlaylistSongs(){
+        //selectPlaylist()
+        currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
-        println("Setting playlist songs")
     }
 
-    fun testFunction(selectedPlaylist: Int){
-        print(playlists[selectedPlaylist].tracks)
+    fun selectPlaylist(){
+
+
     }
+
+
 
     fun getRecommendation(songTitle: String){
         for(i in playlists){
             for(track in i.tracks){
-                if(track.trackName.contains(songTitle, ignoreCase = true)){
+                if(track.trackName == songTitle){
                     print("ITS A MATCH")
                 }
             }
         }
         print("recommendation finished")
+    }
+    fun loadPlaylists(){
+        try {
+            playlists = p.loadPlaylists()
+        }catch (iob : IndexOutOfBoundsException){
+            println("Projects file was empty on load")
+            println("-------------------------\n")
+        }
+    }
+
+    fun savePlaylists(){
+        p.savePlaylists(playlists)
+        print("saved artists")
     }
 
 }

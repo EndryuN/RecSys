@@ -1,7 +1,6 @@
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
-import java.util.ArrayList
 
 private const val acousticness_IDX = 0
 private const val artistName_IDX = 1
@@ -30,7 +29,7 @@ class DatasetHandler {
     val songDataset = "$path/src/datasets/songDataset.csv"
 
 
-    fun loadSongs() {
+    fun parseSongs() {
         var fileReader: BufferedReader? = null
         try {
             var line: String?
@@ -144,7 +143,7 @@ class DatasetHandler {
             }
         }
     }
-    fun loadArtists() {
+    fun parseArtists() {
         var fileReader: BufferedReader? = null
         try {
             var line: String?
@@ -175,24 +174,19 @@ class DatasetHandler {
             }
         }
     }
-    fun loadPLaylists(){
+    fun parsePLaylists(){
         var fileReader: BufferedReader? = null
-        var playlistName: String
-        var collabrative: Boolean
+        var collaborative: Boolean
         var counter: Int = 0
-        //var tracks = ArrayList<Track>()
-        while(counter!=1001){
+        var countercounter: Int = 0
+        var artist: String = ""
+        var title: String = ""
+        var j: Int = 0
+        var line: String?
+        while(counter!=100){
             counter++
             try {
-                //val playlists = ArrayList<Playlist>()
-                var line: String?
-                var i: Int = 0
-                var j: Int = 0
-                var test: String
-                var artist: String = ""
-                var title: String = ""
                 fileReader = BufferedReader(FileReader("$path/src/datasets/sorted/artistDataset ($counter).json"))
-
                 // Read JSON header 8x
                 fileReader.readLine()
                 fileReader.readLine()
@@ -202,43 +196,30 @@ class DatasetHandler {
                 fileReader.readLine()
                 fileReader.readLine()
                 fileReader.readLine()
-
-                // Read the file line by line starting from the second line
                 line = fileReader.readLine()
-
-
                 while(line!=null) {
-                    if (line.trim().contains(":")){
+                    if(line.contains(":")){
                         var tokens = line.trim().split(":".toRegex(), 2)
-                        //println(tokens)
-                        if(tokens[0].contains("num_tracks") || tokens[0].contains("artist_name") || tokens[0].contains("track_name") || tokens[0].contains("track_name")){
-                            //println(tokens)
-                            if(tokens[0].contains("num_tracks")){
-                                i++
-                                test = tokens[1]
-                                j = test.replace(",", "").trim().toInt()
-                                Main.playlistHandler.createPlaylist(i)
-                                println("#Creating playlist $counter.")
+                        if(tokens[0].contains("num_tracks")){
+                            countercounter++
+                            j = tokens[1].replace(",", "").trim().toInt()
+                            Main.playlistHandler.createPlaylist(countercounter)
+                            println("Creating playlist $countercounter.")
 
-                            }
-
-                            if(tokens[0].contains("artist_name")){
-                                artist = tokens[1].dropLast(1)
-                            }
-                            if(tokens[0].contains("track_name")){
-                                title = tokens[1].dropLast(1)
-                                j--
-                                Main.trackHandler.createTrack(artist, title)
-                            }
+                        }
+                        if(tokens[0].contains("artist_name")){
+                            artist = tokens[1].dropLast(1)
+                        }
+                        if(tokens[0].contains("track_name")){
+                            title = tokens[1].dropLast(1)
+                            j--
+                            Main.trackHandler.createTrack(artist, title)
                         }
                     }
                     line = fileReader.readLine()
                 }
-
-
-
             } catch (e: Exception) {
-                println("Reading CSV Error!")
+                println("Reading CSV Error. Playlist $countercounter")
                 e.printStackTrace()
             } finally {
                 try {

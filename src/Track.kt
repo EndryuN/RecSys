@@ -1,3 +1,5 @@
+import java.io.Serializable
+
 data class Track(
                  //var position: Int,
                  var artistName: String,
@@ -7,7 +9,7 @@ data class Track(
                  //var album_uri: String,
                  //var duration_ms: Int,
                  //var album_name: String
-)
+) : Serializable
 
 
 

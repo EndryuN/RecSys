@@ -4,6 +4,7 @@ class Persistence {
     val path = System.getProperty("user.dir")
     var artistsFile = "$path/Artists.txt"
     var songsFile = "$path/Songs.txt"
+    var playlistsFile = "$path/Playlists.txt"
 
     init {
         print(artistsFile)
@@ -35,6 +36,43 @@ class Persistence {
         }
 
         println("List of Songs Saved to file\n")
+    }
+
+    fun savePlaylists(list : ArrayList<Playlist>) {
+        println("-------------------------\n " +
+                "Save Started - File path: \n $playlistsFile " +
+                "\n-------------------------")
+        try {
+            //Lambda used to save to file
+            ObjectOutputStream(FileOutputStream(playlistsFile)).use{ it -> it.writeObject(list)}
+        }catch (ioe:IOException){
+            println("Error: Unable to save - IO Exception")
+        }
+
+        println("List of Songs Saved to file\n")
+    }
+    fun loadPlaylists(): ArrayList<Playlist> {
+
+        println("-------------------------\n " +
+                "Load Started - File path: \n ${playlistsFile} " +
+                "\n-------------------------")
+
+        val nullList = ArrayList<Playlist>()
+        var artistList : ArrayList<Playlist>
+
+        try {
+            //uses lambda to de-serialize the file into array of projects
+            artistList = ObjectInputStream(FileInputStream(playlistsFile)).use { it -> it.readObject() as ArrayList<Playlist>}
+            println("Artists Loaded into memory")
+
+        }catch (ioe : IOException){
+            println("Error: Could not load from file:\n $playlistsFile \n Possibly no artists")
+            return nullList
+        }catch (c: ClassNotFoundException){
+            println("Error: Class not found to cast")
+            return nullList
+        }
+        return artistList
     }
 
     fun loadFromFile(): ArrayList<Artist> {
