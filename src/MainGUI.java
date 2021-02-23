@@ -158,7 +158,14 @@ public class MainGUI extends JFrame {
 
     //--PARSE PLAYLISTS
     private void parsePlaylistsButtonPressed(){
-        Main.datasetHandler.parsePLaylists();
+        String selectedSong = songSelectCombo.getSelectedItem().toString();
+        String selectedArtist = artistSelectCombo.getSelectedItem().toString();
+        for(int i=1; i<11; i++){
+            Main.datasetHandler.parsePLaylists(i);
+            Main.playlistHandler.getRecommendation(selectedArtist, selectedSong);
+        }
+
+        //
         //for(int i=0; i<Main.playlistHandler.getPlaylists().size(); i++){
         //    playlistCombo.addItem(Main.playlistHandler.getPlaylists().get(i).getPlaylistID());
         //}

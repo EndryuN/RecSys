@@ -172,16 +172,16 @@ class DatasetHandler {
             }
         }
     }
-    fun parsePLaylists(){
+    fun parsePLaylists(number: Int){
         var fileReader: BufferedReader? = null
         var collaborative: Boolean
-        var counter: Int = 0
-        var countercounter: Int = 0
+        var counter: Int = number*100-100
+        var countercounter: Int = number*100000-100000
         var artist: String = ""
         var title: String = ""
         var j: Int = 0
         var line: String?
-        while(counter!=100){
+        while(counter!=number*100){
             counter++
             try {
                 fileReader = BufferedReader(FileReader("$path/src/datasets/sorted/artistDataset ($counter).json"))

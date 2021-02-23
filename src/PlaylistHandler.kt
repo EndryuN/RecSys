@@ -3,6 +3,7 @@ import java.lang.IndexOutOfBoundsException
 class PlaylistHandler {
     val p = Persistence()
     var playlists = ArrayList<Playlist>()
+    var playlists2 = ArrayList<Playlist>()
 
     var currentPlaylist = Playlist(
         playlistID = 0,
@@ -31,20 +32,27 @@ class PlaylistHandler {
 
 
     fun getRecommendation(artistName: String, songTitle: String){
+        var trueFlag: Boolean = false
         for(i in playlists){
             for(track in i.tracks){
                 if(track.trackName.contains(songTitle) && track.artistName.contains(artistName)){
                     print("ITS A MATCH")
                     println(i)
+                    playlists2.add(i)
+                    break
                 }
             }
         }
-        print("recommendation finished")
+        playlists.clear()
+        var playlistsize = playlists2.size
+        println("////////////////////////////")
+        println("playlist2 size $playlistsize")
+        println("////////////////////////////")
     }
 
     fun loadPlaylists(){
         try {
-            playlists = p.loadPlaylists()
+            playlists2 = p.loadPlaylists()
         }catch (iob : IndexOutOfBoundsException){
             println("Projects file was empty on load")
             println("-------------------------\n")
@@ -52,7 +60,7 @@ class PlaylistHandler {
     }
 
     fun savePlaylists(){
-        p.savePlaylists(playlists)
+        p.savePlaylists(playlists2)
         print("saved artists")
     }
 
