@@ -24,16 +24,14 @@ private const val year_IDX = 18
 
 class DatasetHandler {
 
-    val path = System.getProperty("user.dir")
-    val artistDataset = "$path/src/datasets/artistDataset.csv"
-    val songDataset = "$path/src/datasets/songDataset.csv"
+    private val path = System.getProperty("user.dir")
 
 
     fun parseSongs() {
         var fileReader: BufferedReader? = null
         try {
             var line: String?
-            fileReader = BufferedReader(FileReader(songDataset))
+            fileReader = BufferedReader(FileReader("$path/src/datasets/songDataset.csv"))
 
             // Read CSV header
             fileReader.readLine()
@@ -147,7 +145,7 @@ class DatasetHandler {
         var fileReader: BufferedReader? = null
         try {
             var line: String?
-            fileReader = BufferedReader(FileReader(artistDataset))
+            fileReader = BufferedReader(FileReader("$path/src/datasets/artistDataset.csv"))
 
             // Read CSV header
             fileReader.readLine()

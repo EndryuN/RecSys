@@ -152,7 +152,8 @@ public class MainGUI extends JFrame {
     //--GET RECOMMENDATION
     private void getRecommendationButtonPressed(){
         String selectedSong = songSelectCombo.getSelectedItem().toString();
-        Main.playlistHandler.getRecommendation(selectedSong);
+        String selectedArtist = artistSelectCombo.getSelectedItem().toString();
+        Main.playlistHandler.getRecommendation(selectedArtist, selectedSong);
     }
 
     //--PARSE PLAYLISTS
@@ -171,7 +172,7 @@ public class MainGUI extends JFrame {
     }
     private void loadPLaylistsButtonPressed(){
         System.out.println("loadPLaylistsButtonPressed");
-        Main.playlistHandler.savePlaylists();
+        Main.playlistHandler.loadPlaylists();
         System.out.println("Playlists loaded");
     }
 

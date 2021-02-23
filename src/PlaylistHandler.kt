@@ -30,16 +30,18 @@ class PlaylistHandler {
 
 
 
-    fun getRecommendation(songTitle: String){
+    fun getRecommendation(artistName: String, songTitle: String){
         for(i in playlists){
             for(track in i.tracks){
-                if(track.trackName == songTitle){
+                if(track.trackName.contains(songTitle) && track.artistName.contains(artistName)){
                     print("ITS A MATCH")
+                    println(i)
                 }
             }
         }
         print("recommendation finished")
     }
+
     fun loadPlaylists(){
         try {
             playlists = p.loadPlaylists()

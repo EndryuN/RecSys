@@ -58,11 +58,11 @@ class Persistence {
                 "\n-------------------------")
 
         val nullList = ArrayList<Playlist>()
-        var artistList : ArrayList<Playlist>
+        var playlistList : ArrayList<Playlist>
 
         try {
             //uses lambda to de-serialize the file into array of projects
-            artistList = ObjectInputStream(FileInputStream(playlistsFile)).use { it -> it.readObject() as ArrayList<Playlist>}
+            playlistList = ObjectInputStream(FileInputStream(playlistsFile)).use { it -> it.readObject() as ArrayList<Playlist>}
             println("Artists Loaded into memory")
 
         }catch (ioe : IOException){
@@ -72,7 +72,7 @@ class Persistence {
             println("Error: Class not found to cast")
             return nullList
         }
-        return artistList
+        return playlistList
     }
 
     fun loadFromFile(): ArrayList<Artist> {
