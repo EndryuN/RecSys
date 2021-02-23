@@ -30,6 +30,7 @@ public class MainGUI extends JFrame {
     private JButton loadPLaylistsButton;
     private JRadioButton artistRadioButton;
     private JRadioButton songTitleRadioButton;
+    private JButton printTestButton;
 
     private DefaultTableModel songModel;
     private DefaultTableModel artistModel;
@@ -105,8 +106,17 @@ public class MainGUI extends JFrame {
 
             }
         });
+        printTestButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { printTestButtonPressed();
+            }
+        });
     }
     //--------BUTTON METHODS-----------------------
+
+    private void printTestButtonPressed(){
+        Main.playlistHandler.printPlaylists();
+    }
 
     //--SEARCH ARTISTS
     private void searchArtistButtonPressed(){

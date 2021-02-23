@@ -5,6 +5,15 @@ class PlaylistHandler {
     var playlists = ArrayList<Playlist>()
     var playlists2 = ArrayList<Playlist>()
 
+    var artistsSet = HashSet<String>()
+    var songsSet = HashSet<String>()
+
+    var duplicateSong = ArrayList<TrackRec>()
+    var duplicateArtist = ArrayList<ArtistRec>()
+
+    var artistvar = ""
+
+
     var currentPlaylist = Playlist(
         playlistID = 0,
         //collaborative = true
@@ -14,25 +23,42 @@ class PlaylistHandler {
     fun createPlaylist(
         playlistID: Int,
         //collaborative: Boolean,
-        //num_artist: Int,
-        //tracks: ArrayList<Track>
+        //num_artist: Int
     ){
-        //tracks2 = tracks
         playlists.add(Playlist(playlistID))
-        //selectPlaylist()
         currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
     }
 
-    fun selectPlaylist(){
+    fun printPlaylists(){
+        for(playlist in playlists2){
+            for(track in playlist.tracks){
+                artistsSet.add(track.artistName)
+                songsSet.add(track.trackName)
+            }
+        }
+        for(i in artistsSet){
+            duplicateArtist.add(ArtistRec(i, 0))
+        }
 
-
+        for (playlist in playlists2){
+            for (track in playlist.tracks){
+                for (hashpart in artistsSet){
+                    if(track.artistName == hashpart){
+                        duplicateArtist[artistsSet.indexOf(hashpart)].duplicateCount++
+                    }
+                }
+            }
+        }
+        duplicateArtist.sort()
+        for(element in duplicateArtist){
+            println(element.artistName+" :"+element.duplicateCount)
+        }
     }
 
 
 
     fun getRecommendation(artistName: String, songTitle: String){
-        var trueFlag: Boolean = false
         for(i in playlists){
             for(track in i.tracks){
                 if(track.trackName.contains(songTitle) && track.artistName.contains(artistName)){

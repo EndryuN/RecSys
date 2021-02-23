@@ -26,7 +26,6 @@ class DatasetHandler {
 
     private val path = System.getProperty("user.dir")
 
-
     fun parseSongs() {
         var fileReader: BufferedReader? = null
         try {
@@ -202,7 +201,7 @@ class DatasetHandler {
                             countercounter++
                             j = tokens[1].replace(",", "").trim().toInt()
                             Main.playlistHandler.createPlaylist(countercounter)
-                            println("Creating playlist $countercounter.")
+                            println("Creating playlist $countercounter")
 
                         }
                         if(tokens[0].contains("artist_name")){

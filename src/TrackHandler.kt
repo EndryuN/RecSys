@@ -7,7 +7,6 @@ class TrackHandler {
         tracks.add(Track(artistName, trackName))
     }
 
-
     fun updateTrackTables(songTable: DefaultTableModel){
         songTable.setNumRows(0)
         for(track in tracks){
