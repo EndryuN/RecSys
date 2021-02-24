@@ -1,5 +1,5 @@
 import java.io.Serializable
 
-data class TrackRec(var artistName: String,
+data class TrackRec(var duplicateCount: Int,
                     var trackName: String,
-                    var duplicateCount: Int) : Serializable
+                    var artistName: String) : Serializable

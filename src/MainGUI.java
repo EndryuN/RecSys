@@ -47,8 +47,8 @@ public class MainGUI extends JFrame {
         setVisible(true);
 
         //Setting up tables
-        createTable("songs");
-        createTable("artists");
+        createTable("Songs Table");
+        createTable("Artist Table");
 
 
         searchArtistBtn.addActionListener(new ActionListener() {
@@ -116,6 +116,8 @@ public class MainGUI extends JFrame {
 
     private void printTestButtonPressed(){
         Main.playlistHandler.printPlaylists();
+        Main.playlistHandler.updateArtistTables(artistModel);
+        Main.playlistHandler.updateTrackTables(songModel);
     }
 
     //--SEARCH ARTISTS
@@ -216,13 +218,13 @@ public class MainGUI extends JFrame {
 
     private void createTable(String type) {
         System.out.println("Creating Table");
-        if(type == "songs") {
-            String[] columnNames = {"Artist Name", "Title"};
+        if(type == "Songs Table") {
+            String[] columnNames = {"Artist Name", "Title", "Count"};
             songTable.setModel(new DefaultTableModel(null, columnNames));
             songModel = (DefaultTableModel) songTable.getModel();
         }
-        if(type == "artists"){
-            String[] columnNames = {"Artist Name"};
+        if(type == "Artist Table"){
+            String[] columnNames = {"Artist Name", "Count"};
             artistTable.setModel(new DefaultTableModel(null, columnNames));
             artistModel = (DefaultTableModel) artistTable.getModel();
         }

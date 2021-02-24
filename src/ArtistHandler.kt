@@ -8,7 +8,7 @@ class ArtistHandler {
     var artists2 = ArrayList<Artist>()
     //clear artist2
     var currentArtist = Artist(
-        artistName = "artist name",
+        artistName = "artist name"
 
     )
     init{
@@ -16,7 +16,7 @@ class ArtistHandler {
     }
 
     fun createArtist(
-        artistName: String,
+        artistName: String
     ){
         artists.add(Artist(artistName))
     }
