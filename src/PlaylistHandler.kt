@@ -1,5 +1,8 @@
 import java.lang.IndexOutOfBoundsException
+import java.util.*
 import javax.swing.table.DefaultTableModel
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 class PlaylistHandler {
     val p = Persistence()
@@ -32,6 +35,8 @@ class PlaylistHandler {
     }
 
     fun printPlaylists(){
+
+        // Console output
         for(playlist in playlists2){
             for(track in playlist.tracks){
                 artistsSet.add(track.artistName)
@@ -39,33 +44,47 @@ class PlaylistHandler {
             }
         }
         for(i in artistsSet){
-            duplicateArtist.add(ArtistRec(0, i))
+            duplicateArtist.add(ArtistRec(0, i, false))
         }
         for(i in songsSet){
-            var artistHolder = i.split("£")[0]
-            var titleHolder = i.split("£")[1]
-            duplicateSong.add(TrackRec(0, titleHolder, artistHolder))
+            var artistVar = i.split("£")[0]
+            var songVar = i.split("£")[1]
+
+            duplicateSong.add(TrackRec(0, artistVar, songVar, false))
         }
 
         for (playlist in playlists2){
             for (track in playlist.tracks){
-                for (hashpart in artistsSet){
-                    if(track.artistName == hashpart){
-                        duplicateArtist[artistsSet.indexOf(hashpart)].duplicateCount++
-                        break
+                for (artist in artistsSet) {
+                    if (track.artistName == artist) {
+                        duplicateArtist[artistsSet.indexOf(artist)].duplicateCheck = true
                     }
-
                 }
-                for (hashpart in songsSet){
-                    if(track.trackName.contains(hashpart)){
-                        duplicateSong[songsSet.indexOf(hashpart)].duplicateCount++
+                for (song in songsSet){
+                    if (song.contains(track.trackName)) {
+                        duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
                     }
+                }
+
+            }
+            for(artist in duplicateArtist){
+                if(artist.duplicateCheck){
+                    artist.duplicateCount++
+                    artist.duplicateCheck = false
                 }
             }
-        }
-        duplicateArtist.sortedWith(compareBy {it.duplicateCount})
-        duplicateSong.sortedWith(compareBy {it.duplicateCount})
+            for(song in duplicateSong){
+                if(song.duplicateCheck){
+                    song.duplicateCount++
+                    song.duplicateCheck = false
+                }
+            }
 
+        }
+
+        //duplicateArtist.sortedWith(compareBy {it.duplicateCount})
+        //duplicateSong.sortedWith(compareBy {it.duplicateCount})
+        duplicateSong.sortedWith(compareByDescending { it.duplicateCount })
         for(element in duplicateArtist){
             if(element.duplicateCount > 20){
                 println(element.artistName+" :"+element.duplicateCount)
@@ -73,9 +92,9 @@ class PlaylistHandler {
         }
         println("////////SONGS///////////")
         for(element in duplicateSong){
-            if(element.duplicateCount > 10){
+            //if(element.duplicateCount > 10){
                 println(element.trackName+" :"+element.duplicateCount)
-            }
+            //}
         }
         println("Unique artists: "+artistsSet.size)
         println("Unique songs: "+songsSet.size)
@@ -93,7 +112,7 @@ class PlaylistHandler {
         songTable.setNumRows(0)
         for(song in duplicateSong){
             songTable.addRow(arrayOf<Any>(song.artistName, song.trackName, song.duplicateCount))
-        }
+        }//fix this by getting artist from the same index as the song title
     }
 
 

@@ -219,7 +219,7 @@ public class MainGUI extends JFrame {
     private void createTable(String type) {
         System.out.println("Creating Table");
         if(type == "Songs Table") {
-            String[] columnNames = {"Artist Name", "Title", "Count"};
+            String[] columnNames = {"Artist", "Title", "Count"};
             songTable.setModel(new DefaultTableModel(null, columnNames));
             songModel = (DefaultTableModel) songTable.getModel();
         }
