@@ -28,9 +28,8 @@ public class MainGUI extends JFrame {
     private JScrollPane recScrollPanel;
     private JButton savePLaylistsButton;
     private JButton loadPLaylistsButton;
-    private JRadioButton artistRadioButton;
-    private JRadioButton songTitleRadioButton;
     private JButton printTestButton;
+    private JComboBox comboBox1 ;
 
     private DefaultTableModel songModel;
     private DefaultTableModel artistModel;

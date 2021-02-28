@@ -81,6 +81,7 @@ class PlaylistHandler {
             }
 
         }
+        duplicateSong.sortedBy { it.duplicateCount }
 
         //duplicateArtist.sortedWith(compareBy {it.duplicateCount})
         //duplicateSong.sortedWith(compareBy {it.duplicateCount})
@@ -104,15 +105,17 @@ class PlaylistHandler {
 
     fun updateArtistTables(artistTable: DefaultTableModel){
         artistTable.setNumRows(0)
-        for(artist in duplicateArtist){
+        for(artist in duplicateArtist.sortedByDescending { it.duplicateCount }){
             artistTable.addRow(arrayOf<Any>(artist.artistName, artist.duplicateCount))
         }
     }
     fun updateTrackTables(songTable: DefaultTableModel){
+
         songTable.setNumRows(0)
-        for(song in duplicateSong){
+        duplicateSong.sortedBy { it.duplicateCount }
+        for(song in duplicateSong.sortedByDescending { it.duplicateCount }){
             songTable.addRow(arrayOf<Any>(song.artistName, song.trackName, song.duplicateCount))
-        }//fix this by getting artist from the same index as the song title
+        }
     }
 
 
@@ -147,5 +150,9 @@ class PlaylistHandler {
         p.savePlaylists(playlists2)
         print("saved artists")
     }
+
+}
+
+private fun <E> java.util.ArrayList<E>.sort() {
 
 }
