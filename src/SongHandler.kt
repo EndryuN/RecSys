@@ -37,7 +37,6 @@ class SongHandler {
         songs = p.loadFromFile(true)
     }
 
-
     fun saveSongs() {
         p.saveToFile(songs, true)
     }

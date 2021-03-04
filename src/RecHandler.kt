@@ -3,10 +3,9 @@ class RecHandler {
     var playlists3 = ArrayList<Track>()
 
     fun findPlaylists(){
-        for(i in 1..10){
-            Main.datasetHandler.parsePLaylists(i)
-           // Main.playlistHandler.getRecommendation()
-        }
+        //for(i in 1..10){
+          //  Main.datasetHandler.parsePLaylists(i)
+        //}
 
     }
 

@@ -7,32 +7,38 @@ public class MainGUI extends JFrame {
     private JPanel mainPanel;
     private JPanel northPanel;
     private JPanel centerPanel;
-    private JButton searchArtistBtn;
+    private JPanel eastPanel;
     private JTextField searchTxt;
-    private JComboBox artistSelectCombo;
+    private JButton searchBtn;
+    private JButton parseDataButton;
+    private JButton savePLaylistsButton;
+    private JButton loadPLaylistsButton;
+    private JComboBox resultCombo;
     private JComboBox songSelectCombo;
     private JComboBox playlistCombo;
-    private JButton parseDataButton;
     private JTable songTbl;
-    private JScrollPane songScrollPanel;
     private JButton getSongsBtn;
     private JButton loadDataBtn;
     private JButton saveDataBtn;
-    private JButton getRecommendationButton;
+    private JButton songFindPlaylistsButton;
     private JButton parsePlaylistsButton;
-    private JTable songTable;
+    private JScrollPane queryPanel;
+    private JTable queryTable;
+    private JScrollPane artistPanel;
     private JTable artistTable;
-    private JPanel eastPanel;
-    private JScrollPane artistScrollPane;
-    private JTable recommendationTable;
-    private JScrollPane recScrollPanel;
-    private JButton savePLaylistsButton;
-    private JButton loadPLaylistsButton;
-    private JButton printTestButton;
-    private JComboBox comboBox1 ;
+    private JScrollPane songPanel;
+    private JTable songTable;
+    private JButton processPlaylistsButton;
+    private JComboBox recType;
+    private JTextArea textArea1;
+    private JTextArea textArea2;
+    private JProgressBar parseProgress;
+    private JButton artistFindPlaylistsButton;
 
-    private DefaultTableModel songModel;
+    private DefaultTableModel queryModel;
     private DefaultTableModel artistModel;
+    private DefaultTableModel songModel;
+
 
     public MainGUI() {
 
@@ -46,11 +52,12 @@ public class MainGUI extends JFrame {
         setVisible(true);
 
         //Setting up tables
-        createTable("Songs Table");
+        createTable("Query Table");
         createTable("Artist Table");
+        createTable("Song Table");
 
 
-        searchArtistBtn.addActionListener(new ActionListener() {
+        searchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { searchArtistButtonPressed();
 
@@ -80,9 +87,15 @@ public class MainGUI extends JFrame {
 
             }
         });
-        getRecommendationButton.addActionListener(new ActionListener() {
+        songFindPlaylistsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { getRecommendationButtonPressed();
+            public void actionPerformed(ActionEvent e) { songFindPlaylistsButtonPressed();
+
+            }
+        });
+        artistFindPlaylistsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { artistFindPlaylistsButtonPressed();
 
             }
         });
@@ -92,7 +105,6 @@ public class MainGUI extends JFrame {
 
             }
         });
-
         savePLaylistsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { savePLaylistsButton();
@@ -105,27 +117,36 @@ public class MainGUI extends JFrame {
 
             }
         });
-        printTestButton.addActionListener(new ActionListener() {
+        processPlaylistsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { printTestButtonPressed();
+            public void actionPerformed(ActionEvent e) { processPlaylistsButtonPressed();
             }
         });
+
     }
+    //------------GUI METHODS----------------------
+
+
+
     //--------BUTTON METHODS-----------------------
 
-    private void printTestButtonPressed(){
-        Main.playlistHandler.printPlaylists();
-        Main.playlistHandler.updateArtistTables(artistModel);
-        Main.playlistHandler.updateTrackTables(songModel);
+    //--PARSE DATA
+    private void parseDataButtonPressed(){
+        System.out.println("Load Data button pressed");
+        Main.datasetHandler.parseArtists();
+        System.out.println("Artists Parsed");
+        Main.datasetHandler.parseSongs();
+        int amount = Main.songHandler.getSongs().size();
+        System.out.println("Songs Parsed"+amount);
     }
 
     //--SEARCH ARTISTS
     private void searchArtistButtonPressed(){
         if(searchTxt.getText()==""){
-            System.out.println("illegal term");
+            System.out.println("illegal term");// popup needed
         } else {
             System.out.println("Search button pressed");
-            artistSelectCombo.removeAllItems();
+            resultCombo.removeAllItems();
             songSelectCombo.removeAllItems();
             populateArtistsComboBox();
         }
@@ -139,13 +160,30 @@ public class MainGUI extends JFrame {
 
     }
 
-    //--PARSE ARTISTS
-    private void parseDataButtonPressed(){
-        System.out.println("Load Data button pressed");
-        Main.datasetHandler.parseArtists();
-        System.out.println("Artists Parsed");
-        Main.datasetHandler.parseSongs();
-        System.out.println("Songs Parsed");
+    //--GET RECOMMENDATION BY SONG
+    private void songFindPlaylistsButtonPressed(){
+        String selectedSong = songSelectCombo.getSelectedItem().toString();
+        String selectedArtist = resultCombo.getSelectedItem().toString();
+        for(int i=1; i<11; i++){
+            Main.datasetHandler.parsePLaylists(i);
+            Main.playlistHandler.getSongRecommendation(selectedArtist, selectedSong);
+            parseProgress.setValue(i*10);
+        }
+    }
+    //GET RECOMMENDATION
+    private void artistFindPlaylistsButtonPressed(){
+        String selectedArtist = resultCombo.getSelectedItem().toString();
+        for(int i=1; i<11; i++){
+            Main.datasetHandler.parsePLaylists(i);
+            Main.playlistHandler.getArtistRecommendation(selectedArtist);
+            parseProgress.setValue(i*10);
+        }
+    }
+
+    private void processPlaylistsButtonPressed(){
+        Main.playlistHandler.printPlaylists();
+        Main.playlistHandler.updateArtistTables(artistModel);
+        Main.playlistHandler.updateTrackTables(songModel);
     }
 
     //--SAVE DATA
@@ -160,26 +198,10 @@ public class MainGUI extends JFrame {
         Main.artistHandler.loadArtists();
         Main.songHandler.loadSongs();
     }
-    //--GET RECOMMENDATION
-    private void getRecommendationButtonPressed(){
-        String selectedSong = songSelectCombo.getSelectedItem().toString();
-        String selectedArtist = artistSelectCombo.getSelectedItem().toString();
-        Main.playlistHandler.getRecommendation(selectedArtist, selectedSong);
-    }
 
-    //--PARSE PLAYLISTS
+    //--PARSE PLAYLISTS USING SONG
     private void parsePlaylistsButtonPressed(){
-        String selectedSong = songSelectCombo.getSelectedItem().toString();
-        String selectedArtist = artistSelectCombo.getSelectedItem().toString();
-        for(int i=1; i<11; i++){
-            Main.datasetHandler.parsePLaylists(i);
-            Main.playlistHandler.getRecommendation(selectedArtist, selectedSong);
-        }
 
-        //
-        //for(int i=0; i<Main.playlistHandler.getPlaylists().size(); i++){
-        //    playlistCombo.addItem(Main.playlistHandler.getPlaylists().get(i).getPlaylistID());
-        //}
     }
 
     //--SAVE PLAYLISTS BUTTON
@@ -198,16 +220,16 @@ public class MainGUI extends JFrame {
     private void populateArtistsComboBox() {
         System.out.println("SearchArtist.populateComboBox");
         String searchInput = searchTxt.getText();
-        for(int i=0;i<Main.artistHandler.getArtists().size();i++) {
+        for (int i = 0; i < Main.artistHandler.getArtists().size(); i++) {
             if (Main.artistHandler.getArtists().get(i).getArtistName().toLowerCase().contains(searchInput.toLowerCase())) {
-                artistSelectCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());
+                resultCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());
             }
         }
     }
 
     private void populateSongsComboBox() {
         System.out.println("SearchSong.populateComboBox");
-        String selectedArtist = artistSelectCombo.getSelectedItem().toString();
+        String selectedArtist = resultCombo.getSelectedItem().toString();
         for(int i=0;i<Main.songHandler.getSongs().size();i++) {
             if (Main.songHandler.getSongs().get(i).getArtistName().toLowerCase().contains(selectedArtist.toLowerCase())) {
                 songSelectCombo.addItem(Main.songHandler.getSongs().get(i).getSongTitle());
@@ -217,15 +239,20 @@ public class MainGUI extends JFrame {
 
     private void createTable(String type) {
         System.out.println("Creating Table");
-        if(type == "Songs Table") {
-            String[] columnNames = {"Artist", "Title", "Count"};
-            songTable.setModel(new DefaultTableModel(null, columnNames));
-            songModel = (DefaultTableModel) songTable.getModel();
+        if(type == "Query Table") {
+            String[] columnNames = {"Search query", "type", "input"};
+            queryTable.setModel(new DefaultTableModel(null, columnNames));
+            queryModel = (DefaultTableModel) queryTable.getModel();
         }
-        if(type == "Artist Table"){
+        if(type == "Artist Table") {
             String[] columnNames = {"Artist Name", "Count"};
             artistTable.setModel(new DefaultTableModel(null, columnNames));
             artistModel = (DefaultTableModel) artistTable.getModel();
+        }
+        if(type == "Song Table") {
+            String[] columnNames = {"Artist", "Title", "Count"};
+            songTable.setModel(new DefaultTableModel(null, columnNames));
+            songModel = (DefaultTableModel) songTable.getModel();
         }
 
     }
