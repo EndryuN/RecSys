@@ -35,7 +35,6 @@ class PlaylistHandler {
     }
 
     fun printPlaylists(){
-
         for(playlist in playlists2){//Setting Hashsets for comparison
             for(track in playlist.tracks){
                 artistsSet.add(track.artistName)
@@ -44,14 +43,18 @@ class PlaylistHandler {
         }
         for(i in artistsSet){  // Setting artist array for counting
             duplicateArtist.add(ArtistRec(0, i, false))
+            println(i)
         }
         for(i in songsSet){ //Setting song array for counting
             var artistVar = i.split("£")[0]
             var songVar = i.split("£")[1]
             duplicateSong.add(TrackRec(0, artistVar, songVar, false))
+            println(i)
         }
-
+        var progressCounter = 0
         for (playlist in playlists2){ // for each playlist
+            progressCounter++
+            println("Playlist $progressCounter / ${playlists2.size} ")
             for (track in playlist.tracks){
                 for (artist in artistsSet) {
                     if (track.artistName == artist) {
@@ -59,7 +62,7 @@ class PlaylistHandler {
                     }
                 }
                 for (song in songsSet){
-                    if (song.contains(track.trackName)) {
+                    if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
                         duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
                     }
                 }

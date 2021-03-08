@@ -3,7 +3,9 @@ import kotlin.collections.ArrayList
 
 class SongHandler {
     var songs = ArrayList<Song>()
+    var searchedSongs = ArrayList<Song>()
     var p = Persistence()
+
 
     init{
         loadSongs()
@@ -39,5 +41,14 @@ class SongHandler {
 
     fun saveSongs() {
         p.saveToFile(songs, true)
+    }
+
+    fun searchArtistSongs(searchArtistTerm: String) {
+        searchedSongs.clear()
+        for(song in songs.sortedBy { it.songTitle }){
+            if(song.artistName.contains(searchArtistTerm)){
+                searchedSongs.add(song)
+            }
+        }
     }
 }

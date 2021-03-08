@@ -54,7 +54,7 @@ class DatasetHandler {
                         if(tokens[i].matches("-?\\d+(\\.\\d+)?".toRegex())){
                             stopFlag = false
                         }
-                        if(stopFlag){
+                        if(stopFlag){// determining the length of artist credits split by commas
                             artistLength++
                             customArtists += tokens[i]
                             if(tokens[i+1].matches("-?\\d+(\\.\\d+)?".toRegex())){

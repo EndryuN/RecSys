@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainGUI extends JFrame {
     private JPanel mainPanel;
@@ -15,6 +16,7 @@ public class MainGUI extends JFrame {
     private JButton loadPLaylistsButton;
     private JComboBox resultCombo;
     private JComboBox songSelectCombo;
+    private ArrayList songArray;
     private JComboBox playlistCombo;
     private JTable songTbl;
     private JButton getSongsBtn;
@@ -225,15 +227,16 @@ public class MainGUI extends JFrame {
                 resultCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());
             }
         }
+
     }
 
     private void populateSongsComboBox() {
         System.out.println("SearchSong.populateComboBox");
         String selectedArtist = resultCombo.getSelectedItem().toString();
-        for(int i=0;i<Main.songHandler.getSongs().size();i++) {
-            if (Main.songHandler.getSongs().get(i).getArtistName().toLowerCase().contains(selectedArtist.toLowerCase())) {
-                songSelectCombo.addItem(Main.songHandler.getSongs().get(i).getSongTitle());
-            }
+
+        Main.songHandler.searchArtistSongs(selectedArtist);
+        for(int i=0;i<Main.songHandler.getSearchedSongs().size();i++) {
+            songSelectCombo.addItem(Main.songHandler.getSearchedSongs().get(i).getSongTitle());
         }
     }
 
