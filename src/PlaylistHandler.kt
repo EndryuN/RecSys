@@ -2,6 +2,7 @@ import java.lang.IndexOutOfBoundsException
 import java.util.*
 import javax.swing.table.DefaultTableModel
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 class PlaylistHandler {
@@ -9,13 +10,17 @@ class PlaylistHandler {
     var playlists = ArrayList<Playlist>()
     var playlists2 = ArrayList<Playlist>()
 
-    var artistsSet = HashSet<String>()
+    var artistsSet = HashSet<Artist>()
     var songsSet = HashSet<String>()
+    var testvar = mutableSetOf<ArtistRec>()
+
 
     var duplicateSong = ArrayList<TrackRec>()
     var duplicateArtist = ArrayList<ArtistRec>()
+    var playlistholder = ArrayList<Artist>()
+    var maptest = mutableMapOf<String, Int>()
+    var artistArray = arrayOf(String)
 
-    var artistvar = ""
 
 
     var currentPlaylist = Playlist(
@@ -37,37 +42,68 @@ class PlaylistHandler {
     fun printPlaylists(){
         for(playlist in playlists2){//Setting Hashsets for comparison
             for(track in playlist.tracks){
-                artistsSet.add(track.artistName)
-                songsSet.add(track.artistName+"£"+track.trackName)
-            }
+                artistsSet.add(Artist(track.artistName.substring(2, track.artistName.length-1)))// maybe add it to a hash map over here
+                songsSet.add(track.artistName.substring(2, track.artistName.length-1)+"£"+track.trackName.substring(2, track.trackName.length-1))
+            }//.substring(2,song.artistName.length-1) .substring(2, song.trackName.length-1)
         }
+
         for(i in artistsSet){  // Setting artist array for counting
-            duplicateArtist.add(ArtistRec(0, i, false))
-            println(i)
+            duplicateArtist.add(ArtistRec(0, i.artistName, false))
         }
         for(i in songsSet){ //Setting song array for counting
             var artistVar = i.split("£")[0]
             var songVar = i.split("£")[1]
             duplicateSong.add(TrackRec(0, artistVar, songVar, false))
-            println(i)
         }
         var progressCounter = 0
+
+        for(playlist in playlists2) {
+            for(track in playlist.tracks) {
+                //make a seperate function to check this
+                //ALSO.... .joinToString()
+            }
+        }
+
+
         for (playlist in playlists2){ // for each playlist
+            //var playlistholder: ArrayList<Track> = playlist.tracks
+            playlistholder.clear()
+
+            for (track in playlist.tracks){
+                playlistholder.add(Artist(track.artistName))
+            }
+
             progressCounter++
             println("Playlist $progressCounter / ${playlists2.size} ")
-            for (track in playlist.tracks){
-                for (artist in artistsSet) {
-                    if (track.artistName == artist) {
-                        duplicateArtist[artistsSet.indexOf(artist)].duplicateCheck = true
-                    }
+            // over here
+            for (artist in artistsSet){
+                if (playlistholder.contains(artist.toString())){
+                    duplicateArtist[artistsSet.indexOf(artist)].duplicateCheck = true
+                    println("something is happening")
                 }
-                for (song in songsSet){
-                    if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
-                        duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
-                    }
+            }
+            for (song in songsSet){
+                if (playlist.tracks.contains(song)){
+                    duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
                 }
+            }
 
-            }// All the duplicates are marked as true
+
+
+
+        //    for (track in playlist.tracks){
+        //        for (artist in artistsSet) {
+        //            if (track.artistName == artist) {
+        //                duplicateArtist[artistsSet.indexOf(artist)].duplicateCheck = true
+        //            }
+        //        }
+        //        for (song in songsSet){
+        //            if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
+        //                duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
+        //            }
+        //        }
+//}
+            // All the duplicates are marked as true
             for(artist in duplicateArtist){
                 if(artist.duplicateCheck){
                     artist.duplicateCount++
@@ -103,14 +139,14 @@ class PlaylistHandler {
     fun updateArtistTables(artistTable: DefaultTableModel){
         artistTable.setNumRows(0)
         for(artist in duplicateArtist.sortedByDescending { it.duplicateCount }){
-            artistTable.addRow(arrayOf<Any>(artist.artistName.substring(2,artist.artistName.length-1), artist.duplicateCount))
+            artistTable.addRow(arrayOf<Any>(artist.artistName, artist.duplicateCount))
         }
     }
     fun updateTrackTables(songTable: DefaultTableModel){
         songTable.setNumRows(0)
         duplicateSong.sortedBy { it.duplicateCount }
         for(song in duplicateSong.sortedByDescending { it.duplicateCount }){
-            songTable.addRow(arrayOf<Any>(song.artistName.substring(2,song.artistName.length-1), song.trackName.substring(2, song.trackName.length-1), song.duplicateCount))
+            songTable.addRow(arrayOf<Any>(song.artistName, song.trackName, song.duplicateCount))
         }
     }
 

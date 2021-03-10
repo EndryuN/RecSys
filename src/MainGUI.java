@@ -23,18 +23,16 @@ public class MainGUI extends JFrame {
     private JButton loadDataBtn;
     private JButton saveDataBtn;
     private JButton songFindPlaylistsButton;
-    private JButton parsePlaylistsButton;
+    private JButton findPlaylistsButton;
     private JScrollPane queryPanel;
     private JTable queryTable;
     private JScrollPane artistPanel;
     private JTable artistTable;
     private JScrollPane songPanel;
     private JTable songTable;
-    private JButton processPlaylistsButton;
+    private JButton showResultsButton;
     private JComboBox recType;
     private JTextArea textArea1;
-    private JTextArea textArea2;
-    private JProgressBar parseProgress;
     private JButton artistFindPlaylistsButton;
 
     private DefaultTableModel queryModel;
@@ -101,7 +99,7 @@ public class MainGUI extends JFrame {
 
             }
         });
-        parsePlaylistsButton.addActionListener(new ActionListener() {
+        findPlaylistsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { parsePlaylistsButtonPressed();
 
@@ -119,9 +117,9 @@ public class MainGUI extends JFrame {
 
             }
         });
-        processPlaylistsButton.addActionListener(new ActionListener() {
+        showResultsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { processPlaylistsButtonPressed();
+            public void actionPerformed(ActionEvent e) { showResultsButtonPressed();
             }
         });
 
@@ -136,10 +134,11 @@ public class MainGUI extends JFrame {
     private void parseDataButtonPressed(){
         System.out.println("Load Data button pressed");
         Main.datasetHandler.parseArtists();
-        System.out.println("Artists Parsed");
+        int amount = Main.artistHandler.getArtists().size();
+        System.out.println(amount+" Artists Parsed");
         Main.datasetHandler.parseSongs();
-        int amount = Main.songHandler.getSongs().size();
-        System.out.println("Songs Parsed"+amount);
+        amount = Main.songHandler.getSongs().size();
+        System.out.println(amount+" Songs Parsed");
     }
 
     //--SEARCH ARTISTS
@@ -169,20 +168,20 @@ public class MainGUI extends JFrame {
         for(int i=1; i<11; i++){
             Main.datasetHandler.parsePLaylists(i);
             Main.playlistHandler.getSongRecommendation(selectedArtist, selectedSong);
-            parseProgress.setValue(i*10);
         }
     }
     //GET RECOMMENDATION
     private void artistFindPlaylistsButtonPressed(){
+        //songFindPlaylistsButton.setEnabled(false);
         String selectedArtist = resultCombo.getSelectedItem().toString();
         for(int i=1; i<11; i++){
             Main.datasetHandler.parsePLaylists(i);
             Main.playlistHandler.getArtistRecommendation(selectedArtist);
-            parseProgress.setValue(i*10);
         }
     }
+////-------SHOW RESULTS-------------------!!!!
+    private void showResultsButtonPressed(){
 
-    private void processPlaylistsButtonPressed(){
         Main.playlistHandler.printPlaylists();
         Main.playlistHandler.updateArtistTables(artistModel);
         Main.playlistHandler.updateTrackTables(songModel);
