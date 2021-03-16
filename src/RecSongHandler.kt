@@ -11,7 +11,7 @@ class RecSongHandler {
     fun incrementSong(){}
 
     fun songExists(artistName: String, trackName: String){
-        if(songs.lastIndex(RecSong())
+        if()
     }
 
 }
