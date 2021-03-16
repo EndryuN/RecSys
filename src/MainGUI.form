@@ -104,12 +104,12 @@
               <text value="Find Playlist (Artist)"/>
             </properties>
           </component>
-          <component id="c708d" class="javax.swing.JButton" binding="processPlaylistsButton">
+          <component id="c708d" class="javax.swing.JButton" binding="showResultsButton">
             <constraints>
               <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Process Playlists"/>
+              <text value="Show results "/>
             </properties>
           </component>
         </children>
@@ -185,17 +185,9 @@
               <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
-          <component id="ffdcd" class="javax.swing.JButton" binding="saveDataBtn">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Save Data"/>
-            </properties>
-          </component>
           <component id="78621" class="javax.swing.JButton" binding="savePLaylistsButton" default-binding="true">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Save Playlists"/>
@@ -207,14 +199,6 @@
             </constraints>
             <properties/>
           </component>
-          <component id="6c7f9" class="javax.swing.JButton" binding="parsePlaylistsButton">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Parse Playlists"/>
-            </properties>
-          </component>
           <component id="587bf" class="javax.swing.JButton" binding="loadPLaylistsButton" default-binding="true">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -223,9 +207,25 @@
               <text value="Load Playlists"/>
             </properties>
           </component>
+          <component id="6c7f9" class="javax.swing.JButton" binding="findPlaylistsButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Find Playlists"/>
+            </properties>
+          </component>
+          <component id="ffdcd" class="javax.swing.JButton" binding="saveDataBtn">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Save Data"/>
+            </properties>
+          </component>
           <component id="60474" class="javax.swing.JButton" binding="loadDataBtn">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Load Data"/>
@@ -233,7 +233,7 @@
           </component>
           <component id="ededa" class="javax.swing.JComboBox" binding="playlistCombo">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
