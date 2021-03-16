@@ -1,5 +1,4 @@
 import java.lang.IndexOutOfBoundsException
-import java.util.*
 import javax.swing.table.DefaultTableModel
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
@@ -12,8 +11,8 @@ class PlaylistHandler {
     var artistsSet = HashSet<String>()
     var songsSet = HashSet<String>()
 
-    var duplicateSong = ArrayList<TrackRec>()
-    var duplicateArtist = ArrayList<ArtistRec>()
+    var duplicateSong = ArrayList<RecSong>()
+    var duplicateArtist = ArrayList<RecArtist>()
 
     var artistvar = ""
 
@@ -33,6 +32,17 @@ class PlaylistHandler {
         currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
     }
+    fun importDataTest(){
+        for(playlist in playlists2){
+            for(track in playlist.tracks){
+
+                Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
+            }
+        }
+
+
+
+    }
 
     fun printPlaylists(){
         for(playlist in playlists2){//Setting Hashsets for comparison
@@ -42,7 +52,7 @@ class PlaylistHandler {
             }
         }
         for(i in artistsSet){  // Setting artist array for counting
-            duplicateArtist.add(ArtistRec(0, i, false))
+            duplicateArtist.add(RecArtist(0, i, false))
             println(i)
         }
     //    for(i in songsSet){ //Setting song array for counting

@@ -12,7 +12,7 @@ class ArtistHandler {
 
     )
     init{
-        loadArtists()
+        //loadArtists()
     }
 
     fun createArtist(
