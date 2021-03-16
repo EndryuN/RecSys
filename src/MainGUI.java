@@ -33,8 +33,6 @@ public class MainGUI extends JFrame {
     private JButton processPlaylistsButton;
     private JComboBox recType;
     private JTextArea textArea1;
-    private JTextArea textArea2;
-    private JProgressBar parseProgress;
     private JButton artistFindPlaylistsButton;
 
     private DefaultTableModel queryModel;
@@ -169,7 +167,6 @@ public class MainGUI extends JFrame {
         for(int i=1; i<11; i++){
             Main.datasetHandler.parsePLaylists(i);
             Main.playlistHandler.getSongRecommendation(selectedArtist, selectedSong);
-            parseProgress.setValue(i*10);
         }
     }
     //GET RECOMMENDATION
@@ -178,14 +175,13 @@ public class MainGUI extends JFrame {
         for(int i=1; i<11; i++){
             Main.datasetHandler.parsePLaylists(i);
             Main.playlistHandler.getArtistRecommendation(selectedArtist);
-            parseProgress.setValue(i*10);
         }
     }
 
     private void processPlaylistsButtonPressed(){
         Main.playlistHandler.printPlaylists();
         Main.playlistHandler.updateArtistTables(artistModel);
-        Main.playlistHandler.updateTrackTables(songModel);
+        //Main.playlistHandler.updateTrackTables(songModel);
     }
 
     //--SAVE DATA

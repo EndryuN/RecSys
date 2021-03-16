@@ -37,35 +37,35 @@ class PlaylistHandler {
     fun printPlaylists(){
         for(playlist in playlists2){//Setting Hashsets for comparison
             for(track in playlist.tracks){
-                artistsSet.add(track.artistName)
-                songsSet.add(track.artistName+"£"+track.trackName)
+                artistsSet.add(track.artistName.substring(2, track.artistName.length-1))
+                //songsSet.add(track.artistName+"£"+track.trackName)
             }
         }
         for(i in artistsSet){  // Setting artist array for counting
             duplicateArtist.add(ArtistRec(0, i, false))
             println(i)
         }
-        for(i in songsSet){ //Setting song array for counting
-            var artistVar = i.split("£")[0]
-            var songVar = i.split("£")[1]
-            duplicateSong.add(TrackRec(0, artistVar, songVar, false))
-            println(i)
-        }
+    //    for(i in songsSet){ //Setting song array for counting
+    //        var artistVar = i.split("£")[0]
+    //        var songVar = i.split("£")[1]
+    //        duplicateSong.add(TrackRec(0, artistVar, songVar, false))
+    //        println(i)
+    //    }
         var progressCounter = 0
         for (playlist in playlists2){ // for each playlist
             progressCounter++
             println("Playlist $progressCounter / ${playlists2.size} ")
             for (track in playlist.tracks){
                 for (artist in artistsSet) {
-                    if (track.artistName == artist) {
+                    if (track.artistName.contains(artist)) {
                         duplicateArtist[artistsSet.indexOf(artist)].duplicateCheck = true
                     }
                 }
-                for (song in songsSet){
-                    if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
-                        duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
-                    }
-                }
+        //        for (song in songsSet){
+        //            if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
+        //                duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
+        //            }
+        //        }
 
             }// All the duplicates are marked as true
             for(artist in duplicateArtist){
@@ -74,12 +74,12 @@ class PlaylistHandler {
                     artist.duplicateCheck = false
                 }
             }
-            for(song in duplicateSong){
-                if(song.duplicateCheck){
-                    song.duplicateCount++
-                    song.duplicateCheck = false
-                }
-            }
+    //        for(song in duplicateSong){
+    //            if(song.duplicateCheck){
+    //                song.duplicateCount++
+    //                song.duplicateCheck = false
+    //            }
+    //        }
 
         }
         /*
@@ -103,7 +103,7 @@ class PlaylistHandler {
     fun updateArtistTables(artistTable: DefaultTableModel){
         artistTable.setNumRows(0)
         for(artist in duplicateArtist.sortedByDescending { it.duplicateCount }){
-            artistTable.addRow(arrayOf<Any>(artist.artistName.substring(2,artist.artistName.length-1), artist.duplicateCount))
+            artistTable.addRow(arrayOf<Any>(artist.artistName, artist.duplicateCount))
         }
     }
     fun updateTrackTables(songTable: DefaultTableModel){
