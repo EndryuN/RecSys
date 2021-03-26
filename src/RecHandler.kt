@@ -3,7 +3,7 @@ class RecHandler {
     var playlists3 = ArrayList<Track>()
 
     fun findPlaylists(){
-        Main.recSongHandler.songs.
+
 
     }
 

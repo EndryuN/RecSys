@@ -17,13 +17,13 @@ public class MainGUI extends JFrame {
     private JComboBox resultCombo;
     private JComboBox songSelectCombo;
     private ArrayList songArray;
-    private JComboBox playlistCombo;
+    private JComboBox queryCombo;
     private JTable songTbl;
     private JButton getSongsBtn;
     private JButton loadDataBtn;
     private JButton saveDataBtn;
     private JButton songFindPlaylistsButton;
-    private JButton findPlaylistsButton;
+    private JButton displayRecButton;
     private JScrollPane queryPanel;
     private JTable queryTable;
     private JScrollPane artistPanel;
@@ -34,6 +34,7 @@ public class MainGUI extends JFrame {
     private JComboBox recType;
     private JTextArea textArea1;
     private JButton artistFindPlaylistsButton;
+    private JButton recParserTestButton;
 
     private DefaultTableModel queryModel;
     private DefaultTableModel artistModel;
@@ -99,7 +100,7 @@ public class MainGUI extends JFrame {
 
             }
         });
-        findPlaylistsButton.addActionListener(new ActionListener() {
+        displayRecButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { parsePlaylistsButtonPressed();
 
@@ -123,12 +124,25 @@ public class MainGUI extends JFrame {
             }
         });
 
+        recParserTestButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { recParserTestButtonPressed();
+
+            }
+        });
     }
     //------------GUI METHODS----------------------
 
 
 
     //--------BUTTON METHODS-----------------------
+
+
+    private void recParserTestButtonPressed(){
+
+        Main.playlistHandler.importDataTest();
+        Main.recSongHandler.updateTrackTables(songModel);
+    }
 
     //--PARSE DATA
     private void parseDataButtonPressed(){
@@ -184,7 +198,7 @@ public class MainGUI extends JFrame {
 
         Main.playlistHandler.printPlaylists();
         Main.playlistHandler.updateArtistTables(artistModel);
-        //Main.playlistHandler.updateTrackTables(songModel);
+        Main.playlistHandler.updateTrackTables(songModel);
     }
 
     //--SAVE DATA

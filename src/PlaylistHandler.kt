@@ -32,15 +32,24 @@ class PlaylistHandler {
         currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
     }
-    fun importDataTest(){
-        for(playlist in playlists2){
-            for(track in playlist.tracks){
 
-                Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
+    fun importDataTest(){
+        var progressCounter = 0
+        for(playlist in playlists2){
+            progressCounter++
+            println("Playlist $progressCounter / ${playlists2.size} ")
+            for(track in playlist.tracks){
+                if(Main.recSongHandler.songExists(track.artistName, track.trackName)){
+                    var SongIndex = Main.recSongHandler.songs.indexOf(Main.recSongHandler.incrementSong(track.artistName, track.trackName))
+                    var SongHolder = Main.recSongHandler.songs.get(SongIndex)
+                    Main.recSongHandler.songs.removeAt(SongIndex)
+                    Main.recSongHandler.songs.add(0, SongHolder)
+                }else{
+                    Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
+                }
+
             }
         }
-
-
 
     }
 
@@ -48,19 +57,19 @@ class PlaylistHandler {
         for(playlist in playlists2){//Setting Hashsets for comparison
             for(track in playlist.tracks){
                 artistsSet.add(track.artistName.substring(2, track.artistName.length-1))
-                //songsSet.add(track.artistName+"£"+track.trackName)
+                songsSet.add(track.artistName+"£"+track.trackName)
             }
         }
         for(i in artistsSet){  // Setting artist array for counting
             duplicateArtist.add(RecArtist(0, i, false))
             println(i)
         }
-    //    for(i in songsSet){ //Setting song array for counting
-    //        var artistVar = i.split("£")[0]
-    //        var songVar = i.split("£")[1]
-    //        duplicateSong.add(TrackRec(0, artistVar, songVar, false))
-    //        println(i)
-    //    }
+        for(i in songsSet){ //Setting song array for counting
+            var artistVar = i.split("£")[0]
+            var songVar = i.split("£")[1]
+            duplicateSong.add(RecSong(0, artistVar, songVar))
+            println(i)
+        }
         var progressCounter = 0
         for (playlist in playlists2){ // for each playlist
             progressCounter++
@@ -71,11 +80,11 @@ class PlaylistHandler {
                         duplicateArtist[artistsSet.indexOf(artist)].duplicateCheck = true
                     }
                 }
-        //        for (song in songsSet){
-        //            if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
-        //                duplicateSong[songsSet.indexOf(song)].duplicateCheck = true
-        //            }
-        //        }
+                for (song in songsSet){
+                    if (song.contains(track.trackName) && song.contains(track.artistName)) { // AND ARTIST NAME NEEDS TO MATCH
+                        duplicateSong[songsSet.indexOf(song)].duplicateCount++
+                    }
+                }
 
             }// All the duplicates are marked as true
             for(artist in duplicateArtist){
