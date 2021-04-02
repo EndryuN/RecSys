@@ -6,7 +6,14 @@ import kotlin.collections.HashSet
 class PlaylistHandler {
     val p = Persistence()
     var playlists = ArrayList<Playlist>()
+    var playlists1 = ArrayList<Playlist>()
     var playlists2 = ArrayList<Playlist>()
+    var playlists3 = ArrayList<Playlist>()
+    var playlists4 = ArrayList<Playlist>()
+    var playlists5 = ArrayList<Playlist>()
+
+
+    var queryImport = ArrayList<Query>()
 
     var artistsSet = HashSet<String>()
     var songsSet = HashSet<String>()
@@ -25,19 +32,45 @@ class PlaylistHandler {
 
     fun createPlaylist(
         playlistID: Int
-        //collaborative: Boolean,
-        //num_artist: Int
     ){
         playlists.add(Playlist(playlistID))
         currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
     }
 
-    fun importDataTest(){
+    //--song based playlist crawling
+    fun getSongRecommendation(
+        index: Int,
+        artistName: String,
+        songTitle: String,
+        playlistRef: java.util.ArrayList<Playlist>
+    ){
+        for(i in playlists){
+            for(track in i.tracks){
+                if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.toLowerCase().contains(artistName.toLowerCase())){
+                    playlistRef.add(i)//////
+                    break
+                }
+            }
+        }
+        var playlistsize = playlistRef.size
+        println("////////////////////////////")
+        println("playlist size $playlistsize")
+        println("////////////////////////////")
+        if(playlistsize==0){
+            Main.queryHandler.queries[index].status = "not found"
+        }else{
+            Main.queryHandler.queries[index].status = "Playlists gathered"
+        }
+    }
+
+    //--process playlists
+    fun processPlaylists(playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>) {
+
         var progressCounter = 0
-        for(playlist in playlists2){
+        for(playlist in playlistRef){
             progressCounter++
-            println("Playlist $progressCounter / ${playlists2.size} ")
+            println("Playlist $progressCounter / ${playlistRef.size} ")
             for(track in playlist.tracks){
                 if(Main.recSongHandler.songExists(track.artistName, track.trackName)){
                     var SongIndex = Main.recSongHandler.songs.indexOf(Main.recSongHandler.incrementSong(track.artistName, track.trackName))
@@ -47,10 +80,10 @@ class PlaylistHandler {
                 }else{
                     Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
                 }
-
             }
         }
-
+        recRef.addAll(Main.recSongHandler.songs)
+        Main.recSongHandler.songs.clear()
     }
 
     fun printPlaylists(){
@@ -133,23 +166,7 @@ class PlaylistHandler {
         }
     }
 
-//--song based playlist crawling
-    fun getSongRecommendation(artistName: String, songTitle: String){
-        for(i in playlists){
-            for(track in i.tracks){
-                if(track.trackName.contains(songTitle) && track.artistName.contains(artistName)){
-                    println(i)
-                    playlists2.add(i)
-                    break
-                }
-            }
-        }
-        playlists.clear()
-        var playlistsize = playlists2.size
-        println("////////////////////////////")
-        println("playlist2 size $playlistsize")
-        println("////////////////////////////")
-    }
+
 //----artist based crawling
     fun getArtistRecommendation(artistName: String){
         for(i in playlists){
@@ -167,19 +184,4 @@ class PlaylistHandler {
         println("playlist2 size $playlistsize")
         println("////////////////////////////")
     }
-
-    fun loadPlaylists(){
-        try {
-            playlists2 = p.loadPlaylists()
-        }catch (iob : IndexOutOfBoundsException){
-            println("Projects file was empty on load")
-            println("-------------------------\n")
-        }
-    }
-
-    fun savePlaylists(){
-        p.savePlaylists(playlists2)
-        print("saved artists")
-    }
-
 }

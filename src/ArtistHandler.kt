@@ -20,17 +20,4 @@ class ArtistHandler {
     ){
         artists.add(Artist(artistName))
     }
-    fun loadArtists(){
-        try {
-            artists = p.loadFromFile()
-        }catch (iob : IndexOutOfBoundsException){
-            println("Projects file was empty on load")
-            println("-------------------------\n")
-        }
-    }
-
-    fun saveArtists(){
-        p.saveToFile(artists)
-        print("saved artists")
-    }
 }

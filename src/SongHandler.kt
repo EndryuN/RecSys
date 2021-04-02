@@ -1,4 +1,3 @@
-import javax.swing.table.DefaultTableModel
 import kotlin.collections.ArrayList
 
 class SongHandler {
@@ -8,7 +7,7 @@ class SongHandler {
 
 
     init{
-        loadSongs()
+
 
     }
     fun createSong(
@@ -33,14 +32,6 @@ class SongHandler {
         year: String
     ){
         songs.add(Song(acousticness, artistName, danceability, durationMS, energy, explicit, songID, instrumentalness, key, liveness, loudness, mode, songTitle, popularity, releaseDate, speechiness, tempo, valence, year))
-    }
-
-    fun loadSongs(){
-        songs = p.loadFromFile(true)
-    }
-
-    fun saveSongs() {
-        p.saveToFile(songs, true)
     }
 
     fun searchArtistSongs(searchArtistTerm: String) {

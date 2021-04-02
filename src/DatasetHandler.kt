@@ -103,7 +103,7 @@ class DatasetHandler {
                         tokens [tempo_IDX+artistLength+titleLength-2],
                         tokens [valence_IDX+artistLength+titleLength-2],
                         tokens [year_IDX+artistLength+titleLength-2])
-                } else if (tokens.size > 0) {
+                } else if (tokens.size > 0) {//dividing array into variables
                     Main.songHandler.createSong(
                         tokens [acousticness_IDX],
                         tokens [artistName_IDX],
@@ -140,7 +140,8 @@ class DatasetHandler {
             }
         }
     }
-    fun parseArtists() {
+
+    fun parseArtists() {// Parsing artists from the artist dataset
         var fileReader: BufferedReader? = null
         try {
             var line: String?
@@ -171,6 +172,11 @@ class DatasetHandler {
             }
         }
     }
+
+    // Parsing the playlist dataset for playlist extraction,
+    // limit of loaded playlist is around 350k
+    // the parser deals with the dataset 1 out of 10 parts at a time 100k with each iteration
+    // variables currently extracted:
     fun parsePLaylists(number: Int){
         var fileReader: BufferedReader? = null
         var collaborative: Boolean
@@ -228,7 +234,6 @@ class DatasetHandler {
             }
         }
     }
-
 
 
 }

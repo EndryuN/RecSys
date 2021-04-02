@@ -11,16 +11,16 @@ public class MainGUI extends JFrame {
     private JPanel eastPanel;
     private JTextField searchTxt;
     private JButton searchBtn;
-    private JButton parseDataButton;
-    private JButton savePLaylistsButton;
+    private JButton clearQueriesButton;
+    private JButton saveRecButton;
     private JButton loadPLaylistsButton;
     private JComboBox resultCombo;
     private JComboBox songSelectCombo;
     private ArrayList songArray;
-    private JComboBox queryCombo;
+    private JComboBox recCombo;
     private JTable songTbl;
     private JButton getSongsBtn;
-    private JButton loadDataBtn;
+    private JButton loadRecButton;
     private JButton saveDataBtn;
     private JButton songFindPlaylistsButton;
     private JButton displayRecButton;
@@ -32,13 +32,17 @@ public class MainGUI extends JFrame {
     private JTable songTable;
     private JButton showResultsButton;
     private JComboBox recType;
-    private JTextArea textArea1;
-    private JButton artistFindPlaylistsButton;
-    private JButton recParserTestButton;
+    private JButton addQuery;
+    private JButton processPlaylistsButton;
+    private JButton testButton1;
+    private JButton testButton2;
+    private JTextField songTxt;
 
     private DefaultTableModel queryModel;
     private DefaultTableModel artistModel;
     private DefaultTableModel songModel;
+
+    private boolean dataLoaded = false;
 
 
     public MainGUI() {
@@ -57,6 +61,13 @@ public class MainGUI extends JFrame {
         createTable("Artist Table");
         createTable("Song Table");
 
+        //Setting up recCombo
+        recCombo.addItem("rec1");
+        recCombo.addItem("rec2");
+        recCombo.addItem("rec3");
+        recCombo.addItem("rec4");
+        recCombo.addItem("rec5");
+
 
         searchBtn.addActionListener(new ActionListener() {
             @Override
@@ -70,15 +81,15 @@ public class MainGUI extends JFrame {
 
             }
         });
-        parseDataButton.addActionListener(new ActionListener() {
+        clearQueriesButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { parseDataButtonPressed();
+            public void actionPerformed(ActionEvent e) { clearQueriesButtonPressed();
 
             }
         });
-        loadDataBtn.addActionListener(new ActionListener() {
+        loadRecButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { loadDataButtonPressed();
+            public void actionPerformed(ActionEvent e) { loadRecButtonPressed();
 
             }
         });
@@ -94,21 +105,21 @@ public class MainGUI extends JFrame {
 
             }
         });
-        artistFindPlaylistsButton.addActionListener(new ActionListener() {
+        addQuery.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { artistFindPlaylistsButtonPressed();
+            public void actionPerformed(ActionEvent e) { addQueryPressed();
 
             }
         });
         displayRecButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { parsePlaylistsButtonPressed();
+            public void actionPerformed(ActionEvent e) { displayRecButtonPressed();
 
             }
         });
-        savePLaylistsButton.addActionListener(new ActionListener() {
+        saveRecButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { savePLaylistsButton();
+            public void actionPerformed(ActionEvent e) { saveRecButtonPressed();
 
             }
         });
@@ -124,139 +135,156 @@ public class MainGUI extends JFrame {
             }
         });
 
-        recParserTestButton.addActionListener(new ActionListener() {
+        processPlaylistsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { recParserTestButtonPressed();
+            public void actionPerformed(ActionEvent e) { processPlaylistsButtonPressed();
 
             }
         });
+        testButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { testButton1Pressed();
+
+            }
+        });
+        testButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { testButton2Pressed();
+
+            }
+        });
+
     }
-    //------------GUI METHODS----------------------
-
-
 
     //--------BUTTON METHODS-----------------------
 
-
-    private void recParserTestButtonPressed(){
-
-        Main.playlistHandler.importDataTest();
-        Main.recSongHandler.updateTrackTables(songModel);
-    }
-
-    //--PARSE DATA
-    private void parseDataButtonPressed(){
-        System.out.println("Load Data button pressed");
-        Main.datasetHandler.parseArtists();
-        int amount = Main.artistHandler.getArtists().size();
-        System.out.println(amount+" Artists Parsed");
-        Main.datasetHandler.parseSongs();
-        amount = Main.songHandler.getSongs().size();
-        System.out.println(amount+" Songs Parsed");
-    }
-
     //--SEARCH ARTISTS
     private void searchArtistButtonPressed(){
+        if(!dataLoaded){ //parsing artists and songs on first press
+            System.out.println("Load Data button pressed");
+            Main.datasetHandler.parseArtists();
+            int amount = Main.artistHandler.getArtists().size();
+            System.out.println(amount+" Artists Parsed");
+            //Main.datasetHandler.parseSongs();
+            //amount = Main.songHandler.getSongs().size();
+            //System.out.println(amount+" Songs Parsed");
+            dataLoaded = true;
+        }
         if(searchTxt.getText()==""){
             System.out.println("illegal term");// popup needed
         } else {
             System.out.println("Search button pressed");
             resultCombo.removeAllItems();
-            songSelectCombo.removeAllItems();
-            populateArtistsComboBox();
+            //songSelectCombo.removeAllItems();
+            String searchInput = searchTxt.getText();
+            for (int i = 0; i < Main.artistHandler.getArtists().size(); i++) {
+                if (Main.artistHandler.getArtists().get(i).getArtistName().toLowerCase().contains(searchInput.toLowerCase())) {
+                    resultCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());
+                }
+            }
         }
     }
 
-    //--GET SONGS
+    //--GET SONGS FROM THE ARTIST
     private void getSongsButtonPressed(){
         System.out.println("Get songs button pressed");
-        songSelectCombo.removeAllItems();
-        populateSongsComboBox();
-
+        //songSelectCombo.removeAllItems();
+        //String selectedArtist = resultCombo.getSelectedItem().toString();
+        //Main.songHandler.searchArtistSongs(selectedArtist);
+        //for(int i=0;i<Main.songHandler.getSearchedSongs().size();i++) {
+        //    songSelectCombo.addItem(Main.songHandler.getSearchedSongs().get(i).getSongTitle());
+        //}
     }
 
-    //--GET RECOMMENDATION BY SONG
+    //--ADD SONG TO QUERY
+    private void addQueryPressed(){
+        String selectedSong = songTxt.getText().toString();
+        String selectedArtist = resultCombo.getSelectedItem().toString();
+        Main.queryHandler.createQuery(selectedSong, selectedArtist, "to be processed");
+        Main.queryHandler.updateQueryTable(queryModel);
+        songTxt.setText("");
+    }
+
+    //--ClEAR QUERIES
+    private void clearQueriesButtonPressed(){
+        Main.queryHandler.clearQueries();
+        Main.queryHandler.updateQueryTable(queryModel);
+    }
+
+    //--FIND PLAYLISTS BY SONG
     private void songFindPlaylistsButtonPressed(){
-        String selectedSong = songSelectCombo.getSelectedItem().toString();
-        String selectedArtist = resultCombo.getSelectedItem().toString();
         for(int i=1; i<11; i++){
             Main.datasetHandler.parsePLaylists(i);
-            Main.playlistHandler.getSongRecommendation(selectedArtist, selectedSong);
+            Main.playlistHandler.getSongRecommendation(0, Main.queryHandler.getQueries().get(0).getArtistName(), Main.queryHandler.getQueries().get(0).getTrackName(), Main.playlistHandler.getPlaylists1());
+            Main.playlistHandler.getSongRecommendation(1, Main.queryHandler.getQueries().get(1).getArtistName(), Main.queryHandler.getQueries().get(1).getTrackName(), Main.playlistHandler.getPlaylists2());
+            Main.playlistHandler.getSongRecommendation(2, Main.queryHandler.getQueries().get(2).getArtistName(), Main.queryHandler.getQueries().get(2).getTrackName(), Main.playlistHandler.getPlaylists3());
+            Main.playlistHandler.getSongRecommendation(3, Main.queryHandler.getQueries().get(3).getArtistName(), Main.queryHandler.getQueries().get(3).getTrackName(), Main.playlistHandler.getPlaylists4());
+            Main.playlistHandler.getSongRecommendation(4, Main.queryHandler.getQueries().get(4).getArtistName(), Main.queryHandler.getQueries().get(4).getTrackName(), Main.playlistHandler.getPlaylists5());
+            Main.playlistHandler.getPlaylists().clear();
         }
+        Main.queryHandler.updateQueryTable(queryModel);
+        songFindPlaylistsButton.setEnabled(false);
     }
-    //GET RECOMMENDATION
-    private void artistFindPlaylistsButtonPressed(){
-        //songFindPlaylistsButton.setEnabled(false);
-        String selectedArtist = resultCombo.getSelectedItem().toString();
-        for(int i=1; i<11; i++){
-            Main.datasetHandler.parsePLaylists(i);
-            Main.playlistHandler.getArtistRecommendation(selectedArtist);
-        }
-    }
-////-------SHOW RESULTS-------------------!!!!
-    private void showResultsButtonPressed(){
 
+
+    private void processPlaylistsButtonPressed(){ // improved recommendation algorithm
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists1(), Main.recSongHandler.getRecommendation1());
+
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists2(), Main.recSongHandler.getRecommendation2());
+
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists3(), Main.recSongHandler.getRecommendation3());
+
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists4(), Main.recSongHandler.getRecommendation4());
+
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists5(), Main.recSongHandler.getRecommendation5());
+        processPlaylistsButton.setEnabled(false);
+    }
+
+    ////-------SHOW RESULTS-------------------!!!!
+    private void showResultsButtonPressed(){
         Main.playlistHandler.printPlaylists();
         Main.playlistHandler.updateArtistTables(artistModel);
         Main.playlistHandler.updateTrackTables(songModel);
     }
 
-    //--SAVE DATA
-    private void saveDataButtonPressed(){
-        System.out.println("Save Data pressed");
-        Main.artistHandler.saveArtists();
-        Main.songHandler.saveSongs();
-    }
-    //--LOAD SONGS
-    private void loadDataButtonPressed(){
-        System.out.println("Load Data pressed");
-        Main.artistHandler.loadArtists();
-        Main.songHandler.loadSongs();
-    }
 
-    //--PARSE PLAYLISTS USING SONG
-    private void parsePlaylistsButtonPressed(){
-
+    //--SHOW SELECTED RECOMMENDATION
+    private void displayRecButtonPressed(){
+        Main.recSongHandler.getSongs().clear();
+        String rec = recCombo.getSelectedItem().toString();
+        if(rec == "rec1"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation1());
+        }else if(rec == "rec2"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation2());
+        }else if(rec == "rec3"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation3());
+        }else if(rec == "rec4"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation4());
+        }else if(rec == "rec5"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation5());}
+        Main.recSongHandler.updateTrackTables(songModel);
     }
 
-    //--SAVE PLAYLISTS BUTTON
-    private void savePLaylistsButton(){
-        System.out.println("savePLaylistsButtonPressed");
-        Main.playlistHandler.savePlaylists();
-        System.out.println("Playlists saved");
-    }
-    private void loadPLaylistsButtonPressed(){
-        System.out.println("loadPLaylistsButtonPressed");
-        Main.playlistHandler.loadPlaylists();
-        System.out.println("Playlists loaded");
+    //--SAVE RECOMMENDATIONS
+    private void saveRecButtonPressed(){
+        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation1(), "rec1");
+        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation2(), "rec2");
+        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation3(), "rec3");
+        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation4(), "rec4");
+        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation5(), "rec5");
+        System.out.println("Recommendations saved");
     }
 
-
-    private void populateArtistsComboBox() {
-        System.out.println("SearchArtist.populateComboBox");
-        String searchInput = searchTxt.getText();
-        for (int i = 0; i < Main.artistHandler.getArtists().size(); i++) {
-            if (Main.artistHandler.getArtists().get(i).getArtistName().toLowerCase().contains(searchInput.toLowerCase())) {
-                resultCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());
-            }
-        }
-
+    //--LOAD RECOMMENDATIONS
+    private void loadRecButtonPressed(){
+        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation1(), "rec1");
+        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation2(), "rec2");
+        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation3(), "rec3");
+        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation4(), "rec4");
+        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation5(), "rec5");
+        System.out.println("Recommendations loaded");
     }
 
-    private void populateSongsComboBox() {
-        System.out.println("SearchSong.populateComboBox");
-        String selectedArtist = resultCombo.getSelectedItem().toString();
-
-        Main.songHandler.searchArtistSongs(selectedArtist);
-        for(int i=0;i<Main.songHandler.getSearchedSongs().size();i++) {
-            songSelectCombo.addItem(Main.songHandler.getSearchedSongs().get(i).getSongTitle());
-        }
-    }
 
     private void createTable(String type) {
         System.out.println("Creating Table");
         if(type == "Query Table") {
-            String[] columnNames = {"Search query", "type", "input"};
+            String[] columnNames = {"Index", "Artist", "Title", "Status"};
             queryTable.setModel(new DefaultTableModel(null, columnNames));
             queryModel = (DefaultTableModel) queryTable.getModel();
         }
@@ -272,4 +300,37 @@ public class MainGUI extends JFrame {
         }
 
     }
+    //------------TEST METHODS----------------------
+    private void testButton1Pressed() { Main.testHandler.test1(); }
+
+    private void testButton2Pressed(){
+        Main.testHandler.test2();
+    }
+
+    //----------OLD METHODS-------------------------
+
+    //GET RECOMMENDATION BY ARTIST
+    private void artistFindPlaylistsButtonPressed(){
+        //songFindPlaylistsButton.setEnabled(false);
+        String selectedArtist = resultCombo.getSelectedItem().toString();
+        for(int i=1; i<11; i++){
+            Main.datasetHandler.parsePLaylists(i);
+            Main.playlistHandler.getArtistRecommendation(selectedArtist);
+        }
+    }
+    //--SAVE DATA
+    private void saveDataButtonPressed(){
+        System.out.println("Save Data pressed");
+        //Main.artistHandler.saveArtists();
+        //Main.songHandler.saveSongs();
+    }
+    //--LOAD SONGS
+    private void loadPLaylistsButtonPressed(){
+        System.out.println("loadPLaylistsButtonPressed");
+        //Main.playlistHandler.loadPlaylists();
+        System.out.println("Playlists loaded");
+    }
+
+
+
 }
