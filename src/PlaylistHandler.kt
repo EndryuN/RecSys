@@ -12,22 +12,27 @@ class PlaylistHandler {
     var playlists4 = ArrayList<Playlist>()
     var playlists5 = ArrayList<Playlist>()
 
-    var artistsSet = HashSet<String>()
+
+    var queryImport = ArrayList<Query>()
+
+
     var songsSet = HashSet<String>()
 
     var duplicateSong = ArrayList<RecSong>()
     var duplicateArtist = ArrayList<RecArtist>()
 
+    var artistvar = ""
+
 
     var currentPlaylist = Playlist(
         playlistID = 0
+        //collaborative = true
     )
-
 
     fun createPlaylist(
         playlistID: Int
     ){
-        playlists.add(Playlist(playlistID)) //adding playlist to the list
+        playlists.add(Playlist(playlistID))
         currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
     }
@@ -41,8 +46,8 @@ class PlaylistHandler {
     ){
         for(i in playlists){
             for(track in i.tracks){
-                if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.toLowerCase().contains(artistName.toLowerCase())){
-                    playlistRef.add(i)//
+                if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.contains(artistName)){
+                    playlistRef.add(i)//////
                     break
                 }
             }
@@ -54,18 +59,20 @@ class PlaylistHandler {
         if(playlistsize==0){
             Main.queryHandler.queries[index].status = "not found"
         }else{
-            Main.queryHandler.queries[index].status = "Playlists gathered"
+            Main.queryHandler.queries[index].status = "found"
+            Main.queryHandler.queries[index].playlistCount = playlistsize
         }
     }
 
-    //--processing playlists to obtain the recommendation
+    //--process playlists
     fun processPlaylists(playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>) {
         var progressCounter = 0
+        var artistsSet = HashSet<String>()
         for(playlist in playlistRef){
             progressCounter++
             println("Playlist $progressCounter / ${playlistRef.size} ")
             for(track in playlist.tracks){
-                if(Main.recSongHandler.songExists(track.artistName, track.trackName)){// if the song
+                if(Main.recSongHandler.songExists(track.artistName, track.trackName)){
                     var SongIndex = Main.recSongHandler.songs.indexOf(Main.recSongHandler.incrementSong(track.artistName, track.trackName))
                     var SongHolder = Main.recSongHandler.songs.get(SongIndex)
                     Main.recSongHandler.songs.removeAt(SongIndex)
@@ -73,15 +80,16 @@ class PlaylistHandler {
                 }else{
                     Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
                 }
-                if(progressCounter == playlistRef.size){
-
-                }
+            }
+            if (progressCounter == playlistRef.size){
+                //recRef
             }
         }
+
         recRef.addAll(Main.recSongHandler.songs)
         Main.recSongHandler.songs.clear()
     }
-
+/*
     fun printPlaylists(){
         for(playlist in playlists2){//Setting Hashsets for comparison
             for(track in playlist.tracks){
@@ -122,31 +130,14 @@ class PlaylistHandler {
                     artist.duplicateCheck = false
                 }
             }
-    //        for(song in duplicateSong){
-    //            if(song.duplicateCheck){
-    //                song.duplicateCount++
-    //                song.duplicateCheck = false
-    //            }
-    //        }
 
-        }
-        /*
-        for(element in duplicateArtist){
-            if(element.duplicateCount > 20){
-                println(element.artistName+" :"+element.duplicateCount)
-            }
-        }
-        println("////////SONGS///////////")
-        for(element in duplicateSong){
-            if(element.duplicateCount > 10){
-                println(element.trackName+" :"+element.duplicateCount)
-            }
-        }*/
         println("Unique artists: "+artistsSet.size)
         println("Unique songs: "+songsSet.size)
         println("Total playlists found: "+playlists2.size)
         println(duplicateSong.size)
     }
+    */
+
 
     fun updateArtistTables(artistTable: DefaultTableModel){
         artistTable.setNumRows(0)
