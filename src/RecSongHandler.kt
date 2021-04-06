@@ -20,6 +20,7 @@ class RecSongHandler {
         songs.add(RecSong(duplicateCount, artistName, trackName))
     }
 
+    // Incrementing song count by one
     fun incrementSong(artistName: String, trackName: String): RecSong{
         songs.forEach { song ->
             if(artistName == song.artistName && trackName == song.trackName){
@@ -30,7 +31,7 @@ class RecSongHandler {
         }
         return songs[0]
     }
-
+    //Function for checking if the song already exists
     fun songExists(artistName: String, trackName: String): Boolean {
         for (song in songs){
             if(song.artistName==artistName && song.trackName==trackName){
@@ -40,23 +41,13 @@ class RecSongHandler {
         return false
     }
 
-    fun getCount(artistName: String, trackName: String): Int {
-        for (song in songs){
-            if(song.artistName.contains(artistName) && song.trackName.contains(trackName)){
-                return song.duplicateCount
-
-            }
-        }
-        return 0
-    }
-
     fun updateTrackTables(songTable: DefaultTableModel){
         songTable.setNumRows(0)
         songs.sortedBy { it.duplicateCount }
         for(song in songs.sortedByDescending { it.duplicateCount }){
-            songTable.addRow(arrayOf<Any>(song.artistName, song.trackName, song.duplicateCount))
+            songTable.addRow(arrayOf<Any>(song.artistName.substring(2,song.artistName.length-1), song.trackName.substring(2, song.trackName.length-1), song.duplicateCount))
         }
-    }//.substring(2,song.artistName.length-1).substring(2, song.trackName.length-1)
+    }
 
     fun saveRecommendation(recRef: java.util.ArrayList<RecSong>, refName: String) {
         p.saveToFile(recRef, refName)

@@ -189,7 +189,7 @@ class DatasetHandler {
         while(counter!=number*100){
             counter++
             try {
-                fileReader = BufferedReader(FileReader("$path/src/datasets/sorted/artistDataset ($counter).json"))
+                fileReader = BufferedReader(FileReader("$path/src/datasets/sorted/playlistDataset ($counter).json"))
                 // Read JSON header 8x
                 fileReader.readLine()
                 fileReader.readLine()

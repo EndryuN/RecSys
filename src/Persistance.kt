@@ -47,8 +47,38 @@ class Persistence {
         }
         return recList
     }
+    fun saveQuery(list: ArrayList<Query>){
+        var queryPath = recPath+"QueryList.txt"
+        var queryList = ArrayList<Query>()
+        queryList.addAll(list)
 
+        println("-------------------------\n " +
+                "Save Started - File path: \n $queryPath" +
+                "\n-------------------------")
+        try {
+            ObjectOutputStream(FileOutputStream(queryPath)).use{ it -> it.writeObject(queryList)}
+        }catch (ioe:IOException){
+            println("Error: Unable to save - IO Exception")
+        }
+        println("List of Songs Saved to file\n")
+    }
 
+    fun loadQuery(): ArrayList<Query>{
+        var queryPath = recPath+"QueryList.txt"
+
+        val nullList = ArrayList<Query>()
+        var queryList : ArrayList<Query>
+        try {
+            queryList = ObjectInputStream(FileInputStream(queryPath)).use { it -> it.readObject() as ArrayList<Query>}
+        }catch (ioe : IOException){
+            println("Error: Could not load from file:\n $queryPath \n")
+            return nullList
+        }catch (c: ClassNotFoundException){
+            println("Error: Class not found to cast")
+            return nullList
+        }
+        return queryList
+    }
 
 
 }
