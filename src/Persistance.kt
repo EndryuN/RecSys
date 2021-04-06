@@ -5,7 +5,6 @@ class Persistence {
     val recPath = "$path/src/recommendations/"
 
     init {
-
     }
 
     fun saveToFile(list: java.util.ArrayList<RecSong>, ref : String) {

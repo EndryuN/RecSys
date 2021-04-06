@@ -44,7 +44,6 @@ class RecSongHandler {
         for (song in songs){
             if(song.artistName.contains(artistName) && song.trackName.contains(trackName)){
                 return song.duplicateCount
-
             }
         }
         return 0
@@ -54,9 +53,9 @@ class RecSongHandler {
         songTable.setNumRows(0)
         songs.sortedBy { it.duplicateCount }
         for(song in songs.sortedByDescending { it.duplicateCount }){
-            songTable.addRow(arrayOf<Any>(song.artistName, song.trackName, song.duplicateCount))
+            songTable.addRow(arrayOf<Any>(song.artistName.substring(2,song.artistName.length-1), song.trackName.substring(2, song.trackName.length-1), song.duplicateCount))
         }
-    }//.substring(2,song.artistName.length-1).substring(2, song.trackName.length-1)
+    }//
 
     fun saveRecommendation(recRef: java.util.ArrayList<RecSong>, refName: String) {
         p.saveToFile(recRef, refName)

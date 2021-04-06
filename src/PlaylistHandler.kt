@@ -12,28 +12,22 @@ class PlaylistHandler {
     var playlists4 = ArrayList<Playlist>()
     var playlists5 = ArrayList<Playlist>()
 
-
-    var queryImport = ArrayList<Query>()
-
     var artistsSet = HashSet<String>()
     var songsSet = HashSet<String>()
 
     var duplicateSong = ArrayList<RecSong>()
     var duplicateArtist = ArrayList<RecArtist>()
 
-    var artistvar = ""
-
 
     var currentPlaylist = Playlist(
         playlistID = 0
-        //collaborative = true
     )
 
 
     fun createPlaylist(
         playlistID: Int
     ){
-        playlists.add(Playlist(playlistID))
+        playlists.add(Playlist(playlistID)) //adding playlist to the list
         currentPlaylist = playlists.last()
         Main.trackHandler.tracks = currentPlaylist.tracks
     }
@@ -48,7 +42,7 @@ class PlaylistHandler {
         for(i in playlists){
             for(track in i.tracks){
                 if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.toLowerCase().contains(artistName.toLowerCase())){
-                    playlistRef.add(i)//////
+                    playlistRef.add(i)//
                     break
                 }
             }
@@ -64,21 +58,23 @@ class PlaylistHandler {
         }
     }
 
-    //--process playlists
+    //--processing playlists to obtain the recommendation
     fun processPlaylists(playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>) {
-
         var progressCounter = 0
         for(playlist in playlistRef){
             progressCounter++
             println("Playlist $progressCounter / ${playlistRef.size} ")
             for(track in playlist.tracks){
-                if(Main.recSongHandler.songExists(track.artistName, track.trackName)){
+                if(Main.recSongHandler.songExists(track.artistName, track.trackName)){// if the song
                     var SongIndex = Main.recSongHandler.songs.indexOf(Main.recSongHandler.incrementSong(track.artistName, track.trackName))
                     var SongHolder = Main.recSongHandler.songs.get(SongIndex)
                     Main.recSongHandler.songs.removeAt(SongIndex)
                     Main.recSongHandler.songs.add(0, SongHolder)
                 }else{
                     Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
+                }
+                if(progressCounter == playlistRef.size){
+
                 }
             }
         }

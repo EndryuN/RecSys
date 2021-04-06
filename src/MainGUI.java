@@ -251,6 +251,7 @@ public class MainGUI extends JFrame {
     //--SHOW SELECTED RECOMMENDATION
     private void displayRecButtonPressed(){
         Main.recSongHandler.getSongs().clear();
+        Main.recSongHandler.updateTrackTables(songModel);
         String rec = recCombo.getSelectedItem().toString();
         if(rec == "rec1"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation1());
         }else if(rec == "rec2"){ Main.recSongHandler.setSongs(Main.recSongHandler.getRecommendation2());

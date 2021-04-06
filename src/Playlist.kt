@@ -9,5 +9,6 @@ data class Playlist(
 ): Serializable
 {
     var tracks = arrayListOf<Track>()
+
 }
 
