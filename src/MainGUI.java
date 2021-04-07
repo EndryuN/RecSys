@@ -215,15 +215,16 @@ public class MainGUI extends JFrame {
         songFindPlaylistsButton.setEnabled(false);
     }
     private void processPlaylistsButtonPressed(){ // improved recommendation algorithm
-        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists1(), Main.recSongHandler.getRecommendation1());
-
-        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists2(), Main.recSongHandler.getRecommendation2());
-
-        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists3(), Main.recSongHandler.getRecommendation3());
-
-        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists4(), Main.recSongHandler.getRecommendation4());
-
-        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists5(), Main.recSongHandler.getRecommendation5());
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists1(),
+                Main.recSongHandler.getRecommendation1(), Main.recArtistHandler.getRecArtists1());
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists2(),
+                Main.recSongHandler.getRecommendation2(), Main.recArtistHandler.getRecArtists2());
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists3(),
+                Main.recSongHandler.getRecommendation3(), Main.recArtistHandler.getRecArtists3());
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists4(),
+                Main.recSongHandler.getRecommendation4(), Main.recArtistHandler.getRecArtists4());
+        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists5(),
+                Main.recSongHandler.getRecommendation5(), Main.recArtistHandler.getRecArtists5());
         processPlaylistsButton.setEnabled(false);
     }
 
@@ -254,34 +255,52 @@ public class MainGUI extends JFrame {
 
     //--SHOW SELECTED RECOMMENDATION
     private void displayRecButtonPressed(){
-        Main.recSongHandler.getSongs().clear();
+        Main.recSongHandler.getSongs().clear();//clearing previous instance
+        Main.recArtistHandler.getArtists().clear();//clearing previous instance
         Main.recSongHandler.updateTrackTables(songModel);
+        Main.recArtistHandler.updateArtistTables(artistModel);
         String rec = recCombo.getSelectedItem().toString();
         if(rec == "rec1"){ Main.recSongHandler.getSongs().addAll(Main.recSongHandler.getRecommendation1());
+            Main.recArtistHandler.getArtists().addAll(Main.recArtistHandler.getRecArtists1());
         }else if(rec == "rec2"){ Main.recSongHandler.getSongs().addAll(Main.recSongHandler.getRecommendation2());
+            Main.recArtistHandler.getArtists().addAll(Main.recArtistHandler.getRecArtists2());
         }else if(rec == "rec3"){ Main.recSongHandler.getSongs().addAll(Main.recSongHandler.getRecommendation3());
+            Main.recArtistHandler.getArtists().addAll(Main.recArtistHandler.getRecArtists3());
         }else if(rec == "rec4"){ Main.recSongHandler.getSongs().addAll(Main.recSongHandler.getRecommendation4());
-        }else if(rec == "rec5"){ Main.recSongHandler.getSongs().addAll(Main.recSongHandler.getRecommendation5());}
+            Main.recArtistHandler.getArtists().addAll(Main.recArtistHandler.getRecArtists4());
+        }else if(rec == "rec5"){ Main.recSongHandler.getSongs().addAll(Main.recSongHandler.getRecommendation5());
+            Main.recArtistHandler.getArtists().addAll(Main.recArtistHandler.getRecArtists4());}
         Main.recSongHandler.updateTrackTables(songModel);
+        Main.recArtistHandler.updateArtistTables(artistModel);
     }
 
     //--SAVE RECOMMENDATIONS
     private void saveRecButtonPressed(){
-        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation1(), "rec1");
-        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation2(), "rec2");
-        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation3(), "rec3");
-        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation4(), "rec4");
-        Main.recSongHandler.saveRecommendation(Main.recSongHandler.getRecommendation5(), "rec5");
+        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation1(), "rec1");
+        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation2(), "rec2");
+        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation3(), "rec3");
+        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation4(), "rec4");
+        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation5(), "rec5");
+        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists1(), "rec1");
+        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists2(), "rec2");
+        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists3(), "rec3");
+        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists4(), "rec4");
+        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists5(), "rec5");
         System.out.println("Recommendations saved");
     }
 
     //--LOAD RECOMMENDATIONS
     private void loadRecButtonPressed(){
-        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation1(), "rec1");
-        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation2(), "rec2");
-        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation3(), "rec3");
-        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation4(), "rec4");
-        Main.recSongHandler.loadRecommendation(Main.recSongHandler.getRecommendation5(), "rec5");
+        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation1(), "rec1");
+        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation2(), "rec2");
+        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation3(), "rec3");
+        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation4(), "rec4");
+        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation5(), "rec5");
+        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists1(), "rec1");
+        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists2(), "rec2");
+        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists3(), "rec3");
+        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists4(), "rec4");
+        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists5(), "rec5");
         System.out.println("Recommendations loaded");
     }
 

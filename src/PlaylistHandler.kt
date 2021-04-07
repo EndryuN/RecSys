@@ -38,12 +38,7 @@ class PlaylistHandler {
     }
 
     //--song based playlist crawling
-    fun getSongRecommendation(
-        index: Int,
-        artistName: String,
-        songTitle: String,
-        playlistRef: java.util.ArrayList<Playlist>
-    ){
+    fun getSongRecommendation(index: Int, artistName: String, songTitle: String, playlistRef: java.util.ArrayList<Playlist>){
         for(i in playlists){
             for(track in i.tracks){
                 if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.contains(artistName)){
@@ -53,9 +48,6 @@ class PlaylistHandler {
             }
         }
         var playlistsize = playlistRef.size
-        println("////////////////////////////")
-        println("playlist size $playlistsize")
-        println("////////////////////////////")
         if(playlistsize==0){
             Main.queryHandler.queries[index].status = "not found"
         }else{
@@ -65,13 +57,14 @@ class PlaylistHandler {
     }
 
     //--process playlists
-    fun processPlaylists(playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>) {
+    fun processPlaylists(playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>, recRefArtist: ArrayList<RecArtist>) {
         var progressCounter = 0
         var artistsSet = HashSet<String>()
         for(playlist in playlistRef){
             progressCounter++
             println("Playlist $progressCounter / ${playlistRef.size} ")
             for(track in playlist.tracks){
+                artistsSet.add(track.artistName)//artist
                 if(Main.recSongHandler.songExists(track.artistName, track.trackName)){
                     var SongIndex = Main.recSongHandler.songs.indexOf(Main.recSongHandler.incrementSong(track.artistName, track.trackName))
                     var SongHolder = Main.recSongHandler.songs.get(SongIndex)
@@ -81,13 +74,13 @@ class PlaylistHandler {
                     Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
                 }
             }
-            if (progressCounter == playlistRef.size){
-                //recRef
-            }
+            Main.recArtistHandler.endOfPlaylistIncrement(artistsSet)
+            artistsSet.clear()
         }
-
         recRef.addAll(Main.recSongHandler.songs)
         Main.recSongHandler.songs.clear()
+        recRefArtist.addAll(Main.recArtistHandler.artists)
+        Main.recArtistHandler.artists.clear()
     }
 /*
     fun printPlaylists(){
@@ -172,3 +165,4 @@ class PlaylistHandler {
         println("////////////////////////////")
     }
 }
+

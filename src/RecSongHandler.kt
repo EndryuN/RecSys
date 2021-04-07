@@ -49,14 +49,14 @@ class RecSongHandler {
         }
     }
 
-    fun saveRecommendation(recRef: java.util.ArrayList<RecSong>, refName: String) {
-        p.saveToFile(recRef, refName)
+    fun saveRecSong(recRef: java.util.ArrayList<RecSong>, refName: String) {
+        p.saveRecSong(recRef, refName)
         print("saved $refName")
     }
 
-    fun loadRecommendation(recRef: java.util.ArrayList<RecSong>, recName: String) {
+    fun loadRecSong(recRef: java.util.ArrayList<RecSong>, recName: String) {
         try {
-            songs = p.loadFromFile(recName)
+            songs = p.loadRecSong(recName)
         }catch (iob : IndexOutOfBoundsException){
             println("Projects file was empty on load")
             println("-------------------------\n")

@@ -6,6 +6,14 @@ class QueryHandler {
     val p = Persistence()
     var queries = ArrayList<Query>()
 
+    var currentQuery = Query(
+        "rec1",
+        0,
+        "trackname",
+        "artistname",
+        "status",
+        0)
+
     fun createQuery(
         recID: String,
         trackName: String,
@@ -15,6 +23,7 @@ class QueryHandler {
     ){
         queries.add(Query(recID, queries.size, trackName, artistName, status, playlistCount))
     }
+
 
     fun updateQueryTable(queryTable: DefaultTableModel){
         queryTable.setNumRows(0)
