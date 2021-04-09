@@ -443,7 +443,7 @@ public class MainGUI extends JFrame {
             artistModel = (DefaultTableModel) artistTable.getModel();
         }
         if(type == "Song Table") {
-            String[] columnNames = {"Artist", "Title", "Percent", "Popularity"};
+            String[] columnNames = {"Artist", "Title", "% of playlists", "Popularity", "Danceability", "energy", "loudness", "valence"};
             songTable.setModel(new DefaultTableModel(null, columnNames));
             songTable.getColumnModel().getColumn(0).setPreferredWidth(100);
             songTable.getColumnModel().getColumn(2).setPreferredWidth(40);

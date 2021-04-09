@@ -24,8 +24,8 @@ class PlaylistHandler {
 
     //--song or artist based playlist crawling
     fun getSongRecommendation(index: Int, artistName: String, songTitle: String, playlistRef: java.util.ArrayList<Playlist>){
-        if(Main.queryHandler.queries[index].isSong){// Song based crawling
-            for(i in playlists){
+        if(Main.queryHandler.queries[index].isSong){// is this a song query or an artist query
+            for(i in playlists){// Song based crawling
                 for(track in i.tracks){
                     if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.contains(artistName)){
                         playlistRef.add(i)//////

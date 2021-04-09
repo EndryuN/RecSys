@@ -12,10 +12,6 @@ class RecArtistHandler {
     var recArtists4 = ArrayList<RecArtist>()
     var recArtists5 = ArrayList<RecArtist>()
 
-
-    var artistArray = String
-
-
     fun createRecArtist(
         duplicateCount: Int,
         artistName: String,
@@ -57,7 +53,6 @@ class RecArtistHandler {
             artist.percent = artist.duplicateCount.toDouble()/Main.queryHandler.currentQuery.playlistCount*100
         }
     }
-
 
     fun updateArtistTables(artistTable: DefaultTableModel){
         artistTable.setNumRows(0)

@@ -19,7 +19,7 @@ class RecSongHandler {
         trackName: String,
         track_uri: String
     ){
-        songs.add(RecSong(duplicateCount, artistName, trackName, 0.0, track_uri, "null"))
+        songs.add(RecSong(duplicateCount, artistName, trackName, 0.0, track_uri, "null", "null", "null", "null", "null"))
     }
 
     // Incrementing song count by one
@@ -85,6 +85,10 @@ class RecSongHandler {
                 for(rec in songs){
                     if(rec.track_uri==song.songID){
                         rec.popularity = song.popularity
+                        rec.danceability = song.danceability
+                        rec.energy = song.energy
+                        rec.loudness = song.loudness
+                        rec.valence = song.valence
                         break
                     }
                 }
@@ -98,7 +102,8 @@ class RecSongHandler {
         for(song in songs.sortedByDescending { it.duplicateCount }.drop(1)){
             songTable.addRow(arrayOf<Any>(song.artistName.substring(2,song.artistName.length-1),
                 song.trackName.substring(2, song.trackName.length-1),
-                song.percent.toString().substring(0,4) + "%", song.popularity))
+                song.percent.toString().substring(0,4) + "%", song.popularity,
+                song.danceability, song.energy, song.loudness, song.valence))
         }//song.duplicateCount)
     }
 
