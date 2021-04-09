@@ -23,9 +23,9 @@ private const val valence_IDX = 17
 private const val year_IDX = 18
 
 class DatasetHandler {
-
     private val path = System.getProperty("user.dir")
 
+    // Script for parsing song dataset
     fun parseSongs() {
         var fileReader: BufferedReader? = null
         try {
@@ -140,7 +140,7 @@ class DatasetHandler {
             }
         }
     }
-
+    // Script for parsing artist dataset
     fun parseArtists() {// Parsing artists from the artist dataset
         var fileReader: BufferedReader? = null
         try {
@@ -176,7 +176,6 @@ class DatasetHandler {
     // Parsing the playlist dataset for playlist extraction,
     // limit of loaded playlist is around 350k
     // the parser deals with the dataset 1 out of 10 parts at a time 100k with each iteration
-    // variables currently extracted:
     fun parsePLaylists(number: Int){
         var fileReader: BufferedReader? = null
         var collaborative: Boolean
@@ -184,6 +183,7 @@ class DatasetHandler {
         var countercounter: Int = number*100000-100000
         var artist: String = ""
         var title: String = ""
+        var track_uri: String = ""
         var j: Int = 0
         var line: String?
         while(counter!=number*100){
@@ -213,10 +213,13 @@ class DatasetHandler {
                         if(tokens[0].contains("artist_name")){
                             artist = tokens[1].dropLast(1)
                         }
+                        if(tokens[0].contains("track_uri")){
+                            track_uri = tokens[1].substring(16,38)
+                        }
                         if(tokens[0].contains("track_name")){
                             title = tokens[1].dropLast(1)
                             j--
-                            Main.trackHandler.createTrack(artist, title)
+                            Main.trackHandler.createTrack(artist, title, track_uri)
                         }
                     }
                     line = fileReader.readLine()
@@ -234,6 +237,4 @@ class DatasetHandler {
             }
         }
     }
-
-
 }

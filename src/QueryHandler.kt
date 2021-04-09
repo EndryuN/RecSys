@@ -3,7 +3,7 @@ import javax.swing.table.DefaultTableModel
 import kotlin.collections.ArrayList
 
 class QueryHandler {
-    val p = Persistence()
+    private val p = Persistence()
     var queries = ArrayList<Query>()
 
     var currentQuery = Query(
@@ -12,30 +12,33 @@ class QueryHandler {
         "trackname",
         "artistname",
         "status",
-        0)
+        0,
+        true
+    )
 
     fun createQuery(
         recID: String,
         trackName: String,
         artistName: String,
         status: String,
-        playlistCount: Int
+        playlistCount: Int,
+        isSong: Boolean
     ){
-        queries.add(Query(recID, queries.size, trackName, artistName, status, playlistCount))
+        queries.add(Query(recID, queries.size, trackName, artistName, status, playlistCount, isSong))
     }
-
-
+    //Used for updating query table
     fun updateQueryTable(queryTable: DefaultTableModel){
         queryTable.setNumRows(0)
         for(query in queries){
-            queryTable.addRow(arrayOf<Any>(query.recID, query.artistName, query.trackName, query.status))
+            queryTable.addRow(arrayOf<Any>(query.recID, query.artistName, query.trackName, query.status, query.playlistCount))
         }
     }
+    //Used for saving query list
     fun saveQuery(){
         p.saveQuery(queries)
     }
-
-    fun loadQueries(){
+    //Used for loading query list
+    fun loadQuery(){
         try {
             queries = p.loadQuery()
         }catch (iob : IndexOutOfBoundsException){
@@ -43,8 +46,7 @@ class QueryHandler {
             println("-------------------------\n")
         }
     }
-
-
+    //Used for clearing quaries
     fun clearQueries(){
         queries.clear()
     }

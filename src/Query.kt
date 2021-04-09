@@ -5,5 +5,6 @@ data class Query(
     var trackName: String,
     var artistName: String,
     var status: String,
-    var playlistCount: Int
+    var playlistCount: Int,
+    var isSong: Boolean
 ) : Serializable

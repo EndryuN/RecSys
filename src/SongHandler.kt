@@ -3,13 +3,7 @@ import kotlin.collections.ArrayList
 class SongHandler {
     var songs = ArrayList<Song>()
     var searchedSongs = ArrayList<Song>()
-    var p = Persistence()
 
-
-    init{
-
-
-    }
     fun createSong(
         acousticness: String,
         artistName: String,
