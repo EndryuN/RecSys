@@ -24,7 +24,7 @@ class PlaylistHandler {
 
     //--song or artist based playlist crawling
     fun getSongRecommendation(index: Int, artistName: String, songTitle: String, playlistRef: java.util.ArrayList<Playlist>){
-        if(Main.queryHandler.queries[index].isSong){// is this a song query or an artist query
+        if(Main.queryHandler.queries[index].isSong){// Song based query
             for(i in playlists){// Song based crawling
                 for(track in i.tracks){
                     if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.contains(artistName)){
@@ -33,11 +33,11 @@ class PlaylistHandler {
                     }
                 }
             }
-        }else{ // Artist based crawling
+        } else if(!Main.queryHandler.queries[index].isSong){ // Artist based crawling
             for(i in playlists){
                 for(track in i.tracks){
                     if(track.artistName.contains(artistName)){
-                        playlists.add(i)
+                        playlistRef.add(i)
                         break
                     }
                 }
@@ -52,7 +52,7 @@ class PlaylistHandler {
     }
 
     //--process playlists
-    fun processPlaylists(playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>, recRefArtist: ArrayList<RecArtist>) {
+    fun processPlaylists(index: Int, playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>, recRefArtist: ArrayList<RecArtist>) {
         var progressCounter = 0
         var artistsSet = HashSet<String>()
         for(playlist in playlistRef){
@@ -76,6 +76,7 @@ class PlaylistHandler {
         Main.recSongHandler.songs.clear()
         recRefArtist.addAll(Main.recArtistHandler.artists)
         Main.recArtistHandler.artists.clear()
+        Main.queryHandler.queries[index].status = "processed"
     }
 }
 

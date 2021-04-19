@@ -41,7 +41,10 @@ public class MainGUI extends JFrame {
     private JButton onlyArtistButton;
     private JButton filterPopularButton;
     private JButton otherArtistsButton;
-    private JButton testButtonButton;
+    private JButton songFeatureButton;
+    private JButton overPopularButton;
+    private JButton dataButton;
+    private JButton filter1countButton;
 
     private DefaultTableModel queryModel;
     private DefaultTableModel artistModel;
@@ -76,6 +79,9 @@ public class MainGUI extends JFrame {
         saveQueriesButton.setEnabled(false);
         onlyArtistButton.setEnabled(false);
         otherArtistsButton.setEnabled(false);
+        songFeatureButton.setEnabled(false);
+        filter1countButton.setEnabled(false);
+        filterPopularButton.setEnabled(false);
         searchArtistButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { searchArtistButtonPressed();
@@ -154,9 +160,21 @@ public class MainGUI extends JFrame {
 
             }
         });
-        testButtonButton.addActionListener(new ActionListener() {
+        songFeatureButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { testButtonButtonPressed();
+            public void actionPerformed(ActionEvent e) { songFeatureButtonPressed();
+
+            }
+        });
+        filter1countButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { filter1countButtonPressed();
+
+            }
+        });
+        filterPopularButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { filterPopularButtonPressed();
 
             }
         });
@@ -209,24 +227,17 @@ public class MainGUI extends JFrame {
         saveQueriesButton.setEnabled(true);
         String queryHolder = "rec"+(Main.queryHandler.getQueries().size()+1);
         String selectedArtist = resultCombo.getSelectedItem().toString();
-
         recCombo.addItem(queryHolder);
-        if(modeCombo.getSelectedItem()=="Song"){
+        if(modeCombo.getSelectedItem()=="Song"){// When the search query is selected to song
             if(songTxt.getText().isEmpty()){
                 String selectedSong = songSelectCombo.getSelectedItem().toString();
-                Main.queryHandler.createQuery(queryHolder,
-                        selectedSong, selectedArtist,
-                        "input", 0, true);
+                Main.queryHandler.createQuery(queryHolder, selectedSong, selectedArtist, "input", 0, true);
             } else {
-                Main.queryHandler.createQuery(queryHolder,
-                        songTxt.getText(), selectedArtist,
-                        "input", 0, true);
+                Main.queryHandler.createQuery(queryHolder, songTxt.getText(), selectedArtist, "input", 0, true);
                 songTxt.setText("");
             }
-        } else {
-            Main.queryHandler.createQuery(queryHolder,
-                    "null", selectedArtist,
-                    "input", 0, false);
+        } else {// When the search query is selected to artist
+            Main.queryHandler.createQuery(queryHolder, "----", selectedArtist, "input", 0, false);
         }
         Main.queryHandler.updateQueryTable(queryModel);
     }
@@ -234,133 +245,147 @@ public class MainGUI extends JFrame {
     private void clearQueriesButtonPressed(){
         Main.queryHandler.clearQueries();
         Main.queryHandler.updateQueryTable(queryModel);
-
+        saveQueriesButton.setEnabled(true);
     }
     //--FIND PLAYLISTS BY SONG
     private void findPlaylistsButtonPressed() {
+        songSelectCombo.removeAllItems();
         for (int i = 1; i < 11; i++) {
-            if (Main.queryHandler.getQueries().size() > 0) {
-                Main.datasetHandler.parsePLaylists(i);// Putting 100k playlists into the memory
+            Main.datasetHandler.parsePLaylists(i);// Putting 100k playlists into the memory
+            if (Main.queryHandler.getQueries().size() > 0 && Main.queryHandler.getQueries().get(0).getStatus() == "input") {
                 Main.playlistHandler.getSongRecommendation(0,
-                        Main.queryHandler.getQueries().get(0).getArtistName(),
-                        Main.queryHandler.getQueries().get(0).getTrackName(),
-                        Main.playlistHandler.getPlaylists1());
-                if (Main.queryHandler.getQueries().size() > 1) {
-                    Main.playlistHandler.getSongRecommendation(1,
-                            Main.queryHandler.getQueries().get(1).getArtistName(),
-                            Main.queryHandler.getQueries().get(1).getTrackName(),
-                            Main.playlistHandler.getPlaylists2());
-                    if (Main.queryHandler.getQueries().size() > 2) {
-                        Main.playlistHandler.getSongRecommendation(2,
-                                Main.queryHandler.getQueries().get(2).getArtistName(),
-                                Main.queryHandler.getQueries().get(2).getTrackName(),
-                                Main.playlistHandler.getPlaylists3());
-                        if (Main.queryHandler.getQueries().size() > 3) {
-                            Main.playlistHandler.getSongRecommendation(3,
-                                    Main.queryHandler.getQueries().get(3).getArtistName(),
-                                    Main.queryHandler.getQueries().get(3).getTrackName(),
-                                    Main.playlistHandler.getPlaylists4());
-                            if (Main.queryHandler.getQueries().size() > 4) {
-                                Main.playlistHandler.getSongRecommendation(4,
-                                        Main.queryHandler.getQueries().get(4).getArtistName(),
-                                        Main.queryHandler.getQueries().get(4).getTrackName(),
-                                        Main.playlistHandler.getPlaylists5());
-                            }
-                        }
-                    }
-                }
+                Main.queryHandler.getQueries().get(0).getArtistName(),
+                Main.queryHandler.getQueries().get(0).getTrackName(),
+                Main.playlistHandler.getPlaylists1()); }
+            if (Main.queryHandler.getQueries().size() > 1 && Main.queryHandler.getQueries().get(1).getStatus() == "input") {
+                Main.playlistHandler.getSongRecommendation(1,
+                Main.queryHandler.getQueries().get(1).getArtistName(),
+                Main.queryHandler.getQueries().get(1).getTrackName(),
+                Main.playlistHandler.getPlaylists2());}
+            if (Main.queryHandler.getQueries().size() > 2 && Main.queryHandler.getQueries().get(2).getStatus() == "input") {
+                Main.playlistHandler.getSongRecommendation(2,
+                Main.queryHandler.getQueries().get(2).getArtistName(),
+                Main.queryHandler.getQueries().get(2).getTrackName(),
+                Main.playlistHandler.getPlaylists3());}
+            if (Main.queryHandler.getQueries().size() > 3 && Main.queryHandler.getQueries().get(3).getStatus() == "input") {
+                Main.playlistHandler.getSongRecommendation(3,
+                Main.queryHandler.getQueries().get(3).getArtistName(),
+                Main.queryHandler.getQueries().get(3).getTrackName(),
+                Main.playlistHandler.getPlaylists4());}
+            if (Main.queryHandler.getQueries().size() > 4 && Main.queryHandler.getQueries().get(4).getStatus() == "input") {
+                Main.playlistHandler.getSongRecommendation(4,
+                Main.queryHandler.getQueries().get(4).getArtistName(),
+                Main.queryHandler.getQueries().get(4).getTrackName(),
+                Main.playlistHandler.getPlaylists5());
             }
-            Main.playlistHandler.getPlaylists().clear();
-        }// ^clearing playlist holder after all songs have been gathered
+            Main.playlistHandler.getPlaylists().clear();// clearing playlist holder for next iteration
+        }
         Main.queryHandler.updateQueryTable(queryModel);
         findPlaylistsButton.setEnabled(false);
         processPlaylistsButton.setEnabled(true);
         saveQueriesButton.setEnabled(true);
         resultCombo.removeAllItems();
+        processPlaylistsButtonPressed();
     }
     // Improved recommendation parsing
     private void processPlaylistsButtonPressed(){
         // clearing playlist holder after all songs have been gathered
-        if (Main.queryHandler.getQueries().size() > 0){
-            Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists1(),
-                    Main.recSongHandler.getRecommendation1(), Main.recArtistHandler.getRecArtists1());
-            if (Main.queryHandler.getQueries().size() > 1){
-                Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists2(),
-                        Main.recSongHandler.getRecommendation2(), Main.recArtistHandler.getRecArtists2());
-                if (Main.queryHandler.getQueries().size() > 2){
-                    Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists3(),
-                            Main.recSongHandler.getRecommendation3(), Main.recArtistHandler.getRecArtists3());
-                    if (Main.queryHandler.getQueries().size() > 3){
-                        Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists4(),
-                                Main.recSongHandler.getRecommendation4(), Main.recArtistHandler.getRecArtists4());
-                        if (Main.queryHandler.getQueries().size() > 4){
-                            Main.playlistHandler.processPlaylists(Main.playlistHandler.getPlaylists5(),
-                                    Main.recSongHandler.getRecommendation5(), Main.recArtistHandler.getRecArtists5());
-                        }
-                    }
-                }
-            }
-        }
+        if (Main.queryHandler.getQueries().size() > 0 && Main.queryHandler.getQueries().get(0).getStatus() == "found") {
+            Main.playlistHandler.processPlaylists(0, Main.playlistHandler.getPlaylists1(),
+            Main.recSongHandler.getRecommendation1(), Main.recArtistHandler.getRecArtists1()); Main.queryHandler.updateQueryTable(queryModel);}
+        if (Main.queryHandler.getQueries().size() > 1 && Main.queryHandler.getQueries().get(1).getStatus() == "found"){
+            Main.playlistHandler.processPlaylists(1, Main.playlistHandler.getPlaylists2(),
+            Main.recSongHandler.getRecommendation2(), Main.recArtistHandler.getRecArtists2()); Main.queryHandler.updateQueryTable(queryModel);}
+        if (Main.queryHandler.getQueries().size() > 2 && Main.queryHandler.getQueries().get(2).getStatus() == "found"){
+            Main.playlistHandler.processPlaylists(2, Main.playlistHandler.getPlaylists3(),
+            Main.recSongHandler.getRecommendation3(), Main.recArtistHandler.getRecArtists3()); Main.queryHandler.updateQueryTable(queryModel);}
+        if (Main.queryHandler.getQueries().size() > 3 && Main.queryHandler.getQueries().get(3).getStatus() == "found"){
+            Main.playlistHandler.processPlaylists(3, Main.playlistHandler.getPlaylists4(),
+            Main.recSongHandler.getRecommendation4(), Main.recArtistHandler.getRecArtists4()); Main.queryHandler.updateQueryTable(queryModel);}
+        if (Main.queryHandler.getQueries().size() > 4 && Main.queryHandler.getQueries().get(4).getStatus() == "found"){
+            Main.playlistHandler.processPlaylists(4, Main.playlistHandler.getPlaylists5(),
+            Main.recSongHandler.getRecommendation5(), Main.recArtistHandler.getRecArtists5()); Main.queryHandler.updateQueryTable(queryModel);}
         processPlaylistsButton.setEnabled(false);
         displayRecButton.setEnabled(true);
         saveRecButton.setEnabled(true);
+        saveQueriesButton.setEnabled(true);
+        songFeatureButton.setEnabled(true);
+        filter1countButton.setEnabled(true);
+        filterPopularButton.setEnabled(true);
     }
 
 ////////////////////////////////////////////////////////////////
-    ////-------POST-PROCESSING-------------------!!!!
+    ////-------POST-PROCESSING-------------------
 ////////////////////////////////////////////////////////////////
 
     //--SAVE QUERIES
     private void saveQueriesPressed() {
         Main.queryHandler.saveQuery();
+        saveQueriesButton.setEnabled(false);
     }
     //--LOAD QUERIES
     private void loadQueriesButtonPressed(){
         findPlaylistsButton.setEnabled(true);
-        //Setting up recCombo
         Main.queryHandler.getQueries().clear();
         recCombo.removeAllItems();
         Main.queryHandler.loadQuery();
-        int value = 1;
-        for(int queryCounter = Main.queryHandler.getQueries().size(); queryCounter!=0; queryCounter--){
-            recCombo.addItem("rec"+value);
-            value++;
-        }
         Main.queryHandler.updateQueryTable(queryModel);
+        fillComboBox();
         System.out.println("Query loaded");
+    }
+    private void fillComboBox(){
+        for (Query item: Main.queryHandler.getQueries()){
+            //if(item.getStatus() == "processed"){
+                recCombo.addItem(item.getRecID());
+            //}
+        }
     }
 
     //--SAVE RECOMMENDATIONS
     private void saveRecButtonPressed(){
-        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation1(), "rec1");
-        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation2(), "rec2");
-        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation3(), "rec3");
-        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation4(), "rec4");
-        Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation5(), "rec5");
-        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists1(), "rec1");
-        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists2(), "rec2");
-        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists3(), "rec3");
-        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists4(), "rec4");
-        Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists5(), "rec5");
+        if(Main.queryHandler.getQueries().size() > 0 ){//&& Main.queryHandler.getQueries().get(0).getStatus() == "processed"
+            Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation1(), "rec1");
+            Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists1(), "rec1");}
+        if(Main.queryHandler.getQueries().size() > 1 ){//&& Main.queryHandler.getQueries().get(1).getStatus() == "processed"
+            Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation2(), "rec2");
+            Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists2(), "rec2");}
+        if(Main.queryHandler.getQueries().size() > 2 ){//&& Main.queryHandler.getQueries().get(2).getStatus() == "processed"
+            Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation3(), "rec3");
+            Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists3(), "rec3");}
+        if(Main.queryHandler.getQueries().size() > 3 ){//&& Main.queryHandler.getQueries().get(3).getStatus() == "processed"
+            Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation4(), "rec4");
+            Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists4(), "rec4");}
+        if(Main.queryHandler.getQueries().size() > 4 ){//&& Main.queryHandler.getQueries().get(4).getStatus() == "processed"
+            Main.recSongHandler.saveRecSong(Main.recSongHandler.getRecommendation5(), "rec5");
+            Main.recArtistHandler.saveRecArtist(Main.recArtistHandler.getRecArtists5(), "rec5");}
         System.out.println("Recommendations saved");
     }
     //--LOAD RECOMMENDATIONS
     private void loadRecButtonPressed(){
-        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation1(), "rec1");
-        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation2(), "rec2");
-        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation3(), "rec3");
-        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation4(), "rec4");
-        Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation5(), "rec5");
-        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists1(), "rec1");
-        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists2(), "rec2");
-        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists3(), "rec3");
-        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists4(), "rec4");
-        Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists5(), "rec5");
+        if (Main.queryHandler.getQueries().size() > 0){
+            Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation1(), "rec1");
+            Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists1(), "rec1");}
+        if(Main.queryHandler.getQueries().size() > 1){
+            Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation2(), "rec2");
+            Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists2(), "rec2");}
+        if(Main.queryHandler.getQueries().size() > 2) {
+            Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation3(), "rec3");
+            Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists3(), "rec3");}
+        if(Main.queryHandler.getQueries().size() > 3){
+            Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation4(), "rec4");
+            Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists4(), "rec4");}
+        if(Main.queryHandler.getQueries().size() > 4){
+            Main.recSongHandler.loadRecSong(Main.recSongHandler.getRecommendation5(), "rec5");
+            Main.recArtistHandler.loadRecArtist(Main.recArtistHandler.getRecArtists5(), "rec5");}
         System.out.println("Recommendations loaded");
         displayRecButton.setEnabled(true);
         loadRecButton.setEnabled(false);
-    }
+        filterPopularButton.setEnabled(true);
+        songFeatureButton.setEnabled(true);
+        saveRecButton.setEnabled(true);
+        filter1countButton.setEnabled(true);
 
+    }
     //--SHOW SELECTED RECOMMENDATION
     private void displayRecButtonPressed(){
         Main.recSongHandler.getSongs().clear();//clearing previous instance
@@ -395,10 +420,12 @@ public class MainGUI extends JFrame {
         Main.recArtistHandler.updateArtistTables(artistModel);
         onlyArtistButton.setEnabled(true);
         otherArtistsButton.setEnabled(true);
-        //filterPopularButton.setEnabled(true);
+        filterPopularButton.setEnabled(true);
+        filter1countButton.setEnabled(true);
     }
 
     //------------REFINE RESULTS----------------------
+    //Show only songs by the selected artist
     private void onlyArtistButtonPressed() {
         if(!otherArtistsButton.isEnabled()){
             displayRecButtonPressed();
@@ -409,7 +436,7 @@ public class MainGUI extends JFrame {
         onlyArtistButton.setEnabled(false);
 
     }
-
+    //Show only songs by other than the selected artist
     private void otherArtistsButtonPressed(){
         if(!onlyArtistButton.isEnabled()){
             displayRecButtonPressed();
@@ -420,13 +447,33 @@ public class MainGUI extends JFrame {
         otherArtistsButton.setEnabled(false);
     }
 
-    private void testButtonButtonPressed(){
-        Main.recSongHandler.testFilter();
+    //Extract audio features from artist and song datasets
+    private void songFeatureButtonPressed(){
+        Main.recArtistHandler.audioFeatures();
+        Main.recSongHandler.audioFeatures();
+        Main.recArtistHandler.updateArtistTables(artistModel);
         Main.recSongHandler.updateTrackTables(songModel);
         saveRecButton.setEnabled(true);
     }
 
+    private void filterPopularButtonPressed(){
+        Main.recSongHandler.popularityFilter();
+        Main.recSongHandler.updateTrackTables(songModel);
+        filterPopularButton.setEnabled(false);
+    }
 
+    private void filter1countButtonPressed(){
+        Main.recArtistHandler.filter1count();
+        Main.recArtistHandler.updateArtistTables(artistModel);
+        Main.recSongHandler.filter1count();
+        Main.recSongHandler.updateTrackTables(songModel);
+        filter1countButton.setEnabled(false);
+    }
+
+
+
+
+    //------------TABLE METHOD------------------------
     private void createTable(String type) {
         if(type == "Query Table") {
             String[] columnNames = {"RecID", "Artist", "Title", "Status", "Count"};
@@ -435,18 +482,22 @@ public class MainGUI extends JFrame {
             queryTable.getColumnModel().getColumn(3).setPreferredWidth(40);
             queryTable.getColumnModel().getColumn(4).setPreferredWidth(15);
             queryModel = (DefaultTableModel) queryTable.getModel();
-        }
-        if(type == "Artist Table") {
-            String[] columnNames = {"Artist Name", "Percent"};
+        } else if(type == "Artist Table") {
+            String[] columnNames = {"Artist Name", "% of playlists", "Popularity"};
             artistTable.setModel(new DefaultTableModel(null, columnNames));
             artistTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+            artistTable.getColumnModel().getColumn(2).setPreferredWidth(45);
             artistModel = (DefaultTableModel) artistTable.getModel();
-        }
-        if(type == "Song Table") {
-            String[] columnNames = {"Artist", "Title", "% of playlists", "Popularity", "Danceability", "energy", "loudness", "valence"};
+        } else if(type == "Song Table") {
+            String[] columnNames = {"Artist", "Song Title", "Count", "% of playlists", "Popularity", "Danceability", "Energy"};
             songTable.setModel(new DefaultTableModel(null, columnNames));
-            songTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            //songTable.getColumnModel().getColumn(0).setPreferredWidth(100);
             songTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+            songTable.getColumnModel().getColumn(3).setPreferredWidth(35);
+            songTable.getColumnModel().getColumn(4).setPreferredWidth(35);
+            songTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+            songTable.getColumnModel().getColumn(6).setPreferredWidth(30);
+
             songModel = (DefaultTableModel) songTable.getModel();
         }
     }

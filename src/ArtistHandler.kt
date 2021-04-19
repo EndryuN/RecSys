@@ -2,8 +2,11 @@ class ArtistHandler {
     var artists = ArrayList<Artist>()
 
     fun createArtist(
-        artistName: String
+        artistName: String,
+        popularity: Double
     ){
-        artists.add(Artist(artistName))
+        artists.add(Artist(artistName, popularity))//
     }
+
+
 }

@@ -2,17 +2,17 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="900" height="900"/>
+      <xy x="20" y="20" width="930" height="900"/>
     </constraints>
     <properties>
-      <maximumSize width="900" height="500"/>
-      <minimumSize width="900" height="500"/>
-      <preferredSize width="900" height="500"/>
+      <maximumSize width="930" height="540"/>
+      <minimumSize width="930" height="540"/>
+      <preferredSize width="930" height="540"/>
       <requestFocusEnabled value="false"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="951af" binding="northPanel" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="951af" binding="northPanel" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="North"/>
         <properties/>
@@ -96,12 +96,6 @@
               <text value="Song results:"/>
             </properties>
           </component>
-          <component id="a31bf" class="javax.swing.JComboBox" binding="modeCombo">
-            <constraints>
-              <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-          </component>
           <component id="2f24e" class="javax.swing.JButton" binding="addQueryButton">
             <constraints>
               <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -110,17 +104,9 @@
               <text value="Add Query"/>
             </properties>
           </component>
-          <component id="a2971" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Search mode:"/>
-            </properties>
-          </component>
           <component id="1b881" class="javax.swing.JButton" binding="processPlaylistsButton">
             <constraints>
-              <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Process playlists"/>
@@ -128,10 +114,20 @@
           </component>
           <component id="2faf9" class="javax.swing.JButton" binding="findPlaylistsButton">
             <constraints>
-              <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Find Playlists"/>
+            </properties>
+          </component>
+          <component id="e12c" class="javax.swing.JButton" binding="dataButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-4114645"/>
+              <foreground color="-16777216"/>
+              <text value="Data"/>
             </properties>
           </component>
           <component id="28175" class="javax.swing.JButton" binding="clearQueriesButton">
@@ -142,12 +138,26 @@
               <background color="-4114645"/>
               <enabled value="true"/>
               <foreground color="-16777216"/>
-              <text value="Clear Queries"/>
+              <text value="Queries"/>
+            </properties>
+          </component>
+          <component id="a31bf" class="javax.swing.JComboBox" binding="modeCombo">
+            <constraints>
+              <grid row="3" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="a2971" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Search mode:"/>
             </properties>
           </component>
         </children>
       </grid>
-      <grid id="f8455" binding="centerPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="f8455" binding="centerPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties/>
@@ -155,12 +165,12 @@
         <children>
           <scrollpane id="4215b" binding="songPanel">
             <constraints>
-              <grid row="1" column="0" row-span="2" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="165"/>
               </grid>
             </constraints>
             <properties/>
-            <border type="etched"/>
+            <border type="etched" title="Song Table"/>
             <children>
               <component id="80150" class="javax.swing.JTable" binding="songTable">
                 <constraints/>
@@ -173,7 +183,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
-            <border type="etched"/>
+            <border type="etched" title="Query Table"/>
             <children>
               <component id="c200" class="javax.swing.JTable" binding="queryTable">
                 <constraints/>
@@ -186,7 +196,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
-            <border type="etched"/>
+            <border type="etched" title="Artist Table"/>
             <children>
               <component id="8d592" class="javax.swing.JTable" binding="artistTable">
                 <constraints/>
@@ -196,26 +206,15 @@
           </scrollpane>
         </children>
       </grid>
-      <grid id="e11c4" binding="eastPanel" layout-manager="GridLayoutManager" row-count="12" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="e11c4" binding="eastPanel" layout-manager="GridLayoutManager" row-count="16" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="East"/>
         <properties/>
         <border type="none"/>
         <children>
-          <vspacer id="564ff">
-            <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <component id="d2459" class="javax.swing.JSeparator">
-            <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-          </component>
           <component id="ead78" class="javax.swing.JSeparator">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
@@ -235,7 +234,7 @@
           </component>
           <component id="78621" class="javax.swing.JButton" binding="saveRecButton">
             <constraints>
-              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Save Rec"/>
@@ -251,7 +250,7 @@
           </component>
           <component id="ffdcd" class="javax.swing.JButton" binding="saveQueriesButton">
             <constraints>
-              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Save Queries"/>
@@ -263,6 +262,30 @@
             </constraints>
             <properties>
               <text value="Load Rec"/>
+            </properties>
+          </component>
+          <component id="9510b" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Popularity filters: "/>
+            </properties>
+          </component>
+          <component id="eb200" class="javax.swing.JButton" binding="filterPopularButton">
+            <constraints>
+              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Filter Popular"/>
+            </properties>
+          </component>
+          <component id="708b9" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Artist filter:"/>
             </properties>
           </component>
           <component id="7a395" class="javax.swing.JButton" binding="onlyArtistButton">
@@ -281,12 +304,32 @@
               <text value="Other Artists"/>
             </properties>
           </component>
-          <component id="511ce" class="javax.swing.JButton" binding="testButtonButton" default-binding="true">
+          <component id="15874" class="javax.swing.JSeparator">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="4f492" class="javax.swing.JSeparator">
+            <constraints>
+              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="511ce" class="javax.swing.JButton" binding="songFeatureButton">
+            <constraints>
+              <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Song features"/>
+              <text value="Extract features"/>
+            </properties>
+          </component>
+          <component id="b199b" class="javax.swing.JButton" binding="filter1countButton">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Low Pop Filter"/>
             </properties>
           </component>
         </children>

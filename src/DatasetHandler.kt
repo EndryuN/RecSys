@@ -154,9 +154,9 @@ class DatasetHandler {
             while (line != null) {
                 val tokens = line.split(",")
                 if (tokens.size > 0) {
-                    Main.artistHandler.createArtist(tokens[0])
+                    Main.artistHandler.createArtist(tokens[0], tokens[11].toDouble())//
                 }
-
+                //println(tokens.size)
                 line = fileReader.readLine()
             }
 
@@ -178,12 +178,11 @@ class DatasetHandler {
     // the parser deals with the dataset 1 out of 10 parts at a time 100k with each iteration
     fun parsePLaylists(number: Int){
         var fileReader: BufferedReader? = null
-        var collaborative: Boolean
         var counter: Int = number*100-100
         var countercounter: Int = number*100000-100000
         var artist: String = ""
         var title: String = ""
-        var track_uri: String = ""
+        var track_url: String = ""
         var j: Int = 0
         var line: String?
         while(counter!=number*100){
@@ -214,12 +213,12 @@ class DatasetHandler {
                             artist = tokens[1].dropLast(1)
                         }
                         if(tokens[0].contains("track_uri")){
-                            track_uri = tokens[1].substring(16,38)
+                            track_url = tokens[1].substring(16,38)
                         }
                         if(tokens[0].contains("track_name")){
                             title = tokens[1].dropLast(1)
                             j--
-                            Main.trackHandler.createTrack(artist, title, track_uri)
+                            Main.trackHandler.createTrack(artist, title, track_url)
                         }
                     }
                     line = fileReader.readLine()

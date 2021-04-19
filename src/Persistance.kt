@@ -22,7 +22,7 @@ class Persistence {
     }
     // LOADING QUERY
     fun loadQuery(): ArrayList<Query>{
-        var queryPath = recPath+"QueryList.txt"
+        var queryPath = recPath+"QueryList.txt"//
 
         val nullList = ArrayList<Query>()
         var queryList : ArrayList<Query>
@@ -52,7 +52,7 @@ class Persistence {
     }
     // LOADING SONG RECOMMENDATION
     fun loadRecSong(ref : String): ArrayList<RecSong> {
-        var recPathRef = recPath+"songs/"+ref+".txt"
+        var recPathRef = recPath+"songs/"+ref+".txt"//
         val nullList = ArrayList<RecSong>()
         var recList : ArrayList<RecSong>
         try {
@@ -84,7 +84,7 @@ class Persistence {
     }
     // LOADING ARTIST RECOMMENDATION
     fun loadRecArtist(ref : String): ArrayList<RecArtist> {
-        var recPathRef = recPath+"artists/"+ref+".txt"
+        var recPathRef = recPath+"artists/"+ref+".txt"//
         val nullList = ArrayList<RecArtist>()
         var recList : ArrayList<RecArtist>
         try {
