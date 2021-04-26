@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class MainGUI extends JFrame {
     private JPanel mainPanel;
@@ -16,7 +15,6 @@ public class MainGUI extends JFrame {
     private JButton loadQueriesButton;
     private JComboBox resultCombo;
     private JComboBox songSelectCombo;
-    private ArrayList songArray;
     private JComboBox recCombo;
     private JTable songTbl;
     private JButton searchSongsButton;
@@ -30,27 +28,20 @@ public class MainGUI extends JFrame {
     private JTable artistTable;
     private JScrollPane songPanel;
     private JTable songTable;
-    private JButton showResultsButton;
-    private JComboBox recType;
     private JButton addQueryButton;
     private JButton processPlaylistsButton;
-    private JButton testButton1;
-    private JButton testButton2;
     private JTextField songTxt;
     private JComboBox modeCombo;
     private JButton onlyArtistButton;
     private JButton filterPopularButton;
     private JButton otherArtistsButton;
     private JButton songFeatureButton;
-    private JButton overPopularButton;
-    private JButton dataButton;
-    private JButton filter1countButton;
-
+    private JButton filterMoreButton;
     private DefaultTableModel queryModel;
     private DefaultTableModel artistModel;
     private DefaultTableModel songModel;
-
     private boolean dataLoaded = false;
+    private Integer popularity = 75;
 
 
     public MainGUI() {
@@ -80,8 +71,8 @@ public class MainGUI extends JFrame {
         onlyArtistButton.setEnabled(false);
         otherArtistsButton.setEnabled(false);
         songFeatureButton.setEnabled(false);
-        filter1countButton.setEnabled(false);
         filterPopularButton.setEnabled(false);
+        filterMoreButton.setEnabled(false);
         searchArtistButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { searchArtistButtonPressed();
@@ -166,15 +157,15 @@ public class MainGUI extends JFrame {
 
             }
         });
-        filter1countButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { filter1countButtonPressed();
-
-            }
-        });
         filterPopularButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { filterPopularButtonPressed();
+
+            }
+        });
+        filterMoreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { filterMoreButtonPressed();
 
             }
         });
@@ -185,6 +176,7 @@ public class MainGUI extends JFrame {
 
     //--SEARCH ARTISTS
     private void searchArtistButtonPressed(){
+        resultCombo.setEnabled(true);
         if(!dataLoaded){ //parsing artists and songs on first press
             System.out.println("Load Data button pressed");
             Main.datasetHandler.parseArtists();
@@ -237,8 +229,13 @@ public class MainGUI extends JFrame {
                 songTxt.setText("");
             }
         } else {// When the search query is selected to artist
-            Main.queryHandler.createQuery(queryHolder, "----", selectedArtist, "input", 0, false);
+            if(resultCombo.isEnabled()) {
+                Main.queryHandler.createQuery(queryHolder, "----", selectedArtist, "input", 0, false);
+            } else if(!resultCombo.isEnabled()){
+                Main.queryHandler.createQuery(queryHolder, "----", searchTxt.getText(), "input", 0, false);
+            }
         }
+        resultCombo.setEnabled(false);
         Main.queryHandler.updateQueryTable(queryModel);
     }
     //--ClEAR QUERIES
@@ -253,27 +250,27 @@ public class MainGUI extends JFrame {
         for (int i = 1; i < 11; i++) {
             Main.datasetHandler.parsePLaylists(i);// Putting 100k playlists into the memory
             if (Main.queryHandler.getQueries().size() > 0 && Main.queryHandler.getQueries().get(0).getStatus() == "input") {
-                Main.playlistHandler.getSongRecommendation(0,
+                Main.playlistHandler.findPlaylists(0,
                 Main.queryHandler.getQueries().get(0).getArtistName(),
                 Main.queryHandler.getQueries().get(0).getTrackName(),
                 Main.playlistHandler.getPlaylists1()); }
             if (Main.queryHandler.getQueries().size() > 1 && Main.queryHandler.getQueries().get(1).getStatus() == "input") {
-                Main.playlistHandler.getSongRecommendation(1,
+                Main.playlistHandler.findPlaylists(1,
                 Main.queryHandler.getQueries().get(1).getArtistName(),
                 Main.queryHandler.getQueries().get(1).getTrackName(),
                 Main.playlistHandler.getPlaylists2());}
             if (Main.queryHandler.getQueries().size() > 2 && Main.queryHandler.getQueries().get(2).getStatus() == "input") {
-                Main.playlistHandler.getSongRecommendation(2,
+                Main.playlistHandler.findPlaylists(2,
                 Main.queryHandler.getQueries().get(2).getArtistName(),
                 Main.queryHandler.getQueries().get(2).getTrackName(),
                 Main.playlistHandler.getPlaylists3());}
             if (Main.queryHandler.getQueries().size() > 3 && Main.queryHandler.getQueries().get(3).getStatus() == "input") {
-                Main.playlistHandler.getSongRecommendation(3,
+                Main.playlistHandler.findPlaylists(3,
                 Main.queryHandler.getQueries().get(3).getArtistName(),
                 Main.queryHandler.getQueries().get(3).getTrackName(),
                 Main.playlistHandler.getPlaylists4());}
             if (Main.queryHandler.getQueries().size() > 4 && Main.queryHandler.getQueries().get(4).getStatus() == "input") {
-                Main.playlistHandler.getSongRecommendation(4,
+                Main.playlistHandler.findPlaylists(4,
                 Main.queryHandler.getQueries().get(4).getArtistName(),
                 Main.queryHandler.getQueries().get(4).getTrackName(),
                 Main.playlistHandler.getPlaylists5());
@@ -285,7 +282,6 @@ public class MainGUI extends JFrame {
         processPlaylistsButton.setEnabled(true);
         saveQueriesButton.setEnabled(true);
         resultCombo.removeAllItems();
-        processPlaylistsButtonPressed();
     }
     // Improved recommendation parsing
     private void processPlaylistsButtonPressed(){
@@ -310,8 +306,8 @@ public class MainGUI extends JFrame {
         saveRecButton.setEnabled(true);
         saveQueriesButton.setEnabled(true);
         songFeatureButton.setEnabled(true);
-        filter1countButton.setEnabled(true);
         filterPopularButton.setEnabled(true);
+        filterMoreButton.setEnabled(true);
     }
 
 ////////////////////////////////////////////////////////////////
@@ -383,7 +379,6 @@ public class MainGUI extends JFrame {
         filterPopularButton.setEnabled(true);
         songFeatureButton.setEnabled(true);
         saveRecButton.setEnabled(true);
-        filter1countButton.setEnabled(true);
 
     }
     //--SHOW SELECTED RECOMMENDATION
@@ -421,12 +416,13 @@ public class MainGUI extends JFrame {
         onlyArtistButton.setEnabled(true);
         otherArtistsButton.setEnabled(true);
         filterPopularButton.setEnabled(true);
-        filter1countButton.setEnabled(true);
+        filterMoreButton.setEnabled(true);
     }
 
     //------------REFINE RESULTS----------------------
     //Show only songs by the selected artist
     private void onlyArtistButtonPressed() {
+        displayRecButtonPressed();
         if(!otherArtistsButton.isEnabled()){
             displayRecButtonPressed();
             otherArtistsButton.setEnabled(true);
@@ -446,7 +442,6 @@ public class MainGUI extends JFrame {
         Main.recSongHandler.updateTrackTables(songModel);
         otherArtistsButton.setEnabled(false);
     }
-
     //Extract audio features from artist and song datasets
     private void songFeatureButtonPressed(){
         Main.recArtistHandler.audioFeatures();
@@ -457,21 +452,17 @@ public class MainGUI extends JFrame {
     }
 
     private void filterPopularButtonPressed(){
-        Main.recSongHandler.popularityFilter();
+        displayRecButtonPressed();
+        popularity = 75;
+        Main.recSongHandler.popularityFilter(popularity);
         Main.recSongHandler.updateTrackTables(songModel);
         filterPopularButton.setEnabled(false);
     }
-
-    private void filter1countButtonPressed(){
-        Main.recArtistHandler.filter1count();
-        Main.recArtistHandler.updateArtistTables(artistModel);
-        Main.recSongHandler.filter1count();
+    private void filterMoreButtonPressed(){
+        popularity--;
+        Main.recSongHandler.popularityFilter(popularity);
         Main.recSongHandler.updateTrackTables(songModel);
-        filter1countButton.setEnabled(false);
     }
-
-
-
 
     //------------TABLE METHOD------------------------
     private void createTable(String type) {
@@ -497,7 +488,6 @@ public class MainGUI extends JFrame {
             songTable.getColumnModel().getColumn(4).setPreferredWidth(35);
             songTable.getColumnModel().getColumn(5).setPreferredWidth(30);
             songTable.getColumnModel().getColumn(6).setPreferredWidth(30);
-
             songModel = (DefaultTableModel) songTable.getModel();
         }
     }

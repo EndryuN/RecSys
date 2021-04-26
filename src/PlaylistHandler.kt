@@ -23,7 +23,7 @@ class PlaylistHandler {
     }
 
     //--song or artist based playlist crawling
-    fun getSongRecommendation(index: Int, artistName: String, songTitle: String, playlistRef: java.util.ArrayList<Playlist>){
+    fun findPlaylists(index: Int, artistName: String, songTitle: String, playlistRef: java.util.ArrayList<Playlist>){
         if(Main.queryHandler.queries[index].isSong){// Song based query
             for(i in playlists){// Song based crawling
                 for(track in i.tracks){
@@ -52,7 +52,7 @@ class PlaylistHandler {
     }
 
     //--process playlists
-    fun processPlaylists(index: Int, playlistRef: java.util.ArrayList<Playlist>, recRef: java.util.ArrayList<RecSong>, recRefArtist: ArrayList<RecArtist>) {
+    fun processPlaylists(index: Int, playlistRef: java.util.ArrayList<Playlist>, recRefSong: java.util.ArrayList<RecSong>, recRefArtist: ArrayList<RecArtist>) {
         var progressCounter = 0
         var artistsSet = HashSet<String>()
         for(playlist in playlistRef){
@@ -66,17 +66,23 @@ class PlaylistHandler {
                     Main.recSongHandler.songs.removeAt(SongIndex)
                     Main.recSongHandler.songs.add(0, SongHolder)
                 }else{
-                    Main.recSongHandler.createRecSong(1, track.artistName, track.trackName, track.track_uri)
+                    Main.recSongHandler.createRecSong(1, track.artistName, track.trackName)
                 }
             }
             Main.recArtistHandler.endOfPlaylistIncrement(artistsSet)
             artistsSet.clear()
         }
-        recRef.addAll(Main.recSongHandler.songs)
+        // filtering the recommendations with count 1
+        if(Main.queryHandler.queries[index].playlistCount>=1000){
+            Main.recArtistHandler.filter1count()
+            Main.recSongHandler.filter1count()
+        }
+        recRefSong.addAll(Main.recSongHandler.songs)
         Main.recSongHandler.songs.clear()
         recRefArtist.addAll(Main.recArtistHandler.artists)
         Main.recArtistHandler.artists.clear()
         Main.queryHandler.queries[index].status = "processed"
+
     }
 }
 

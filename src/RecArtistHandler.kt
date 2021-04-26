@@ -1,6 +1,5 @@
 import java.lang.IndexOutOfBoundsException
 import javax.swing.table.DefaultTableModel
-import kotlin.math.roundToLong
 
 class RecArtistHandler {
     var p = Persistence()
@@ -30,7 +29,7 @@ class RecArtistHandler {
         }
     }
     // Incrementing artist count by one
-     fun incrementArtist(artistName: String){
+    fun incrementArtist(artistName: String){
         artists.forEach { artist ->
             if(artistName == artist.artistName){
                 artist.duplicateCount++

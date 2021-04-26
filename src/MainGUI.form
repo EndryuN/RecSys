@@ -12,7 +12,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="951af" binding="northPanel" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="951af" binding="northPanel" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="North"/>
         <properties/>
@@ -106,7 +106,7 @@
           </component>
           <component id="1b881" class="javax.swing.JButton" binding="processPlaylistsButton">
             <constraints>
-              <grid row="2" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Process playlists"/>
@@ -114,20 +114,10 @@
           </component>
           <component id="2faf9" class="javax.swing.JButton" binding="findPlaylistsButton">
             <constraints>
-              <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Find Playlists"/>
-            </properties>
-          </component>
-          <component id="e12c" class="javax.swing.JButton" binding="dataButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-4114645"/>
-              <foreground color="-16777216"/>
-              <text value="Data"/>
             </properties>
           </component>
           <component id="28175" class="javax.swing.JButton" binding="clearQueriesButton">
@@ -138,12 +128,12 @@
               <background color="-4114645"/>
               <enabled value="true"/>
               <foreground color="-16777216"/>
-              <text value="Queries"/>
+              <text value="Clear Queries"/>
             </properties>
           </component>
           <component id="a31bf" class="javax.swing.JComboBox" binding="modeCombo">
             <constraints>
-              <grid row="3" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
@@ -274,7 +264,7 @@
           </component>
           <component id="eb200" class="javax.swing.JButton" binding="filterPopularButton">
             <constraints>
-              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Filter Popular"/>
@@ -324,12 +314,12 @@
               <text value="Extract features"/>
             </properties>
           </component>
-          <component id="b199b" class="javax.swing.JButton" binding="filter1countButton">
+          <component id="d2e81" class="javax.swing.JButton" binding="filterMoreButton" default-binding="true">
             <constraints>
-              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Low Pop Filter"/>
+              <text value="Filter More"/>
             </properties>
           </component>
         </children>

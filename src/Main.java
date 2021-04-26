@@ -14,7 +14,7 @@ public class Main {
         artistHandler = new ArtistHandler();
         songHandler = new SongHandler();
         playlistHandler = new PlaylistHandler();
-        trackHandler = new TrackHandler();//
+        trackHandler = new TrackHandler();
         recSongHandler = new RecSongHandler();
         recArtistHandler = new RecArtistHandler();
         queryHandler = new QueryHandler();

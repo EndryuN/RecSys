@@ -25,6 +25,39 @@ private const val year_IDX = 18
 class DatasetHandler {
     private val path = System.getProperty("user.dir")
 
+    // Script for parsing artist dataset
+    fun parseArtists() {// Parsing artists from the artist dataset
+        var fileReader: BufferedReader? = null
+        try {
+            var line: String?
+            fileReader = BufferedReader(FileReader("$path/src/datasets/artistDataset.csv"))
+
+            // Read CSV header
+            fileReader.readLine()
+            // Read the file line by line starting from the second line
+            line = fileReader.readLine()
+            while (line != null) {
+                val tokens = line.split(",")
+                if (tokens.size > 0) {
+                    Main.artistHandler.createArtist(tokens[0], tokens[11].toDouble())//
+                }
+                //println(tokens.size)
+                line = fileReader.readLine()
+            }
+
+        } catch (e: Exception) {
+            println("Reading CSV Error!")
+            e.printStackTrace()
+        } finally {
+            try {
+                fileReader!!.close()
+            } catch (e: IOException) {
+                println("Closing fileReader Error!")
+                e.printStackTrace()
+            }
+        }
+    }
+
     // Script for parsing song dataset
     fun parseSongs() {
         var fileReader: BufferedReader? = null
@@ -140,50 +173,17 @@ class DatasetHandler {
             }
         }
     }
-    // Script for parsing artist dataset
-    fun parseArtists() {// Parsing artists from the artist dataset
-        var fileReader: BufferedReader? = null
-        try {
-            var line: String?
-            fileReader = BufferedReader(FileReader("$path/src/datasets/artistDataset.csv"))
-
-            // Read CSV header
-            fileReader.readLine()
-            // Read the file line by line starting from the second line
-            line = fileReader.readLine()
-            while (line != null) {
-                val tokens = line.split(",")
-                if (tokens.size > 0) {
-                    Main.artistHandler.createArtist(tokens[0], tokens[11].toDouble())//
-                }
-                //println(tokens.size)
-                line = fileReader.readLine()
-            }
-
-        } catch (e: Exception) {
-            println("Reading CSV Error!")
-            e.printStackTrace()
-        } finally {
-            try {
-                fileReader!!.close()
-            } catch (e: IOException) {
-                println("Closing fileReader Error!")
-                e.printStackTrace()
-            }
-        }
-    }
 
     // Parsing the playlist dataset for playlist extraction,
     // limit of loaded playlist is around 350k
     // the parser deals with the dataset 1 out of 10 parts at a time 100k with each iteration
     fun parsePLaylists(number: Int){
         var fileReader: BufferedReader? = null
-        var counter: Int = number*100-100
-        var countercounter: Int = number*100000-100000
+        var counter: Int = number*100-100//1*100-100 = 0 || 2*100-100=100
+        var countercounter: Int = number*100000-100000//1*100000-100000=0 || 2*100000-100000 = 100000
         var artist: String = ""
         var title: String = ""
-        var track_url: String = ""
-        var j: Int = 0
+        //var j: Int = 0
         var line: String?
         while(counter!=number*100){
             counter++
@@ -204,7 +204,7 @@ class DatasetHandler {
                         var tokens = line.trim().split(":".toRegex(), 2)
                         if(tokens[0].contains("num_tracks")){
                             countercounter++
-                            j = tokens[1].replace(",", "").trim().toInt()
+                            //j = tokens[1].replace(",", "").trim().toInt()
                             Main.playlistHandler.createPlaylist(countercounter)
                             println("Creating playlist $countercounter")
 
@@ -212,13 +212,10 @@ class DatasetHandler {
                         if(tokens[0].contains("artist_name")){
                             artist = tokens[1].dropLast(1)
                         }
-                        if(tokens[0].contains("track_uri")){
-                            track_url = tokens[1].substring(16,38)
-                        }
                         if(tokens[0].contains("track_name")){
                             title = tokens[1].dropLast(1)
-                            j--
-                            Main.trackHandler.createTrack(artist, title, track_url)
+                            //j--
+                            Main.trackHandler.createTrack(artist, title)
                         }
                     }
                     line = fileReader.readLine()

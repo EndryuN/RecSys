@@ -17,10 +17,9 @@ class RecSongHandler {
     fun createRecSong(
         duplicateCount: Int,
         artistName: String,
-        trackName: String,
-        track_uri: String
+        trackName: String
     ){
-        songs.add(RecSong(duplicateCount, artistName, trackName, 0.0, track_uri, 0, 0.0, 0.0))
+        songs.add(RecSong(duplicateCount, artistName, trackName, 0.0, 0, 0.0, 0.0))
     }
 
     // Incrementing song count by one
@@ -70,58 +69,9 @@ class RecSongHandler {
         songs.addAll(songs2)
         songs2.clear()
     }
-
-    //Extracting song audio features
-    fun audioFeatures(){
-        Main.songHandler.songs.clear()
-        Main.datasetHandler.parseSongs()
-        var counterPop = 0
-        var songIDString = ""
-        songfeatureList.clear()
-        songfeatureList.addAll(Main.songHandler.songs)
-        Main.songHandler.songs.clear()
-        for(rec in songs){
-            songIDString+=(rec.track_url+", ")
-        }
-
-        var progressCounter = 0
-        for(song in songfeatureList){
-            if(songIDString.contains(song.songID)){
-                for(rec in songs){
-                    if(rec.track_url==song.songID){
-                        counterPop++
-                        rec.popularity = song.popularity.toInt()
-                        rec.danceability = song.danceability.toDouble()
-                        rec.energy = song.energy.toDouble()
-                        //rec.valence = song.valence.toDouble()
-                        break
-                    }
-                }
-            }
-            progressCounter++
-            println("$progressCounter/${songfeatureList.size}")
-        }
-        var progressCounter2 = 0
-        var counterPop2 = 0
-        for(rec in songs){
-            if(rec.popularity == 0){
-                for(song in songfeatureList){
-                    if(rec.artistName.contains(song.artistName) && rec.trackName.contains(song.songTitle)){
-                        rec.popularity = song.popularity.toInt()
-                        counterPop2++
-                        break
-                    }
-                }
-            }
-            progressCounter2++
-            println("$progressCounter2/${songs.size}")
-        }
-
-        println("Song search complete. Found $counterPop out of ${songs.size} songs")
-        println("Final song search has found $counterPop2/${songs.size}")
-    }
-
+    //function for filtering out 1 count songs
     fun filter1count(){
+
         println("Amount of songs before filter: "+songs.size)
         for(song in songs){
             if(song.duplicateCount!=1){
@@ -134,7 +84,31 @@ class RecSongHandler {
         println("Amount of songs after filter: "+songs.size)
     }
 
-    fun popularityFilter(){
+    //Extracting song audio features
+    fun audioFeatures(){
+        Main.songHandler.songs.clear()
+        Main.datasetHandler.parseSongs()
+        songfeatureList.clear()
+        songfeatureList.addAll(Main.songHandler.songs)
+        var progressCounter = 0
+        var counterPop = 0
+        songs.forEach { rec ->
+            if(rec.popularity == 0){
+                for(song in songfeatureList){
+                    if(song.artistName.contains(rec.artistName.substring(2, rec.artistName.length-1)) &&
+                        song.songTitle.contains(rec.trackName.substring(2, rec.trackName.length-1))){
+                        rec.popularity = song.popularity.toInt()
+                        rec.danceability = song.danceability.toDouble()
+                        rec.energy = song.energy.toDouble()
+                        counterPop++
+                        break
+                    }
+                }
+            }
+            progressCounter++
+            println("$progressCounter/${songs.size}")
+        }
+        println("Final song search has found $counterPop/${songs.size}")
         var customPop: Double
         var pogCounter = 0
         for(song in songs){
@@ -150,6 +124,17 @@ class RecSongHandler {
             pogCounter++
             println("Calculating custom popularity: $pogCounter / ${songs.size}")
         }
+    }
+
+    fun popularityFilter(limit: Int){
+        for(song in songs){
+            if(song.popularity < limit){
+                songs2.add(song)
+            }
+        }
+        songs.clear()
+        songs.addAll(songs2)
+        songs2.clear()
     }
 
 
