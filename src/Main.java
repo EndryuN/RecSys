@@ -1,5 +1,5 @@
 public class Main {
-    //Handlers
+    //Static class Handlers
     public static DatasetHandler datasetHandler;// used for parsing the datasets
     public static ArtistHandler artistHandler;// used for handling artists
     public static SongHandler songHandler;// used for handling songs

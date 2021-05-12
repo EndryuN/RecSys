@@ -2,14 +2,15 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
 class PlaylistHandler {
-    var playlists = ArrayList<Playlist>()
+    var playlists = ArrayList<Playlist>()//playlist import array
 
-    var playlists1 = ArrayList<Playlist>()
-    var playlists2 = ArrayList<Playlist>()
-    var playlists3 = ArrayList<Playlist>()
-    var playlists4 = ArrayList<Playlist>()
-    var playlists5 = ArrayList<Playlist>()
+    var playlists1 = ArrayList<Playlist>()//playlist array for query 1
+    var playlists2 = ArrayList<Playlist>()//playlist array for query 2
+    var playlists3 = ArrayList<Playlist>()//playlist array for query 3
+    var playlists4 = ArrayList<Playlist>()//playlist array for query 4
+    var playlists5 = ArrayList<Playlist>()//playlist array for query 5
 
+    //this variable is used for holding the ID of the playlist that is being parsed
     var currentPlaylist = Playlist(
         playlistID = 0
     )
@@ -24,17 +25,17 @@ class PlaylistHandler {
 
     //--song or artist based playlist crawling
     fun findPlaylists(index: Int, artistName: String, songTitle: String, playlistRef: java.util.ArrayList<Playlist>){
-        if(Main.queryHandler.queries[index].isSong){// Song based query
+        if(Main.queryHandler.queries[index].isSong){// Song query
             for(i in playlists){// Song based crawling
                 for(track in i.tracks){
                     if(track.trackName.toLowerCase().contains(songTitle.toLowerCase()) && track.artistName.contains(artistName)){
-                        playlistRef.add(i)//////
+                        playlistRef.add(i)
                         break
                     }
                 }
             }
-        } else if(!Main.queryHandler.queries[index].isSong){ // Artist based crawling
-            for(i in playlists){
+        } else if(!Main.queryHandler.queries[index].isSong){ // Artist query
+            for(i in playlists){// Artist based crawling
                 for(track in i.tracks){
                     if(track.artistName.contains(artistName)){
                         playlistRef.add(i)
@@ -42,7 +43,7 @@ class PlaylistHandler {
                     }
                 }
             }
-        }
+        }//if the playlist array is empty or not empty the status variable is changed to reflect the result of the search
         if(playlistRef.size==0){
             Main.queryHandler.queries[index].status = "not found"
         }else{
@@ -73,7 +74,7 @@ class PlaylistHandler {
             artistsSet.clear()
         }
         // filtering the recommendations with count 1
-        if(Main.queryHandler.queries[index].playlistCount>=1000){
+        if(Main.queryHandler.queries[index].playlistCount>=100){//TODO THIS CAN CHANGE
             Main.recArtistHandler.filter1count()
             Main.recSongHandler.filter1count()
         }

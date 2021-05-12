@@ -21,30 +21,26 @@ private const val speechiness_IDX = 15
 private const val tempo_IDX = 16
 private const val valence_IDX = 17
 private const val year_IDX = 18
+//this part of the code can still be improved
+//changes will be made once the datasets have been updated
 
 class DatasetHandler {
     private val path = System.getProperty("user.dir")
 
-    // Script for parsing artist dataset
     fun parseArtists() {// Parsing artists from the artist dataset
         var fileReader: BufferedReader? = null
         try {
             var line: String?
             fileReader = BufferedReader(FileReader("$path/src/datasets/artistDataset.csv"))
-
-            // Read CSV header
-            fileReader.readLine()
-            // Read the file line by line starting from the second line
-            line = fileReader.readLine()
+            fileReader.readLine()// Read CSV header
+            line = fileReader.readLine()// Read the file line by line starting from the second line
             while (line != null) {
                 val tokens = line.split(",")
                 if (tokens.size > 0) {
                     Main.artistHandler.createArtist(tokens[0], tokens[11].toDouble())//
                 }
-                //println(tokens.size)
                 line = fileReader.readLine()
             }
-
         } catch (e: Exception) {
             println("Reading CSV Error!")
             e.printStackTrace()
@@ -58,23 +54,16 @@ class DatasetHandler {
         }
     }
 
-    // Script for parsing song dataset
-    fun parseSongs() {
+    fun parseSongs() { // Parsing songs from song dataset
         var fileReader: BufferedReader? = null
         try {
             var line: String?
             fileReader = BufferedReader(FileReader("$path/src/datasets/songDataset.csv"))
-
-            // Read CSV header
-            fileReader.readLine()
-
-            // Read the file line by line starting from the second line
-            line = fileReader.readLine()
-
+            fileReader.readLine()// Read CSV header
+            line = fileReader.readLine()// Read the file line by line starting from the second line
             while (line != null) {
                 val tokens = line.split(",")
                 var stopFlag: Boolean = true
-
                 if (tokens.size>19) {
                     var customArtists: String = ""
                     var artistLength: Int = 0
@@ -82,7 +71,6 @@ class DatasetHandler {
                     var titlePart: String = ""
                     var titleBase: String = ""
                     var titleLength: Int = 0
-
                     for(i in 1..tokens.size-1){
                         if(tokens[i].matches("-?\\d+(\\.\\d+)?".toRegex())){
                             stopFlag = false
@@ -183,7 +171,6 @@ class DatasetHandler {
         var countercounter: Int = number*100000-100000//1*100000-100000=0 || 2*100000-100000 = 100000
         var artist: String = ""
         var title: String = ""
-        //var j: Int = 0
         var line: String?
         while(counter!=number*100){
             counter++
@@ -204,17 +191,14 @@ class DatasetHandler {
                         var tokens = line.trim().split(":".toRegex(), 2)
                         if(tokens[0].contains("num_tracks")){
                             countercounter++
-                            //j = tokens[1].replace(",", "").trim().toInt()
                             Main.playlistHandler.createPlaylist(countercounter)
                             println("Creating playlist $countercounter")
-
                         }
                         if(tokens[0].contains("artist_name")){
                             artist = tokens[1].dropLast(1)
                         }
                         if(tokens[0].contains("track_name")){
                             title = tokens[1].dropLast(1)
-                            //j--
                             Main.trackHandler.createTrack(artist, title)
                         }
                     }

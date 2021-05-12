@@ -47,7 +47,7 @@ class RecSongHandler {
             song.percent = song.duplicateCount.toDouble()/Main.queryHandler.currentQuery.playlistCount*100
         }
     }
-    //Showing only songs by the artist
+    //Showing only songs by the selected artist
     fun onlyFilter(){
         for(song in songs){
             if(song.artistName.contains(Main.queryHandler.currentQuery.artistName)){

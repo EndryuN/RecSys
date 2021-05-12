@@ -1,7 +1,5 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainGUI extends JFrame {
     private JPanel mainPanel;
@@ -73,108 +71,29 @@ public class MainGUI extends JFrame {
         songFeatureButton.setEnabled(false);
         filterPopularButton.setEnabled(false);
         filterMoreButton.setEnabled(false);
-        searchArtistButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { searchArtistButtonPressed();
-
-            }
-        });
-        searchSongsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { searchSongsButtonPressed();
-
-            }
-        });
-        addQueryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { addQueryPressed();
-
-            }
-        });
-        clearQueriesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { clearQueriesButtonPressed();
-
-            }
-        });
-        findPlaylistsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { findPlaylistsButtonPressed();
-
-            }
-        });
-        processPlaylistsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { processPlaylistsButtonPressed();
-
-            }
-        });
-        saveQueriesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { saveQueriesPressed();
-
-            }
-        });
-        loadQueriesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { loadQueriesButtonPressed();
-
-            }
-        });
-        saveRecButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { saveRecButtonPressed();
-
-            }
-        });
-        loadRecButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { loadRecButtonPressed();
-
-            }
-        });
-        displayRecButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { displayRecButtonPressed();
-
-            }
-        });
-        onlyArtistButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { onlyArtistButtonPressed();
-
-            }
-        });
-        otherArtistsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { otherArtistsButtonPressed();
-
-            }
-        });
-        songFeatureButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { songFeatureButtonPressed();
-
-            }
-        });
-        filterPopularButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { filterPopularButtonPressed();
-
-            }
-        });
-        filterMoreButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { filterMoreButtonPressed();
-
-            }
-        });
+        searchArtistButton.addActionListener(e -> searchArtistButtonPressed());
+        searchSongsButton.addActionListener(e -> searchSongsButtonPressed());
+        addQueryButton.addActionListener(e -> addQueryPressed());
+        clearQueriesButton.addActionListener(e -> clearQueriesButtonPressed());
+        findPlaylistsButton.addActionListener(e -> findPlaylistsButtonPressed());
+        processPlaylistsButton.addActionListener(e -> processPlaylistsButtonPressed());
+        saveQueriesButton.addActionListener(e -> saveQueriesPressed());
+        loadQueriesButton.addActionListener(e -> loadQueriesButtonPressed());
+        saveRecButton.addActionListener(e -> saveRecButtonPressed());
+        loadRecButton.addActionListener(e -> loadRecButtonPressed());
+        displayRecButton.addActionListener(e -> displayRecButtonPressed());
+        onlyArtistButton.addActionListener(e -> onlyArtistButtonPressed());
+        otherArtistsButton.addActionListener(e -> otherArtistsButtonPressed());
+        songFeatureButton.addActionListener(e -> songFeatureButtonPressed());
+        filterPopularButton.addActionListener(e -> filterPopularButtonPressed());
+        filterMoreButton.addActionListener(e -> filterMoreButtonPressed());
     }
 //////////////////////////////////////////////////////////////
     //--------PROCESSING METHODS-----------------------
 //////////////////////////////////////////////////////////////
 
     //--SEARCH ARTISTS
+    //this needs more error testing for consistency in selecting alternative songs or artists
     private void searchArtistButtonPressed(){
         resultCombo.setEnabled(true);
         if(!dataLoaded){ //parsing artists and songs on first press
@@ -188,7 +107,8 @@ public class MainGUI extends JFrame {
             dataLoaded = true;
         }
         if(searchTxt.getText()==""){
-            System.out.println("illegal term");// popup needed
+            resultCombo.setEnabled(false);
+            //System.out.println("illegal term");// popup needed
         } else {
             System.out.println("Search button pressed");
             resultCombo.removeAllItems();
@@ -199,8 +119,13 @@ public class MainGUI extends JFrame {
                     resultCombo.addItem(Main.artistHandler.getArtists().get(i).getArtistName());
                 }
             }
+            if(resultCombo.getItemCount() == 0){
+                resultCombo.addItem("Artist not found in the Artist Dataset");
+                resultCombo.setEnabled(false);
+            } else {
+                searchTxt.setText("");
+            }
         }
-        searchTxt.setText("");
         searchSongsButton.setEnabled(true);
         addQueryButton.setEnabled(true);
     }
@@ -214,29 +139,30 @@ public class MainGUI extends JFrame {
         }
     }
     //--ADD SONG TO QUERY
-    private void addQueryPressed(){
+    private void addQueryPressed() {
         findPlaylistsButton.setEnabled(true);
         saveQueriesButton.setEnabled(true);
-        String queryHolder = "rec"+(Main.queryHandler.getQueries().size()+1);
+        String queryHolder = "rec" + (Main.queryHandler.getQueries().size() + 1);
         String selectedArtist = resultCombo.getSelectedItem().toString();
-        recCombo.addItem(queryHolder);
-        if(modeCombo.getSelectedItem()=="Song"){// When the search query is selected to song
-            if(songTxt.getText().isEmpty()){
-                String selectedSong = songSelectCombo.getSelectedItem().toString();
-                Main.queryHandler.createQuery(queryHolder, selectedSong, selectedArtist, "input", 0, true);
-            } else {
-                Main.queryHandler.createQuery(queryHolder, songTxt.getText(), selectedArtist, "input", 0, true);
-                songTxt.setText("");
+        if (Main.queryHandler.getQueries().size() != 5) {
+            if (modeCombo.getSelectedItem() == "Song") {// When the search query is selected to song
+                if (songTxt.getText().isEmpty()) {
+                    String selectedSong = songSelectCombo.getSelectedItem().toString();
+                    Main.queryHandler.createQuery(queryHolder, selectedSong, selectedArtist, "input", 0, true);
+                } else {
+                    Main.queryHandler.createQuery(queryHolder, songTxt.getText(), selectedArtist, "input", 0, true);
+                    songTxt.setText("");
+                }
+            } else {// When the search query is selected to artist
+                if (resultCombo.isEnabled()) {
+                    Main.queryHandler.createQuery(queryHolder, "----", selectedArtist, "input", 0, false);
+                } else if (!resultCombo.isEnabled()) {
+                    Main.queryHandler.createQuery(queryHolder, "----", searchTxt.getText(), "input", 0, false);
+                }
             }
-        } else {// When the search query is selected to artist
-            if(resultCombo.isEnabled()) {
-                Main.queryHandler.createQuery(queryHolder, "----", selectedArtist, "input", 0, false);
-            } else if(!resultCombo.isEnabled()){
-                Main.queryHandler.createQuery(queryHolder, "----", searchTxt.getText(), "input", 0, false);
-            }
+            resultCombo.setEnabled(false);
+            Main.queryHandler.updateQueryTable(queryModel);
         }
-        resultCombo.setEnabled(false);
-        Main.queryHandler.updateQueryTable(queryModel);
     }
     //--ClEAR QUERIES
     private void clearQueriesButtonPressed(){
@@ -269,7 +195,7 @@ public class MainGUI extends JFrame {
                 Main.queryHandler.getQueries().get(3).getArtistName(),
                 Main.queryHandler.getQueries().get(3).getTrackName(),
                 Main.playlistHandler.getPlaylists4());}
-            if (Main.queryHandler.getQueries().size() > 4 && Main.queryHandler.getQueries().get(4).getStatus() == "input") {
+            if (Main.queryHandler.getQueries().size() > 4 && Main.queryHandler.getQueries().get(4).getStatus().equals("input")) {
                 Main.playlistHandler.findPlaylists(4,
                 Main.queryHandler.getQueries().get(4).getArtistName(),
                 Main.queryHandler.getQueries().get(4).getTrackName(),
@@ -301,6 +227,12 @@ public class MainGUI extends JFrame {
         if (Main.queryHandler.getQueries().size() > 4 && Main.queryHandler.getQueries().get(4).getStatus() == "found"){
             Main.playlistHandler.processPlaylists(4, Main.playlistHandler.getPlaylists5(),
             Main.recSongHandler.getRecommendation5(), Main.recArtistHandler.getRecArtists5()); Main.queryHandler.updateQueryTable(queryModel);}
+
+        for (Query item: Main.queryHandler.getQueries()){
+            if(item.getStatus() == "processed"){
+                recCombo.addItem(item.getRecID());
+            }
+        }
         processPlaylistsButton.setEnabled(false);
         displayRecButton.setEnabled(true);
         saveRecButton.setEnabled(true);
@@ -330,10 +262,11 @@ public class MainGUI extends JFrame {
         System.out.println("Query loaded");
     }
     private void fillComboBox(){
+        //check this
         for (Query item: Main.queryHandler.getQueries()){
-            //if(item.getStatus() == "processed"){
+            if(item.getStatus().equals("processed")){
                 recCombo.addItem(item.getRecID());
-            //}
+            }
         }
     }
 
