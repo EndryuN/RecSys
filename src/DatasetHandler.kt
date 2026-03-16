@@ -165,6 +165,8 @@ class DatasetHandler {
     // Parsing the playlist dataset for playlist extraction,
     // limit of loaded playlist is around 350k
     // the parser deals with the dataset 1 out of 10 parts at a time 100k with each iteration
+    //Optimise this
+    // Load this into a database.
     fun parsePLaylists(number: Int){
         var fileReader: BufferedReader? = null
         var counter: Int = number*100-100//1*100-100 = 0 || 2*100-100=100
